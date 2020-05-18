@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
@@ -39,7 +38,7 @@ class UserController extends Controller
         return \App\Helpers\UserAction::update($id, $req);
     }
 
-    
+
     public function destroy($id)
     {
         $user = User::destroy($id);

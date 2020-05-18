@@ -9,7 +9,6 @@ class UserAction
 {
     public static function update($id, $req)
     {
-        // $req = $request->only(['name', 'email', 'password']);
         $user = User::find($id);
         $user->update([
             "name" => isset($req["name"]) ? $req["name"] : $user['name'],
@@ -21,6 +20,7 @@ class UserAction
             "status" => 200
         ]);
     }
+    
     public static function store($user)
     {
         $user["password"] = Hash::make($user["password"]);

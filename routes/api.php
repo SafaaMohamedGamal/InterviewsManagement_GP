@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 Route::apiResource('/users', 'UserController');
+Route::apiResource('/contact', 'Contact\ContactController');
+Route::apiResource('/contact_type', 'Contact\ContactTypeController');
 
 Route::post('/login', 'Auth\LoginController@login');
 
