@@ -19,7 +19,8 @@ class SeekerController extends Controller
 
     public function store(Request $request)
     {
-        $inputs = $request->only([
+        $inputs = $request->only(
+        [
           'address',
           'city',
           'seniority',
