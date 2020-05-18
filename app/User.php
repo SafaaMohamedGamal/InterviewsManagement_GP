@@ -21,15 +21,6 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
-    // public function seeker()
-    // {
-    //     return $this->hasOne('App\Seeker');
-    // }
-    //
-    // public function employee()
-    // {
-    //     return $this->hasOne('App\Employee');
-    // }
     public function userable()
     {
         return $this->morphTo();
