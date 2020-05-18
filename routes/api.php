@@ -21,3 +21,9 @@ Route::apiResource('/users', 'UserController');
 Route::get('/login', 'Auth\LoginController@login');
 
 Route::get('/register', 'Auth\RegisterController@register');
+
+// Route::prefix('users/{userId}')->group(function () {
+//     Route::apiResource('seekers', 'SeekerController');
+// });
+Route::apiResource('seekers', 'SeekerController');
+Route::apiResource('employees', 'EmployeeController');
