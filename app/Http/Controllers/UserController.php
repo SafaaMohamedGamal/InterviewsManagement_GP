@@ -18,7 +18,12 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = $request->only(['name', 'email', 'password']);
-        return \App\Helpers\UserAction::store($user);
+        $user = \App\Helpers\UserAction::store($user);
+
+        return response()->json([
+            "data" => $user,
+            "status" => 200
+        ]);
     }
 
 
@@ -35,7 +40,12 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $req = $request->only(['name', 'email', 'password']);
-        return \App\Helpers\UserAction::update($id, $req);
+        $user = \App\Helpers\UserAction::update($id, $req);
+
+        return response()->json([
+            "data" => $user,
+            "status" => 200
+        ]);
     }
 
 

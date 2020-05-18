@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests\User;
 
+use App\User;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -23,10 +27,15 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+        $user = User::find(Request()->user);
         return [
-            'name' => 'unique:App\User,name',
-            'email' => 'unique:App\User,email',
-            'password' => 'required|confirmed',
+            'name' => [
+                Rule::unique('users')->ignore($user->name, 'name'),
+            ],
+            'email' => [
+                Rule::unique('users')->ignore($user->email, 'email'),
+            ],
+            'password' => 'confirmed',
         ];
     }
 

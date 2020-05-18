@@ -15,19 +15,12 @@ class UserAction
             "email" => isset($req["email"]) ? $req["email"] : $user['email'],
             "password" => isset($req["password"]) ? Hash::make($req["password"]) : $user['password'],
         ]);
-        return response()->json([
-            "data" => $user,
-            "status" => 200
-        ]);
+        return $user;
     }
     
     public static function store($user)
     {
         $user["password"] = Hash::make($user["password"]);
-        User::create($user);
-        return response()->json([
-            "data" => $user,
-            "status" => 200
-        ]);
+        return User::create($user);
     }
 }
