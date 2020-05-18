@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -24,7 +26,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $user = $request->only(['name', 'email', 'password']);
         $user["password"] = Hash::make($user["password"]);
@@ -32,7 +34,7 @@ class UserController extends Controller
         return response()->json([
             "data" => $user,
             "status" => 200
-            ]);
+        ]);
     }
 
     /**
@@ -47,7 +49,7 @@ class UserController extends Controller
         return response()->json([
             "data" => $user,
             "status" => 200
-            ]);
+        ]);
     }
 
     /**
@@ -57,7 +59,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $req = $request->only(['name', 'email', 'password']);
         $user = User::find($id);
@@ -69,7 +71,7 @@ class UserController extends Controller
         return response()->json([
             "data" => $user,
             "status" => 200
-            ]);
+        ]);
     }
 
     /**
@@ -84,6 +86,6 @@ class UserController extends Controller
         return response()->json([
             "data" => $user,
             "status" => 200
-            ]);
+        ]);
     }
 }
