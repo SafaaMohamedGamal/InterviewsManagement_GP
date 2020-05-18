@@ -27,5 +27,9 @@ Route::apiResource('/contact', 'Contact\ContactController');
 Route::apiResource('/contact_type', 'Contact\ContactTypeController');
 
 Route::post('/login', 'Auth\LoginController@login');
-
 Route::post('/register', 'Auth\RegisterController@register');
+// Route::prefix('users/{userId}')->group(function () {
+//     Route::apiResource('seekers', 'SeekerController');
+// });
+Route::apiResource('seekers', 'SeekerController');
+Route::apiResource('employees', 'EmployeeController');
