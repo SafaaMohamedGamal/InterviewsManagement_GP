@@ -26,6 +26,18 @@ Route::apiResource('/users', 'UserController');
 Route::apiResource('/contact', 'Contact\ContactController');
 Route::apiResource('/contact_type', 'Contact\ContactTypeController');
 
+Route::get('/register', 'Auth\RegisterController@register');
+
+Route::group([
+    'name' => 'jobs',
+    'prefix' => 'jobs',
+], function () {
+    Route::get('/', 'JobController@index');
+    Route::get('/{job}', 'JobController@show');
+    Route::post('/', 'JobController@store');
+    Route::Put('/{job}', 'JobController@update');
+    Route::delete('/{Job}', 'JobController@destroy');
+});
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 // Route::prefix('users/{userId}')->group(function () {
