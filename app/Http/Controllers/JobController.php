@@ -35,12 +35,13 @@ class JobController extends Controller
 
     public function update(Job $job, Request $request)
     {
-        $update_job = $request->only(['title', 'describtion','available','years_exp','seniority']);
+        // dd($job->description);
+        $update_job = $request->only(['title', 'description','available','years_exp','seniority']);
         $job->update([
              'title'=> isset($update_job['title']) ? $update_job['title'] : $job->title ,
-             'description'=> isset($update_job['describtion']) ? $update_job['describtion'] :$job->describtion,
+             'description'=> isset($update_job['description']) ? $update_job['description'] : $job->description,
              'available'=> isset($update_job['available']) ? $update_job['available'] : $job->available,
-             'years_exp'=> isset($update_job['years_exp']) ? $update_job['years_exp'] :$job->years_exp ,
+             'years_exp'=> isset($update_job['years_exp']) ? $update_job['years_exp'] : $job->years_exp ,
              'seniority'=> isset($update_job['seniority']) ? $update_job['seniority'] : $job->seniority,
          ]);
         return response()->json('job updated successful');
