@@ -40,12 +40,7 @@ class EmployeeController extends Controller
           'position',
           'branch'
         ]);
-        $userEmployee = $employee->userable;
-        $status = $userEmployee->update(
-        [
-          'position' => $employeeinputs['position'],
-          'branch' => $employeeinputs['branch']
-        ]);
+        $status = \App\Helpers\EmployeeAction::update($employeeinputs, $employee);
         return new EmployeeResource($employee);
     }
 

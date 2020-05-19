@@ -45,18 +45,7 @@ class SeekerController extends Controller
           'expectedSalary',
           'cv'
         ]);
-        $userSeeker = $seeker->userable;
-        $userSeeker = $userSeeker->update(
-          [
-          'address' => $inputs['address'],
-          'city' => $inputs['city'],
-          'seniority' => $inputs['seniority'],
-          'expYears' => $inputs['expYears'],
-          'currentJob' => $inputs['currentJob'],
-          'currentSalary' => $inputs['currentSalary'],
-          'expectedSalary' => $inputs['expectedSalary'],
-          'cv' => $inputs['cv']
-          ]);
+        $status = \App\Helpers\SeekerAction::update($inputs, $seeker);
         return new SeekerResource($seeker);
     }
 
