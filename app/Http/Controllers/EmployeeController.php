@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\Employee as EmployeeResource;
 
 use App\Employee;
 use App\User;
@@ -11,11 +12,9 @@ class EmployeeController extends Controller
 
     public function index()
     {
-      $userEmployee = Employee::all();
-        return [
-          "user" => $userEmployee,
-            // "type" => $userEmployee[0]->user,
-        ];
+        $user = User::all()
+          ->where('userable_type', 'App\Employee');
+        return EmployeeResource::collection($user);
     }
 
 
@@ -26,20 +25,14 @@ class EmployeeController extends Controller
         $Employee = Employee::create();
 
         $Employee->user()->save($userEmployee);
-        return [
-          "user" => $userEmployee,
-          "employee" => $Employee
-        ];
+        return new EmployeeResource($userEmployee);
     }
 
 
     public function show($employee)
     {
         $user = User::find($employee);
-        return [
-          "employee" => $user,
-          "user" => $user->userable
-        ];
+        return new EmployeeResource($user);
     }
 
     public function update(Request $request, $employee)
@@ -51,15 +44,12 @@ class EmployeeController extends Controller
         $user = User::find($employee);
 
         $employee = $user->userable;
-        $status = $employee->update([
+        $status = $employee->update(
+        [
           'position' => $employeeinputs['position'],
           'branch' => $employeeinputs['branch']
-            ]);
-
-        return [
-          "user" => $user,
-          // "status" => $status
-        ];
+        ]);
+        return new EmployeeResource($user);
     }
 
 
@@ -68,6 +58,7 @@ class EmployeeController extends Controller
       $user = User::find($employee);
       $employee = $user->userable;
       $employee->user()->delete();
-      return true;
+      $employee->delete();
+      return ['data' => true];
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\Seeker as SeekerResource;
 
 use App\Seeker;
 use App\User;
@@ -11,16 +12,15 @@ class SeekerController extends Controller
 
     public function index()
     {
-      $userSeeker = Seeker::all();
-        return [
-          "user" => $userSeeker[0],
-          "details" => $userSeeker[0]->user
-        ];
+        $userSeeker = User::all()
+          ->where('userable_type', 'App\Seeker');
+        return SeekerResource::collection($userSeeker);
     }
 
     public function store(Request $request)
     {
-        $inputs = $request->only([
+        $inputs = $request->only(
+        [
           'address',
           'city',
           'seniority',
@@ -34,19 +34,14 @@ class SeekerController extends Controller
         $userSeeker = User::create($user);
         $seeker = Seeker::create();
         $seeker->user()->save($userSeeker);
-        return [
-          "user" => $userSeeker,
-          "seeker" => $seeker
-        ];
+
+        return new SeekerResource($userSeeker);
     }
 
     public function show($seeker)
     {
         $user = User::find($seeker);
-        return [
-          "seeker" => $user,
-          "user" => $user->userable
-        ];
+        return new SeekerResource($user);
     }
 
     public function update(Request $request, $seeker)
@@ -74,18 +69,17 @@ class SeekerController extends Controller
           'currentSalary' => $inputs['currentSalary'],
           'expectedSalary' => $inputs['expectedSalary'],
           'cv' => $inputs['cv']
-          ]
-          );
-        return [
-          "user" => $user
-        ];
+          ]);
+
+        return new SeekerResource($user);
     }
 
     public function destroy($seeker)
     {
-      $user = User::find($seeker);
-      $seeker = $user->userable;
-      $seeker->user()->delete();
-      return true;
+        $user = User::find($seeker);
+        $seeker = $user->userable;
+        $seeker->user()->delete();
+        $seeker->delete();
+        return ['data' => true];
     }
 }
