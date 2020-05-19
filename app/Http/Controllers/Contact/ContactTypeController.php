@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Contact;
 
 use App\ContactType;
-use App\Http\Resources\ContactType as ContactTypeResource;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Contact\StoreContactTypeRequest;
+use App\Http\Requests\Contact\UpdateContactTypeRequest;
+use App\Http\Resources\ContactType as ContactTypeResource;
 
 class ContactTypeController extends Controller
 {
@@ -16,33 +18,28 @@ class ContactTypeController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(StoreContactTypeRequest $request)
     {
-        $contact = $request->only(['type']);
-        $contact = ContactType::create($contact);
-        return new ContactTypeResource($contact);
+        return new ContactTypeResource(ContactType::create($request->only(['type'])));
     }
 
     
-    public function show($id)
+    public function show(ContactType $contact_type)
     {
-        return new ContactTypeResource(ContactType::find($id));
+        return new ContactTypeResource($contact_type);
     }
 
     
-    public function update(Request $request, $id)
+    public function update(UpdateContactTypeRequest $request, ContactType $contact_type)
     {
-        $contactReq = $request->only(['type']);
-        $contact = ContactType::find($id);
-        $contact->update($contactReq);
-        return new ContactTypeResource($contact);
+        $contact_type->update($request->only(['type']));
+        return new ContactTypeResource($contact_type);
     }
 
     
     public function destroy($id)
     {
-        $contact = ContactType::destroy($id);
-        if ($contact) {
+        if (ContactType::destroy($id)) {
             return response()->json([
                 "data" => "deleted successfuly",
             ]);

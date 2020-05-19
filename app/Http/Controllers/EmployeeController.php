@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Http\Resources\Employee as EmployeeResource;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
 
 use App\Employee;
 use App\User;
@@ -17,48 +19,37 @@ class EmployeeController extends Controller
         return EmployeeResource::collection($user);
     }
 
-
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         $user = $request->only(['name', 'email', 'password']);
-        $userEmployee = User::create($user);
+        $userEmployee = \App\Helpers\UserAction::store($user);
         $Employee = Employee::create();
-
         $Employee->user()->save($userEmployee);
         return new EmployeeResource($userEmployee);
     }
 
 
-    public function show($employee)
+    public function show(User $employee)
     {
-        $user = User::find($employee);
-        return new EmployeeResource($user);
+        return new EmployeeResource($employee);
     }
 
-    public function update(Request $request, $employee)
+    public function update(UpdateEmployeeRequest $request, User $employee)
     {
         $employeeinputs = $request->only([
           'position',
           'branch'
         ]);
-        $user = User::find($employee);
-
-        $employee = $user->userable;
-        $status = $employee->update(
-        [
-          'position' => $employeeinputs['position'],
-          'branch' => $employeeinputs['branch']
-        ]);
-        return new EmployeeResource($user);
+        $status = \App\Helpers\EmployeeAction::update($employeeinputs, $employee);
+        return new EmployeeResource($employee);
     }
 
 
-    public function destroy($employee)
+    public function destroy(User $employee)
     {
-      $user = User::find($employee);
-      $employee = $user->userable;
-      $employee->user()->delete();
-      $employee->delete();
+      $userEmployee = $employee->userable;
+      $userEmployee->user()->delete();
+      $userEmployee->delete();
       return ['data' => true];
     }
 }
