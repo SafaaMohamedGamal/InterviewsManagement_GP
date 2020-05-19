@@ -21,3 +21,14 @@ Route::apiResource('/users', 'UserController');
 Route::get('/login', 'Auth\LoginController@login');
 
 Route::get('/register', 'Auth\RegisterController@register');
+
+Route::group([
+    'name' => 'jobs',
+    'prefix' => 'jobs',
+], function () {
+    Route::get('/', 'JobController@index');
+    Route::get('/{job}', 'JobController@show');
+    Route::post('/', 'JobController@store');
+    Route::Put('/{job}', 'JobController@update');
+    Route::delete('/{Job}', 'JobController@destroy');
+});
