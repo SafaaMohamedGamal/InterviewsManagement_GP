@@ -38,6 +38,17 @@ Route::group([
     Route::Put('/{job}', 'JobController@update');
     Route::delete('/{Job}', 'JobController@destroy');
 });
+Route::group([
+    'name' => 'job_requirements',
+    'prefix' => 'job_requirements',
+], function () {
+    Route::get('/', 'JobRequirementController@index');
+    Route::get('/{job_requirement}', 'JobRequirementController@show');
+    Route::post('/', 'JobRequirementController@store');
+    Route::Put('/{job_requirement}', 'JobRequirementController@update');
+    Route::delete('/{job_requirement}', 'JobRequirementController@destroy');
+});
+
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 // Route::prefix('users/{userId}')->group(function () {
