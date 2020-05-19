@@ -6,29 +6,17 @@ use App\Contact;
 use App\ContactType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Contact as ContactResource;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        $contact = Contact::all();
-        return response()->json([
-            "data" => $contact,
-            "status" => 200
-        ]);
+        return ContactResource::collection(Contact::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $contact = $request->only(['data', 'seeker_id', 'contact_types_id']);
@@ -37,37 +25,19 @@ class ContactController extends Controller
             'data' => $contact['data'],
             'seeker_id' => $contact['seeker_id']
         ]);
-        $contact->contactTypes()->associate($contact_type);
-        $contact = $contact->save();
-        return response()->json([
-            "data" => $contact,
-            "status" => 200
-        ]);
+        $contact->contactType()->associate($contact_type);
+        $contact->save();
+        return new ContactResource($contact);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
         $contact = Contact::find($id);
-        return response()->json([
-            "data" => Contact::find($id),
-            "contact_type" => $contact->contactTypes()->get(),
-            "status" => 200
-        ]);
+        return new ContactResource($contact);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         $contactReq = $request->only(['data', 'seeker_id', 'contact_types_id']);
@@ -78,13 +48,10 @@ class ContactController extends Controller
         ]);
         if(isset($contactReq['contact_types_id'])){
             $contact_type = ContactType::find($contactReq['contact_types_id']);
-            $contact->contactTypes()->associate($contact_type);
-            $contact = $contact->save();
+            $contact->contactType()->associate($contact_type);
+            $contact->save();
         }
-        return response()->json([
-            "data" => $contact,
-            "status" => 200
-        ]);
+        return new ContactResource($contact);
     }
 
     /**
@@ -95,9 +62,14 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
+        $contact = Contact::destroy($id);
+        if ($contact) {
+            return response()->json([
+                "data" => "deleted successfuly",
+            ]);
+        }
         return response()->json([
-            "data" => Contact::destroy($id),
-            "status" => 200
+            "data" => "contact doesn't exist",
         ]);
     }
 }

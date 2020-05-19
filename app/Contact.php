@@ -11,7 +11,7 @@ class Contact extends Model
         'data', 'seeker_id', 
     ];
 
-    public function contactTypes(){
-        return $this->belongsTo('App\ContactType');
+    public function contactType(){
+        return $this->belongsTo('App\ContactType', 'contact_types_id');
     }
 }
