@@ -10,6 +10,6 @@ class JobRequirement extends Model
 
     public function job()
     {
-        return $this->belongs_to("App\Job");
+        return $this->belongsTo("App\Job");
     }
 }

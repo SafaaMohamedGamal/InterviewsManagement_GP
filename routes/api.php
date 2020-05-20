@@ -36,7 +36,7 @@ Route::group([
     Route::get('/{job}', 'JobController@show');
     Route::post('/', 'JobController@store');
     Route::Put('/{job}', 'JobController@update');
-    Route::delete('/{Job}', 'JobController@destroy');
+    Route::delete('/{job}', 'JobController@destroy');
 });
 Route::group([
     'name' => 'job_requirements',
@@ -48,6 +48,29 @@ Route::group([
     Route::Put('/{job_requirement}', 'JobRequirementController@update');
     Route::delete('/{job_requirement}', 'JobRequirementController@destroy');
 });
+Route::group([
+    'name' => 'appstatuses',
+    'prefix' => 'appstatuses',
+], function () {
+    Route::get('/', 'AppStatusController@index');
+    Route::get('/{appStatus}', 'AppStatusController@show');
+    Route::post('/', 'AppStatusController@store');
+    Route::Put('/{appStatus}', 'AppStatusController@update');
+    Route::delete('/{appStatus}', 'AppStatusController@destroy');
+});
+Route::group([
+    'name' => 'applications',
+    'prefix' => 'applications',
+], function () {
+    Route::get('/', 'ApplicationController@index');
+    Route::get('/{application}', 'ApplicationController@show');
+    Route::post('/', 'ApplicationController@store');
+    Route::Put('/{application}', 'ApplicationController@update');
+    Route::delete('/{application}', 'ApplicationController@destroy');
+});
+
+
+
 
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
