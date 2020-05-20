@@ -79,3 +79,11 @@ Route::post('/register', 'Auth\RegisterController@register');
 // });
 Route::apiResource('seekers', 'SeekerController');
 Route::apiResource('employees', 'EmployeeController');
+
+//#################interviews###########################
+Route::get('interviews', 'InterviewController@index');
+Route::get('interview/{id}', 'InterviewController@show');
+Route::post('interview', 'InterviewController@store');
+Route::put('interview/{id}', 'InterviewController@update');
+Route::delete('interview/{id}', 'InterviewController@destroy');
+//#######################################################
