@@ -28,6 +28,7 @@ Route::apiResource('/contact_type', 'Contact\ContactTypeController');
 
 Route::get('/register', 'Auth\RegisterController@register');
 
+# Jobs #
 Route::group([
     'name' => 'jobs',
     'prefix' => 'jobs',
@@ -38,6 +39,8 @@ Route::group([
     Route::Put('/{job}', 'JobController@update');
     Route::delete('/{job}', 'JobController@destroy');
 });
+
+# job requirement admin only need to be rename #
 Route::group([
     'name' => 'job_requirements',
     'prefix' => 'job_requirements',
@@ -48,6 +51,8 @@ Route::group([
     Route::Put('/{job_requirement}', 'JobRequirementController@update');
     Route::delete('/{job_requirement}', 'JobRequirementController@destroy');
 });
+
+# app status admin only #
 Route::group([
     'name' => 'appstatuses',
     'prefix' => 'appstatuses',
@@ -58,6 +63,8 @@ Route::group([
     Route::Put('/{appStatus}', 'AppStatusController@update');
     Route::delete('/{appStatus}', 'AppStatusController@destroy');
 });
+
+# application #
 Route::group([
     'name' => 'applications',
     'prefix' => 'applications',
