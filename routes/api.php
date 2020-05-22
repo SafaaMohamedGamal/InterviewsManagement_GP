@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
@@ -18,8 +19,13 @@ use Illuminate\Validation\ValidationException;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::get('/LoggedInUser', function () {
+        return Auth::user();
+    });
+    Route::get('/LogoutUser', function () {
+        // Auth::logout();
+        $user = Auth::user();
+        return $user->tokens()->delete();
     });
 });
 Route::apiResource('/users', 'UserController');
