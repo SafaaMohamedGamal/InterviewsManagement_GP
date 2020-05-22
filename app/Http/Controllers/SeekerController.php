@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Http\Resources\Seeker as SeekerResource;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\Seeker\UpdateSeekerRequest;
 
 use App\Seeker;
 use App\User;
@@ -17,34 +19,21 @@ class SeekerController extends Controller
         return SeekerResource::collection($userSeeker);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $inputs = $request->only(
-        [
-          'address',
-          'city',
-          'seniority',
-          'expYears',
-          'currentJob',
-          'currentSalary',
-          'expectedSalary',
-          'cv'
-        ]);
         $user = $request->only(['name', 'email', 'password']);
-        $userSeeker = User::create($user);
+        $userSeeker = \App\Helpers\UserAction::store($user);
         $seeker = Seeker::create();
         $seeker->user()->save($userSeeker);
-
         return new SeekerResource($userSeeker);
     }
 
-    public function show($seeker)
+    public function show(User $seeker)
     {
-        $user = User::find($seeker);
-        return new SeekerResource($user);
+        return new SeekerResource($seeker);
     }
 
-    public function update(Request $request, $seeker)
+    public function update(UpdateSeekerRequest $request, User $seeker)
     {
         $inputs = $request->only([
           'address',
@@ -56,30 +45,15 @@ class SeekerController extends Controller
           'expectedSalary',
           'cv'
         ]);
-        $user = User::find($seeker);
-
-        $seeker = $user->userable;
-        $seeker = $seeker->update(
-          [
-          'address' => $inputs['address'],
-          'city' => $inputs['city'],
-          'seniority' => $inputs['seniority'],
-          'expYears' => $inputs['expYears'],
-          'currentJob' => $inputs['currentJob'],
-          'currentSalary' => $inputs['currentSalary'],
-          'expectedSalary' => $inputs['expectedSalary'],
-          'cv' => $inputs['cv']
-          ]);
-
-        return new SeekerResource($user);
+        $status = \App\Helpers\SeekerAction::update($inputs, $seeker);
+        return new SeekerResource($seeker);
     }
 
-    public function destroy($seeker)
+    public function destroy(User $seeker)
     {
-        $user = User::find($seeker);
-        $seeker = $user->userable;
-        $seeker->user()->delete();
-        $seeker->delete();
+        $userSeeker = $seeker->userable;
+        $userSeeker->user()->delete();
+        $userSeeker->delete();
         return ['data' => true];
     }
 }

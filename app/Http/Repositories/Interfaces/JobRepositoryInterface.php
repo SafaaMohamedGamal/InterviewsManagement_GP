@@ -3,6 +3,12 @@ namespace App\Http\Repositories\Interfaces;
 
 interface JobRepositoryInterface
 {
-    public function getAllProducts();
-    // public function filterAllProducts();
+    //  * Jobs functions *
+    public function getAllJobs();
+
+    // public function filterAllJobs();
+
+    // * requirements functions *
+    public function getAllRequirements();
+    public function getAllJobRequirements($job);
 }

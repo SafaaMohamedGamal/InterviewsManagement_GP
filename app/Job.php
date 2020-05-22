@@ -8,8 +8,8 @@ class Job extends Model
 {
     protected $fillable = ['title','description','available','years_exp','seniority'];
 
-    public function requirments()
+    public function requirements()
     {
-        return $this->hasMany('App\JobRequirment');
+        return $this->hasMany('App\JobRequirement');
     }
 }
