@@ -11,7 +11,7 @@ class JobController extends Controller
 {
     public function index(JobRepositoryInterface $jobRebo)
     {
-        $jobs = $jobRebo->getAllProducts();
+        $jobs = $jobRebo->getAllJobs();
         
         return JobResource::collection($jobs);
     }
@@ -22,20 +22,29 @@ class JobController extends Controller
 
     public function store(Request $request)
     {
-        $job = $request->only(['title', 'describtion','available','years_exp','seniority']);
-        Job::create([
+        $job = $request->only(['title', 'description','available','years_exp','seniority','requirements']);
+        $new_job = Job::create([
              'title'=> $job['title'],
-             'description'=> $job['describtion'],
+             'description'=> $job['description'],
              'available'=> isset($job['available']) ? 1 : 0,
              'years_exp'=> $job['years_exp'],
              'seniority'=> $job['seniority']
          ]);
+        // dd($job['requirments']);
+        if (isset($job['requirements'])) {
+            foreach ($job['requirements'] as $requirement) {
+                $new_job->requirements()->create([
+                    "name"=>$requirement
+                ]);
+            }
+        }
+        
+         
         return response()->json('job posted successful');
     }
 
     public function update(Job $job, Request $request)
     {
-        // dd($job->description);
         $update_job = $request->only(['title', 'description','available','years_exp','seniority']);
         $job->update([
              'title'=> isset($update_job['title']) ? $update_job['title'] : $job->title ,
