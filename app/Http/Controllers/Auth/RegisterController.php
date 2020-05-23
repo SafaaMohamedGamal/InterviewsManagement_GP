@@ -10,8 +10,10 @@ class RegisterController extends Controller
 {
     public function register(StoreUserRequest $request){
         $user = $request->only(['name', 'email', 'password']);
+        $seeker = new Seeker;
+        $seeker->phone=$request['phone'];
+        $seeker->save();
         $user = \App\Helpers\UserAction::store($user);
-        $seeker = Seeker::create();
         $seeker->user()->save($user);
 
         return new SeekerResource($user);

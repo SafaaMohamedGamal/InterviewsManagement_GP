@@ -15,7 +15,8 @@ class Seeker extends Model
        'currentJob',
        'currentSalary',
        'expectedSalary',
-       'cv'
+       'cv',
+       'phone'
    ];
 
     public function user()

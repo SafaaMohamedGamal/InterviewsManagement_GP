@@ -28,6 +28,7 @@ class Seeker extends JsonResource
               'currentSalary' => $this->userable->currentSalary,
               'expectedSalary' => $this->userable->expectedSalary,
               'cv' => $this->userable->cv,
+              'phone' => $this->userable->phone,
             ]
         ];
     }
