@@ -17,7 +17,6 @@ use Illuminate\Validation\ValidationException;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/LoggedInUser', function () {
         return Auth::user();
@@ -87,9 +86,7 @@ Route::group([
 
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
-// Route::prefix('users/{userId}')->group(function () {
-    //     Route::apiResource('seekers', 'SeekerController');
-    // });
+
 Route::apiResource('seekers', 'SeekerController');
 Route::apiResource('employees', 'EmployeeController');
 
