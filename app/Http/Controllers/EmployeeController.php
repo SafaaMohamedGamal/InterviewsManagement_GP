@@ -11,9 +11,14 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
 
     public function index()
     {
+        $this->authorize('viewAny');
         $user = User::all()
           ->where('userable_type', 'App\Employee');
         return EmployeeResource::collection($user);
@@ -21,6 +26,7 @@ class EmployeeController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create');
         $user = $request->only(['name', 'email', 'password']);
         $userEmployee = \App\Helpers\UserAction::store($user);
         $Employee = Employee::create();
@@ -31,11 +37,14 @@ class EmployeeController extends Controller
 
     public function show(User $employee)
     {
+        $this->authorize('view', $employee->userable_type === 'App\Employee'? $employee->userable : null);
+        return $employee;
         return new EmployeeResource($employee);
     }
 
     public function update(UpdateEmployeeRequest $request, User $employee)
     {
+        $this->authorize('edit', $employee->userable_type === 'App\Employee'? $employee->userable : null);
         $employeeinputs = $request->only([
           'position',
           'branch'
@@ -47,6 +56,7 @@ class EmployeeController extends Controller
 
     public function destroy(User $employee)
     {
+      $this->authorize('delete', $employee->userable_type === 'App\Employee'? $employee->userable : null);
       $userEmployee = $employee->userable;
       $userEmployee->user()->delete();
       $userEmployee->delete();
