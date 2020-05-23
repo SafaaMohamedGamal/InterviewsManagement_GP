@@ -18,6 +18,7 @@ class Seeker extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'password' => $this->password,
             'address' => $this->userable->address,
             'city' => $this->userable->city,
             'seniority' => $this->userable->seniority,
@@ -26,7 +27,7 @@ class Seeker extends JsonResource
             'currentSalary' => $this->userable->currentSalary,
             'expectedSalary' => $this->userable->expectedSalary,
             'cv' => $this->userable->cv,
-
+            'phone' => $this->userable->phone,
         ];
     }
 }

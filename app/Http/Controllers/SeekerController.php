@@ -51,7 +51,8 @@ class SeekerController extends Controller
           'currentJob',
           'currentSalary',
           'expectedSalary',
-          'cv'
+          'cv',
+          'phone'
         ]);
         $status = \App\Helpers\SeekerAction::update($inputs, $seeker);
         return new SeekerResource($seeker);

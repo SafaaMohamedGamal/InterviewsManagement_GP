@@ -22,10 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
         return Auth::user();
     });
     Route::get('/LogoutUser', function () {
-        // Auth::logout();
         $user = Auth::user();
         return $user->tokens()->delete();
     });
+    Route::put('resetpassword/{user}', 'Auth\ResetPasswordController@update');
 });
 Route::apiResource('/users', 'UserController');
 Route::apiResource('/contact', 'Contact\ContactController');
