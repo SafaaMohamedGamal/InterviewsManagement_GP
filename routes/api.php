@@ -23,10 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
         return Auth::user();
     });
     Route::get('/LogoutUser', function () {
-        // Auth::logout();
         $user = Auth::user();
         return $user->tokens()->delete();
     });
+    Route::put('resetpassword/{user}', 'Auth\ResetPasswordController@update');
 });
 Route::apiResource('/users', 'UserController');
 Route::apiResource('/contact', 'Contact\ContactController');
@@ -88,8 +88,8 @@ Route::group([
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 // Route::prefix('users/{userId}')->group(function () {
-//     Route::apiResource('seekers', 'SeekerController');
-// });
+    //     Route::apiResource('seekers', 'SeekerController');
+    // });
 Route::apiResource('seekers', 'SeekerController');
 Route::apiResource('employees', 'EmployeeController');
 
