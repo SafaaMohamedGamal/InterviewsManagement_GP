@@ -9,7 +9,6 @@ class SeekerAction
     public static function update($req, $user)
     {
         $userSeeker = $user->userable;
-        var_dump($userSeeker->seniority);
         $status = $userSeeker->update(
           [
           'address' => isset($req["address"]) ? $req["address"] : $userSeeker->address,
