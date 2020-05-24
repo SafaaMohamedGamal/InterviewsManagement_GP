@@ -26,8 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return $user->tokens()->delete();
     });
     Route::put('resetpassword/{user}', 'Auth\ResetPasswordController@update');
+    Route::apiResource('/users', 'UserController');
 });
-Route::apiResource('/users', 'UserController');
 Route::apiResource('/contact', 'Contact\ContactController');
 Route::apiResource('/contact_type', 'Contact\ContactTypeController');
 
