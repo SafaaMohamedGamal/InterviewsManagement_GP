@@ -23,4 +23,8 @@ class Seeker extends Model
     {
         return $this->morphOne('App\User', 'userable');
     }
+
+    public function contacts(){
+        return $this->hasMany('App\Contact');
+    }
 }
