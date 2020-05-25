@@ -21,17 +21,17 @@ class ApplicationController extends Controller
 
     public function store(Request $request)
     {
-        // dd(AppStatus::newStatus()) ;
-        $application = $request->only(['user_id','job_id']);
+        $application = $request->only(['job_id']);
+        $user = current_user();
         $status = AppStatus::newStatus();
         
-        Application::create([
-            'seeker_id'=>$application['user_id'],
+        $newApp = Application::create([
+            'seeker_id'=>$user->id,
                 'job_id'=>$application['job_id'],
                 'appstatus_id'=>$status->id
         ]);
         
-        return response()->json('application posted successful');
+        return new ApplicationResource($newApp);
     }
 
     public function update(Application $application, Request $request)

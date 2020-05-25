@@ -35,32 +35,35 @@ Route::get('/register', 'Auth\RegisterController@register');
 
 # Jobs #
 Route::group([
-    'name' => 'jobs',
     'prefix' => 'jobs',
+    // 'middleware'=>'auth:sanctum'
 ], function () {
-    Route::get('/', 'JobController@index');
-    Route::get('/{job}', 'JobController@show');
     Route::post('/', 'JobController@store');
     Route::Put('/{job}', 'JobController@update');
     Route::delete('/{job}', 'JobController@destroy');
 });
+    Route::get('jobs/', 'JobController@index');
+    Route::get('jobs/{job}', 'JobController@show');
+
+
 
 # job requirement admin only need to be rename #
 Route::group([
-    'name' => 'job_requirements',
-    'prefix' => 'job_requirements',
+    'prefix' => 'jobrequirements',
+    'middleware'=>'auth:sanctum'
 ], function () {
     Route::get('/', 'JobRequirementController@index');
-    Route::get('/{job_requirement}', 'JobRequirementController@show');
+    Route::get('/{jobRequirement}', 'JobRequirementController@show');
     Route::post('/', 'JobRequirementController@store');
-    Route::Put('/{job_requirement}', 'JobRequirementController@update');
-    Route::delete('/{job_requirement}', 'JobRequirementController@destroy');
+    Route::Put('/{jobRequirement}', 'JobRequirementController@update');
+    Route::delete('/{jobRequirement}', 'JobRequirementController@destroy');
 });
 
 # app status admin only #
 Route::group([
     'name' => 'appstatuses',
     'prefix' => 'appstatuses',
+    'middleware'=>'auth:sanctum'
 ], function () {
     Route::get('/', 'AppStatusController@index');
     Route::get('/{appStatus}', 'AppStatusController@show');
@@ -73,6 +76,7 @@ Route::group([
 Route::group([
     'name' => 'applications',
     'prefix' => 'applications',
+    'middleware'=>'auth:sanctum'
 ], function () {
     Route::get('/', 'ApplicationController@index');
     Route::get('/{application}', 'ApplicationController@show');
