@@ -13,11 +13,10 @@ class UserAction
         $user->update([
             "name" => isset($req["name"]) ? $req["name"] : $user['name'],
             "email" => isset($req["email"]) ? $req["email"] : $user['email'],
-            "password" => isset($req["password"]) ? Hash::make($req["password"]) : $user['password'],
         ]);
         return $user;
     }
-    
+
     public static function store($user)
     {
         $user["password"] = Hash::make($user["password"]);
