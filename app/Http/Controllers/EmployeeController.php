@@ -31,6 +31,7 @@ class EmployeeController extends Controller
         $userEmployee = \App\Helpers\UserAction::store($user);
         $Employee = Employee::create();
         $Employee->user()->save($userEmployee);
+        $userEmployee->assignRole('employee');
         return new EmployeeResource($userEmployee);
     }
 

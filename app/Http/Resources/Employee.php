@@ -18,7 +18,7 @@ class Employee extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password,
+            'role' => $this->roles[0]->name,
             'details' => [
               'position' => $this->userable->position,
               'branch' => $this->userable->branch,
