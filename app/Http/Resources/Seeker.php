@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Contact as ContactResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Seeker extends JsonResource
@@ -19,16 +20,15 @@ class Seeker extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'details' => [
-              'address' => $this->userable->address,
-              'city' => $this->userable->city,
-              'seniority' => $this->userable->seniority,
-              'expYears' => $this->userable->expYears,
-              'currentJob' => $this->userable->currentJob,
-              'currentSalary' => $this->userable->currentSalary,
-              'expectedSalary' => $this->userable->expectedSalary,
-              'cv' => $this->userable->cv,
-            ]
-        ];
+            'address' => $this->userable->address,
+            'city' => $this->userable->city,
+            'seniority' => $this->userable->seniority,
+            'expYears' => $this->userable->expYears,
+            'currentJob' => $this->userable->currentJob,
+            'currentSalary' => $this->userable->currentSalary,
+            'expectedSalary' => $this->userable->expectedSalary,
+            'cv' => $this->userable->cv,
+            'phone' => $this->userable->phone,
+            'contacts'=>ContactResource::collection($this->userable->contacts)        ];
     }
 }

@@ -15,11 +15,16 @@ class Seeker extends Model
        'currentJob',
        'currentSalary',
        'expectedSalary',
-       'cv'
+       'cv',
+       'phone'
    ];
 
     public function user()
     {
         return $this->morphOne('App\User', 'userable');
+    }
+
+    public function contacts(){
+        return $this->hasMany('App\Contact');
     }
 }

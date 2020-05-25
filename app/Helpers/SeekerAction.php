@@ -19,6 +19,7 @@ class SeekerAction
           'currentSalary' => isset($req["currentSalary"]) ? $req["currentSalary"] : $userSeeker->currentSalary,
           'expectedSalary' => isset($req["expectedSalary"]) ? $req["expectedSalary"] : $userSeeker->expectedSalary,
           'cv' => isset($req["cv"]) ? $req["cv"] : $userSeeker->cv,
+          'phone' => isset($req["phone"]) ? $req["phone"] : $userSeeker->phone,
           ]);
         return $status;
     }

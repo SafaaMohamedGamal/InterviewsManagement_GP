@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Contact;
 
+use App\User;
+use App\Seeker;
 use App\Contact;
 use App\ContactType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Contact\ContactRequest;
 use App\Http\Resources\Contact as ContactResource;
+use App\Http\Requests\Contact\UpdateContactRequest;
 
 class ContactController extends Controller
 {
     
     public function index()
     {
-        return ContactResource::collection(Contact::paginate());
+        return ContactResource::collection(Contact::all());
     }
 
     
@@ -22,13 +25,14 @@ class ContactController extends Controller
     {
         $contact = $request->only(['data', 'seeker_id', 'contact_types_id']);
         $contact_type = ContactType::find($contact['contact_types_id']);
-        $contact = new Contact([
+        $new_contact = new Contact([
             'data' => $contact['data'],
-            'seeker_id' => $contact['seeker_id']
         ]);
-        $contact->contactType()->associate($contact_type);
-        $contact->save();
-        return new ContactResource($contact);
+        $user = User::find($contact['seeker_id']);
+        $new_contact->seeker()->associate($user->userable->id);
+        $new_contact->contactType()->associate($contact_type);
+        $new_contact->save();
+        return new ContactResource($new_contact);
     }
 
     
@@ -38,7 +42,7 @@ class ContactController extends Controller
     }
 
     
-    public function update(ContactRequest $request,Contact $contact)
+    public function update(UpdateContactRequest $request,Contact $contact)
     {
         $contactReq = $request->only(['data', 'seeker_id', 'contact_types_id']);
         $contact->update([

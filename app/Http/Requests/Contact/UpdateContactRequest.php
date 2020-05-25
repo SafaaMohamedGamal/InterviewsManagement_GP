@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Contact;
 
+use App\Contact;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactRequest extends FormRequest
+class UpdateContactRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +25,12 @@ class ContactRequest extends FormRequest
      */
     public function rules()
     {
+        $contact = request()->contact;
         return [
-            'data' => 'required|unique:App\Contact',
+            'data' => [
+                'required',
+                Rule::unique('contacts')->ignore($contact->id, 'id'),
+            ],
             'seeker_id' => 'exists:App\User,id',
             'contact_types_id' => 'exists:App\ContactType,id',
         ];

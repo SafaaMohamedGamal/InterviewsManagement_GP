@@ -27,6 +27,7 @@ class StoreUserRequest extends FormRequest
             'name' => 'required|unique:App\User,name',
             'email' => 'required|unique:App\User,email',
             'password' => 'required|confirmed',
+            'phone' => 'required|regex:/^\+[(]{0,1}[0-9]{1,4}[)]{0,1}[0-9]{11}$/i'
         ];
     }
 
@@ -43,6 +44,8 @@ class StoreUserRequest extends FormRequest
             'email.unique' => "email must be unique",
             'email.required' => "email is required",
             'password.confirmed' => "password doesn't match password confirmation",
+            'phone.required' => "phone is required",
+            'phone.regex' => "phone syntax in incorrect ex:[+(02)012334455]",
         ];
     }
 }
