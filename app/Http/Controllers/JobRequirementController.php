@@ -22,33 +22,33 @@ class JobRequirementController extends Controller
 
         return JobRequirementResource::collection($requirements);
     }
-    public function show(JobRequirement $job_requirement)
+    public function show(JobRequirement $jobRequirement)
     {
-        return new JobRequirementResource($job_requirement);
+        return new JobRequirementResource($jobRequirement);
     }
 
     public function store(Request $request)
     {
-        $job_requirement = $request->only(['name','job_id']);
+        $jobRequirement = $request->only(['name','job_id']);
         JobRequirement::create([
-            'name'=>$job_requirement['name'],
-            'job_id'=>$job_requirement['job_id'],
+            'name'=>$jobRequirement['name'],
+            'job_id'=>$jobRequirement['job_id'],
         ]);
         return response()->json('job requirement posted successful');
     }
 
-    public function update(JobRequirement $job_requirement, Request $request)
+    public function update(JobRequirement $jobRequirement, Request $request)
     {
-        $update_job_requirement = $request->only(['name','job_id']);
-        $job_requirement->update([
-            'name'=>isset($update_job_requirement['name']) ? $update_job_requirement['name'] : $job_requirement->name,
-            'job_id'=>isset($update_job_requirement['job_id']) ? $update_job_requirement['job_id'] : $job_requirement->job_id ,
+        $update_jobRequirement = $request->only(['name','job_id']);
+        $jobRequirement->update([
+            'name'=>isset($update_jobRequirement['name']) ? $update_jobRequirement['name'] : $jobRequirement->name,
+            'job_id'=>isset($update_jobRequirement['job_id']) ? $update_jobRequirement['job_id'] : $jobRequirement->job_id ,
         ]);
         return response()->json('job requirement updated successful');
     }
 
-    public function destroy(JobRequirement $job_requirement)
+    public function destroy(JobRequirement $jobRequirement)
     {
-        $job_requirement->delete();
+        $jobRequirement->delete();
     }
 }

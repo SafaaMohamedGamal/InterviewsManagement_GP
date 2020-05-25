@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
+use App\Http\Requests\Job\StoreJobRequest;
 use App\Http\Repositories\Interfaces\JobRepositoryInterface;
 
 class JobController extends Controller
@@ -20,7 +21,7 @@ class JobController extends Controller
         return new JobResource($job);
     }
 
-    public function store(Request $request)
+    public function store(StoreJobRequest $request)
     {
         $job = $request->only(['title', 'description','available','years_exp','seniority','requirements']);
         $new_job = Job::create([
