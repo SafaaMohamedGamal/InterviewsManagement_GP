@@ -30,7 +30,7 @@ class SeekerPolicy
      */
     public function view(User $user, Seeker $seeker)
     {
-        return true;  //employee can view seeker of his interview
+        return $user->is($seeker->user);  //employee can view seeker of his interview
     }
 
     /**
