@@ -37,7 +37,7 @@ Route::get('/register', 'Auth\RegisterController@register');
 # Jobs #
 Route::group([
     'prefix' => 'jobs',
-    // 'middleware'=>'auth:sanctum'
+    'middleware'=>'auth:sanctum'
 ], function () {
     Route::post('/', 'JobController@store');
     Route::Put('/{job}', 'JobController@update');
