@@ -31,6 +31,7 @@ class SeekerController extends Controller
         $userSeeker = \App\Helpers\UserAction::store($user);
         $seeker = Seeker::create();
         $seeker->user()->save($userSeeker);
+        $userSeeker->assignRole('seeker');
         return new SeekerResource($userSeeker);
     }
 

@@ -6,13 +6,20 @@ use App\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
 use App\Http\Requests\Job\StoreJobRequest;
+use App\Http\Requests\Job\UpdateJobRequest;
 use App\Http\Repositories\Interfaces\JobRepositoryInterface;
 
 class JobController extends Controller
 {
-    public function index(JobRepositoryInterface $jobRebo)
+    private $jobRebo;
+    public function __construct(JobRepositoryInterface $jobRebository)
     {
-        $jobs = $jobRebo->getAllJobs();
+        $this->jobRebo = $jobRebository;
+    }
+
+    public function index()
+    {
+        $jobs = $this->jobRebo->getAllJobs();
         
         return JobResource::collection($jobs);
     }
@@ -24,42 +31,26 @@ class JobController extends Controller
     public function store(StoreJobRequest $request)
     {
         $job = $request->only(['title', 'description','available','years_exp','seniority','requirements']);
-        $new_job = Job::create([
-             'title'=> $job['title'],
-             'description'=> $job['description'],
-             'available'=> isset($job['available']) ? 1 : 0,
-             'years_exp'=> $job['years_exp'],
-             'seniority'=> $job['seniority']
-         ]);
-        // dd($job['requirments']);
-        if (isset($job['requirements'])) {
-            foreach ($job['requirements'] as $requirement) {
-                $new_job->requirements()->create([
-                    "name"=>$requirement
-                ]);
-            }
-        }
+        $newJob=$this->jobRebo->createJob($job);
         
-         
-        return response()->json('job posted successful');
+        return new JobResource($newJob);
+        // return response()->json('job posted successful');
     }
 
-    public function update(Job $job, Request $request)
+    public function update(Request $request, Job $job)
     {
-        $update_job = $request->only(['title', 'description','available','years_exp','seniority']);
-        $job->update([
-             'title'=> isset($update_job['title']) ? $update_job['title'] : $job->title ,
-             'description'=> isset($update_job['description']) ? $update_job['description'] : $job->description,
-             'available'=> isset($update_job['available']) ? $update_job['available'] : $job->available,
-             'years_exp'=> isset($update_job['years_exp']) ? $update_job['years_exp'] : $job->years_exp ,
-             'seniority'=> isset($update_job['seniority']) ? $update_job['seniority'] : $job->seniority,
-         ]);
-        return response()->json('job updated successful');
+        $newData = $request->only(['title', 'description','available','years_exp','seniority']);
+        $Updatedjob = $this->jobRebo->updateJob($newData, $job);
+        return new JobResource($job);
+        // return response()->json('job updated successful');
     }
 
     public function destroy(Job $job)
     {
-        $job->delete();
-        return response()->json('job deleted successful');
+        if ($job->delete()) {
+            return response()->json('job deleted successful');
+        } else {
+            return response()->json('not');
+        }
     }
 }
