@@ -34,7 +34,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, $id)
     {
-        $req = $request->only(['name', 'email', 'password']);
+        $req = $request->only(['name', 'email']);
         $user = \App\Helpers\UserAction::update($id, $req);
 
         return new UserResource($user);
