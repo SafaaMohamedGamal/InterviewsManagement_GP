@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Application;
+namespace App\Http\Requests\Job;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreApplicationRequest extends FormRequest
+class UpdateJobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,8 @@ class StoreApplicationRequest extends FormRequest
      */
     public function rules()
     {
-        $user = current_user();
-
         return [
-            'job_id'=>'required|exists:jobs,id|unique:applications,job_id,NULL,id,seeker_id,' . $user->userable_id
+            'years_exp'=>'integer|min:0'
         ];
     }
 }

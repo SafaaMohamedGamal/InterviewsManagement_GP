@@ -6,12 +6,14 @@ use App\AppStatus;
 use App\Application;
 use Illuminate\Http\Request;
 use App\Http\Resources\ApplicationResource;
+use App\Http\Requests\Application\StoreApplicationRequest;
 
 class ApplicationController extends Controller
 {
     public function index()
     {
-        return ApplicationResource::collection(Application::all());
+        $applications = Application::all();
+        return ApplicationResource::collection($applications);
     }
 
     public function show(Application $application)
@@ -19,14 +21,14 @@ class ApplicationController extends Controller
         return new ApplicationResource($application);
     }
 
-    public function store(Request $request)
+    public function store(StoreApplicationRequest $request)
     {
         $application = $request->only(['job_id']);
         $user = current_user();
         $status = AppStatus::newStatus();
         
         $newApp = Application::create([
-            'seeker_id'=>$user->id,
+            'seeker_id'=>$user->userable_id,
                 'job_id'=>$application['job_id'],
                 'appstatus_id'=>$status->id
         ]);
