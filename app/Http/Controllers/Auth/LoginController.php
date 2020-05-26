@@ -18,17 +18,18 @@ class LoginController extends Controller
             'password' => 'required',
             'device_name' => 'required'
         ]);
-    
+
         $user = User::where('email', $request->email)->first();
-    
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-    
+
         return response()->json([
             "data" => $user,
+            'role' => $user->roles[0]->name,
             "access_token" => $user->createToken($request->device_name)->plainTextToken
         ]);
     }

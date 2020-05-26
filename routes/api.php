@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,7 @@ use Illuminate\Validation\ValidationException;
 */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/LoggedInUser', function () {
-        return Auth::user();
+        return new UserResource(Auth::user());
     });
     Route::get('/LogoutUser', function () {
         $user = Auth::user();
