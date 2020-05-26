@@ -12,7 +12,7 @@ class AssignSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::where('userable_type', 'App\Seeder')->get();
+        $users = User::where('userable_type', 'App\Seeker')->get();
         foreach ($users as $user) {
             $user->assignRole('seeker');
         }
