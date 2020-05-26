@@ -15,7 +15,6 @@ class RegisterController extends Controller
         $seeker->phone=$request['phone'];
         $seeker->save();
         $user = \App\Helpers\UserAction::store($user);
-        $user->assignRole('seeker');
         $seeker->user()->save($user);
         $user->assignRole('seeker');
 

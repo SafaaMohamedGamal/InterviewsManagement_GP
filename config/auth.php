@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'unAthenticated' => [
+            'driver' => 'unAthenticated',
+            'provider' => 'users',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',

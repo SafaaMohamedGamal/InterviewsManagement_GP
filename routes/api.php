@@ -17,6 +17,11 @@ use Illuminate\Validation\ValidationException;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/////////////////////////////////////////////////
+// use this middleware for unauthenticated users
+// middleware('auth:unAthenticated')
+/////////////////////////////////////////////////
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/LoggedInUser', function () {
         return Auth::user();
