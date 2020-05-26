@@ -20,6 +20,7 @@ class Seeker extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
+            'role' => $this->roles[0]->name,
             'address' => $this->userable->address,
             'city' => $this->userable->city,
             'seniority' => $this->userable->seniority,
