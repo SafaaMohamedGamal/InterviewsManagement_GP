@@ -91,6 +91,11 @@ Route::group([
 
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
+// hit this route only if verification tokken corrupted
+// Route::post('/verifyphone', 'Auth\RegisterController@verifyPhone');
+Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification');
+
+
 
 Route::apiResource('seekers', 'SeekerController');
 Route::apiResource('employees', 'EmployeeController');
