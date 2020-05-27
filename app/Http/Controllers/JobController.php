@@ -8,6 +8,7 @@ use App\Http\Resources\JobResource;
 use App\Http\Requests\Job\StoreJobRequest;
 use App\Http\Requests\Job\UpdateJobRequest;
 use App\Http\Repositories\Interfaces\JobRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -17,10 +18,9 @@ class JobController extends Controller
         $this->jobRebo = $jobRebository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $jobs = $this->jobRebo->getAllJobs();
-        
+        $jobs = $this->jobRebo->getAllJobs($request->all());
         return JobResource::collection($jobs);
     }
     public function show(Job $job)
