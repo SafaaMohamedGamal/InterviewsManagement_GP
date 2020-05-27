@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Job;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class StoreJobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,12 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|min:7',
-            'device_name' => 'required'
+            'title' => 'required',
+            'description'=>'required',
+            'seniority'=>'required',
+            'years_exp'=>'required|integer|min:0',
+            'requirements'=>'required|array',
+            'requirements.*'=>'filled|distinct'
         ];
     }
 }
