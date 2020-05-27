@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Resources\Seeker as SeekerResource;
-use App\Http\Requests\User\StoreUserRequest;
-use App\Http\Requests\Seeker\UpdateSeekerRequest;
-
-use App\Seeker;
 use App\User;
+use App\Seeker;
 use Illuminate\Http\Request;
+use App\Http\Requests\Seeker\StoreSeekerRequest;
+use App\Http\Resources\Seeker as SeekerResource;
+use App\Http\Requests\Seeker\UpdateSeekerRequest;
 
 class SeekerController extends Controller
 {
@@ -24,7 +23,7 @@ class SeekerController extends Controller
         return SeekerResource::collection($userSeeker);
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreSeekerRequest $request)
     {
         $this->authorize('create');
         $user = $request->only(['name', 'email', 'password']);
@@ -55,6 +54,7 @@ class SeekerController extends Controller
           'cv',
           'phone'
         ]);
+        // return $inputs;
         $status = \App\Helpers\SeekerAction::update($inputs, $seeker);
         return new SeekerResource($seeker);
     }
