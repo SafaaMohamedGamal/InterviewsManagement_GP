@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use App\Policies\EmployeePolicy;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         Gate::before(function ($user, $ability) {
             return ($user->hasRole('super-admin')) ? true : null;
+        });
+        Auth::viaRequest('unAthenticated', function ($request) {
+            return new User();
         });
     }
 }
