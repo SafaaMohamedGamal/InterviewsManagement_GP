@@ -92,9 +92,9 @@ Route::apiResource('seekers', 'SeekerController');
 Route::apiResource('employees', 'EmployeeController');
 
 //#################interviews###########################
-Route::get('interviews', 'InterviewController@index');
-Route::get('interview/{id}', 'InterviewController@show');
-Route::post('interview', 'InterviewController@store');
-Route::put('interview/{id}', 'InterviewController@update');
-Route::delete('interview/{id}', 'InterviewController@destroy');
+Route::get('interviews', 'InterviewController@index')->middleware('auth:sanctum');
+Route::get('interview/{id}', 'InterviewController@show')->middleware('auth:sanctum');
+Route::post('interview', 'InterviewController@store')->middleware('auth:sanctum');
+Route::put('interview/{id}', 'InterviewController@update')->middleware('auth:sanctum');
+Route::delete('interview/{id}', 'InterviewController@destroy')->middleware('auth:sanctum');
 //#######################################################
