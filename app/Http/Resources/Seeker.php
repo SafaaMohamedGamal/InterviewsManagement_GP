@@ -30,7 +30,8 @@ class Seeker extends JsonResource
             'expectedSalary' => $this->userable->expectedSalary,
             'cv' => $this->userable->cv,
             'phone' => $this->userable->phone,
-            'isVerified'=>$this->userable->isVerified,
-            'contacts'=>ContactResource::collection($this->userable->contacts)        ];
+            'isVerified' => $this->userable->isVerified,
+            'contacts' => ContactResource::collection($this->userable->contacts)
+        ];
     }
 }

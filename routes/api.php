@@ -36,9 +36,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/users', 'UserController');
     Route::apiResource('/contacttype', 'Contact\ContactTypeController');
     Route::apiResource('/contact', 'Contact\ContactController');
+    Route::apiResource('seekers', 'SeekerController');
+    Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
+    Route::apiResource('employees', 'EmployeeController');
 });
 
-Route::get('/register', 'Auth\RegisterController@register');
+
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/register', 'Auth\RegisterController@register');
+
 
 # Jobs #
 Route::group([
@@ -93,18 +99,9 @@ Route::group([
 });
 
 
-
-
-Route::post('/login', 'Auth\LoginController@login');
-Route::post('/register', 'Auth\RegisterController@register');
 // hit this route only if verification tokken corrupted
 // Route::post('/verifyphone', 'Auth\RegisterController@verifyPhone');
 Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
-
-
-
-Route::apiResource('seekers', 'SeekerController');
-Route::apiResource('employees', 'EmployeeController');
 
 //#################interviews###########################
 Route::get('interviews', 'InterviewController@index');
