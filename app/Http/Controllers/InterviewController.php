@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\InterviewResource;
 use App\Interview;
 use App\Http\Requests;
+use Spatie\GoogleCalendar\Event;
+use Carbon\Carbon;
 
 class InterviewController extends Controller
 {
@@ -18,7 +20,19 @@ class InterviewController extends Controller
     public function index()
     {
         $interview = Interview::all();
+        
+        $event = new Event;
+        $event->name = 'A new event';
+        // $event->title = 'A new event2';
+
+        $event->startDateTime = Carbon::now();
+        $event->endDateTime = Carbon::now()->addHour();
+        $event->addAttendee(['email' => 'mahmoudyoussef070@gmail.com']);
+        $event->save();
+        
+
         return InterviewResource::collection($interview);
+
     }
 
     /**

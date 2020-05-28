@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Application;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class StoreApplicationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,10 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
+        $user = current_user();
+
         return [
-            'email' => 'required|email',
-            'password' => 'required|min:7',
-            'device_name' => 'required'
+            'job_id'=>'required|exists:jobs,id|unique:applications,job_id,NULL,id,seeker_id,' . $user->userable_id
         ];
     }
 }

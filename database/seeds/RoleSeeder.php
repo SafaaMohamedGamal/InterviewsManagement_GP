@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class RoleSeeder extends Seeder
 {
@@ -21,12 +22,11 @@ class RoleSeeder extends Seeder
           $employeeRole->givePermissionTo(['edit employee', 'delete employee', 'add review', 'delete review']);
 
 
-          $user = Factory(App\User::class)->create([
-              'name' => 'superadmin',
-              'email' => 'superadmin@gmail.com'
-          ]);
+          $user = new App\User;
+          $user->name = 'superadmin';
+          $user->email = 'superadmin@gmail.com';
           $user["password"] = Hash::make("12345678");
-          $user->save();
           $user->assignRole($superAdminRole);
+          $user->save();
     }
 }

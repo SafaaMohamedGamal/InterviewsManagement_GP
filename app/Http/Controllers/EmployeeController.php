@@ -13,7 +13,6 @@ class EmployeeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
     }
 
     public function index()
@@ -31,6 +30,7 @@ class EmployeeController extends Controller
         $userEmployee = \App\Helpers\UserAction::store($user);
         $Employee = Employee::create();
         $Employee->user()->save($userEmployee);
+        $userEmployee->assignRole('employee');
         return new EmployeeResource($userEmployee);
     }
 

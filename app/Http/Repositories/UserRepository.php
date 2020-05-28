@@ -1,13 +1,24 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Http\Repositories;
 
+use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
-class UserAction
+class UserRepository implements UserRepositoryInterface
 {
-    public static function update($id, $req)
+    public function getAll()
+    {
+        return User::all();
+    }
+
+    public function get($user)
+    {
+        return User::find($user);
+    }
+
+    public function update($id, $req)
     {
         $user = User::find($id);
         $user->update([
@@ -17,7 +28,7 @@ class UserAction
         return $user;
     }
 
-    public static function store($user)
+    public function store($user)
     {
         $user["password"] = Hash::make($user["password"]);
         return User::create($user);

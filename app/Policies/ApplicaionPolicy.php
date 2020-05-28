@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Seeker;
+use App\Application;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class SeekerPolicy
+class ApplicaionPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +18,19 @@ class SeekerPolicy
      */
     public function viewAny(User $user)
     {
-        //only superadmin can access this
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Seeker  $seeker
+     * @param  \App\Application  $application
      * @return mixed
      */
-    public function view(User $user, Seeker $seeker)
+    public function view(User $user, Application $application)
     {
-        return $user->is($seeker->user);  //employee can view seeker of his interview
+        //
     }
 
     /**
@@ -41,41 +41,41 @@ class SeekerPolicy
      */
     public function create(User $user)
     {
-        //only superadmin can access this
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Seeker  $seeker
+     * @param  \App\Application  $application
      * @return mixed
      */
-    public function update(User $user, Seeker $seeker)
+    public function update(User $user, Application $application)
     {
-        return $user->is($seeker->user);
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Seeker  $seeker
+     * @param  \App\Application  $application
      * @return mixed
      */
-    public function delete(User $user, Seeker $seeker)
+    public function delete(User $user, Application $application)
     {
-        return $user->is($seeker->user);
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Seeker  $seeker
+     * @param  \App\Application  $application
      * @return mixed
      */
-    public function restore(User $user, Seeker $seeker)
+    public function restore(User $user, Application $application)
     {
         //
     }
@@ -84,10 +84,10 @@ class SeekerPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Seeker  $seeker
+     * @param  \App\Application  $application
      * @return mixed
      */
-    public function forceDelete(User $user, Seeker $seeker)
+    public function forceDelete(User $user, Application $application)
     {
         //
     }

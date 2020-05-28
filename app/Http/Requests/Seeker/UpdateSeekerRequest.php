@@ -31,7 +31,19 @@ class UpdateSeekerRequest extends FormRequest
           'currentJob' => ['nullable', 'alpha'],
           'currentSalary' => ['nullable', 'numeric'],
           'expectedSalary' => ['nullable', 'numeric'],
-          'cv' => ['nullable', 'file', 'mimes:pdf']
+          'phone' => 'required|regex:/^\+[(]{0,1}[0-9]{1,4}[)]{0,1}[0-9]{11}$/i'
+        ];
+    }
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function messages()
+    {
+        return [
+            'phone.required' => "phone is required",
+            'phone.regex' => "phone syntax is incorrect ex:[+(02)012334455]",
         ];
     }
 }

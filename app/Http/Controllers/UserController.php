@@ -3,41 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
+use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Resources\User as UserResource;
 use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
+    private $userRebo;
+    public function __construct(UserRepositoryInterface $userRebository)
+    {
+        $this->userRebo = $userRebository;
+    }
+
     public function index()
     {
-        return UserResource::collection(User::all());
+        return UserResource::collection($this->userRebo->getAll());
     }
 
 
     public function store(StoreUserRequest $request)
     {
-        $user = $request->only(['name', 'email', 'password']);
-        $user = \App\Helpers\UserAction::store($user);
-
-        return new UserResource($user);
+        return new UserResource($this->userRebo->store($request->only(['name', 'email', 'password'])));
     }
 
 
     public function show(Request $request, $id)
     {
-        $user = User::find($id);
-        return new UserResource($user);
+        return new UserResource($this->userRebo->get($id));
     }
 
 
     public function update(UpdateUserRequest $request, $id)
     {
-        $req = $request->only(['name', 'email', 'password']);
-        $user = \App\Helpers\UserAction::update($id, $req);
-
-        return new UserResource($user);
+        return new UserResource($this->userRebo->update($id, $request->only(['name', 'email'])));
     }
 
 
@@ -45,12 +45,8 @@ class UserController extends Controller
     {
         $user = User::destroy($id);
         if ($user) {
-            return response()->json([
-                "data" => "deleted successfuly",
-            ]);
+            return response()->json(["data" => "deleted successfuly"]);
         }
-        return response()->json([
-            "data" => "user doesn't exist",
-        ]);
+        return response()->json(["data" => "user doesn't exist"]);
     }
 }
