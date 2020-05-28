@@ -29,4 +29,9 @@ class Seeker extends Model
     {
         return $this->hasMany('App\Contact');
     }
+
+    public function applications()
+    {
+        return $this->hasMany('App\Application');
+    }
 }
