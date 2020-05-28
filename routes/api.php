@@ -24,21 +24,14 @@ use Illuminate\Validation\ValidationException;
 /////////////////////////////////////////////////
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/LoggedInUser', function () {
-        return new UserResource(Auth::user());
-    });
-    Route::get('/LogoutUser', function () {
-        $user = Auth::user();
-        return $user->tokens()->delete();
-    });
+    Route::get('/LoggedInUser', 'UserController@loggedInUser');
+    Route::get('/LogoutUser', 'UserController@logoutUser');
     Route::put('resetpassword/{user}', 'Auth\ResetPasswordController@update');
 
     Route::apiResource('/users', 'UserController');
     Route::apiResource('/contacttype', 'Contact\ContactTypeController');
     Route::apiResource('/contact', 'Contact\ContactController');
 });
-
-Route::get('/register', 'Auth\RegisterController@register');
 
 # Jobs #
 Route::group([
@@ -102,9 +95,13 @@ Route::apiResource('seekers', 'SeekerController');
 Route::apiResource('employees', 'EmployeeController');
 
 //#################interviews###########################
-Route::get('interviews', 'InterviewController@index');
-Route::get('interview/{id}', 'InterviewController@show');
-Route::post('interview', 'InterviewController@store');
-Route::put('interview/{id}', 'InterviewController@update');
-Route::delete('interview/{id}', 'InterviewController@destroy');
+Route::group([
+    'middleware'=>'auth:sanctum'
+], function () {
+    Route::get('interviews', 'InterviewController@index');
+    Route::get('interview/{id}', 'InterviewController@show');
+    Route::post('interview', 'InterviewController@store');
+    Route::put('interview/{id}', 'InterviewController@update');
+    Route::delete('interview/{id}', 'InterviewController@destroy');
+});
 //#######################################################
