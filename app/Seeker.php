@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Seeker extends Model
 {
     //
-   protected $fillable = [
+    protected $fillable = [
        'address',
        'city',
        'seniority',
@@ -16,7 +16,8 @@ class Seeker extends Model
        'currentSalary',
        'expectedSalary',
        'cv',
-       'phone'
+       'phone',
+       'isVerified'
    ];
 
     public function user()
@@ -24,7 +25,13 @@ class Seeker extends Model
         return $this->morphOne('App\User', 'userable');
     }
 
-    public function contacts(){
+    public function contacts()
+    {
         return $this->hasMany('App\Contact');
+    }
+
+    public function applications()
+    {
+        return $this->hasMany('App\Application');
     }
 }
