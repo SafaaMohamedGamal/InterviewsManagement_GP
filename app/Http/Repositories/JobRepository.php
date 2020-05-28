@@ -10,7 +10,7 @@ class JobRepository implements JobRepositoryInterface
     // * job function *
     public function getAllJobs($params)
     {
-        return Job::where('available', $params['available'])->paginate(5) ;
+        return Job::where('available', $params['available'])->Ordered()->paginate(5) ;
     }
 
     // * requirements functions  *
