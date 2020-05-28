@@ -46,7 +46,6 @@ class SeekerController extends Controller
 
     public function update(UpdateSeekerRequest $request, User $seeker)
     {
-        return $request->hasFile('cv');
         $this->authorize('update', $seeker->userable_type === 'App\Seeker' ? $seeker->userable : null);
         $inputs = $request->only([
             'address',

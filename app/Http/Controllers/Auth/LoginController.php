@@ -24,7 +24,7 @@ class LoginController extends Controller
 
         return response()->json([
             "data" => $user,
-            'role' => $user->roles[0]->name,
+            'role' => $user->roles->pluck('name'),
             "access_token" => $user->createToken($request->device_name)->plainTextToken
         ]);
     }

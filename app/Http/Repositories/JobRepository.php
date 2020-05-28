@@ -8,9 +8,9 @@ use App\Http\Repositories\Interfaces\JobRepositoryInterface;
 class JobRepository implements JobRepositoryInterface
 {
     // * job function *
-    public function getAllJobs()
+    public function getAllJobs($params)
     {
-        return Job::all() ;
+        return Job::where('available', $params['available'])->paginate(5) ;
     }
 
     // * requirements functions  *

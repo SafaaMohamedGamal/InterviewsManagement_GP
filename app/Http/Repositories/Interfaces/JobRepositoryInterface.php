@@ -4,7 +4,7 @@ namespace App\Http\Repositories\Interfaces;
 interface JobRepositoryInterface
 {
     //  * Jobs functions *
-    public function getAllJobs();
+    public function getAllJobs($params);
 
     // public function filterAllJobs();
 
