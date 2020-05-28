@@ -21,14 +21,12 @@ class InterviewController extends Controller
     {
         $interview = Interview::all();
         
-        $event = new Event;
-        $event->name = 'A new event';
+        // $event = new Event;
+        // $event->name = 'A new event';
         // $event->title = 'A new event2';
-
-        $event->startDateTime = Carbon::now();
-        $event->endDateTime = Carbon::now()->addHour();
-        $event->addAttendee(['email' => 'mahmoudyoussef070@gmail.com']);
-        $event->save();
+        // $event->startDateTime = Carbon::now();
+        // $event->endDateTime = Carbon::now()->addHour();
+        // $event->save();
         
 
         return InterviewResource::collection($interview);
