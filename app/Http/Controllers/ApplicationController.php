@@ -12,7 +12,8 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        $applications = Application::all();
+        $seekerId = current_user()->userable_id;
+        $applications = Application::where('seeker_id', $seekerId)->get();
         return ApplicationResource::collection($applications);
     }
 

@@ -91,10 +91,17 @@ class SeekerController extends Controller
             }
         }
         $status = $userSeeker->update([
-            'cv' => isset($req["cv"]) ? $path : $userSeeker->cv,
+            'cv' => isset($req["cv"]) ? $cvName : $userSeeker->cv,
         ]);
 
         // return $status;
         return new SeekerResource($seeker);
     }
+
+    public function downloadCV(Request $request, User $seeker){
+        $cvName = $request->cvName;
+        $url = Storage::download('public/cvs/'.$cvName);
+        return $url;
+    }
+
 }

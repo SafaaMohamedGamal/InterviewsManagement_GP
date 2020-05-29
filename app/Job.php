@@ -12,4 +12,8 @@ class Job extends Model
     {
         return $this->hasMany('App\JobRequirement');
     }
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
 }

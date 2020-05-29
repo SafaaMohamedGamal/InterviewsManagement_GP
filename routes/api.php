@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
     Route::apiResource('employees', 'EmployeeController');
 });
+Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
 
 Route::post('/login', 'Auth\LoginController@login');
@@ -104,7 +105,7 @@ Route::group([
 Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
 
 //#################interviews###########################
-Route::get('interviews', 'InterviewController@index');
+Route::get('interviews', 'InterviewController@index')->middleware('auth:sanctum');
 Route::get('interview/{id}', 'InterviewController@show')->middleware('auth:sanctum');
 Route::post('interview', 'InterviewController@store')->middleware('auth:sanctum');
 Route::put('interview/{id}', 'InterviewController@update')->middleware('auth:sanctum');
