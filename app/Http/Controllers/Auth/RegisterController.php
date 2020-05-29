@@ -8,16 +8,23 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seeker\StoreSeekerRequest;
 use App\Http\Resources\Seeker as SeekerResource;
+use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
 class RegisterController extends Controller
 {
+    private $userRebo;
+    public function __construct(UserRepositoryInterface $userRebository)
+    {
+        $this->userRebo = $userRebository;
+    }
+
     public function register(StoreSeekerRequest $request)
     {
-        $user = $request->only(['name', 'email', 'password']);
+        $user = $request->only(['name', 'email', 'password', 'phone']);
         $seeker = new Seeker;
-        $seeker->phone=$phone;
+        $seeker->phone=$user['phone'];
         $seeker->save();
-        $user = \App\Helpers\UserAction::store($user);
+        $user = $this->userRebo->store($user);
         $seeker->user()->save($user);
         $user->assignRole('seeker');
 
@@ -45,27 +52,27 @@ class RegisterController extends Controller
     
         $twilio = $this->getTwilioClient();
         $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        try {
-            /*  hash */
-            throw new Exception("Error Processing Request", 1);
+        // try {
+        //     /*  hash */
+        //     throw new Exception("Error Processing Request", 1);
         
-            /*remove hash */
-            // $verification = $twilio->verify->v2->services($twilio_verify_sid)
-            // ->verificationChecks
-            // ->create($request['verifyToken'], array('to' => $phone));
-            // if ($verification->valid) {
-            //     $user=current_user();
-            //     Seeker::where('id', $user->userable_id)->update(['isVerified'=>true]);
-            // return response()->json('phone verified');
-            // } else {
-            // $this->verifyPhone($phone);
-            //     return response()->json(['error' => 'code invalid waitting for another code'], 410);
-            // }
-        } catch () {
-            /* remove hash */ 
-            // $this->verifyPhone($phone);
-            return response()->json(['error' => 'code invalid waitting for another code'], 410);
-        }
+        //     /*remove hash */
+        //     // $verification = $twilio->verify->v2->services($twilio_verify_sid)
+        //     // ->verificationChecks
+        //     // ->create($request['verifyToken'], array('to' => $phone));
+        //     // if ($verification->valid) {
+        //     //     $user=current_user();
+        //     //     Seeker::where('id', $user->userable_id)->update(['isVerified'=>true]);
+        //     // return response()->json('phone verified');
+        //     // } else {
+        //     // $this->verifyPhone($phone);
+        //     //     return response()->json(['error' => 'code invalid waitting for another code'], 410);
+        //     // }
+        // } catch() {
+        //     /* remove hash */ 
+        //     // $this->verifyPhone($phone);
+        //     return response()->json(['error' => 'code invalid waitting for another code'], 410);
+        // }
     }
 
     private function getTwilioClient()

@@ -24,7 +24,7 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|unique:App\Contact',
+            // 'data' => 'required|unique:App\Contact',
             'seeker_id' => 'exists:App\User,id',
             'contact_types_id' => 'exists:App\ContactType,id',
         ];
