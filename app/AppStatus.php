@@ -10,6 +10,6 @@ class AppStatus extends Model
 
     public static function newStatus()
     {
-        return self::where('name', 'new')->first();
+        return self::where('name', 'New')->first();
     }
 }
