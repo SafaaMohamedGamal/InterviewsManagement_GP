@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
     Route::apiResource('employees', 'EmployeeController');
 });
+Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
 
 Route::post('/login', 'Auth\LoginController@login');
