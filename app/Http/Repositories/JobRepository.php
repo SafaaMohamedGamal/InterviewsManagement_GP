@@ -10,7 +10,14 @@ class JobRepository implements JobRepositoryInterface
     // * job function *
     public function getAllJobs($params)
     {
-        return Job::where('available', $params['available'])->Ordered()->paginate(5) ;
+        $jobs = Job::where('available', $params['available']);
+        !empty($params['keyWord'])? $jobs->where('title', 'LIKE', '%'.$params['keyWord'].'%')->orwhere('description', 'LIKE', '%'.$params['keyWord'].'%'):null ;
+        !empty($params['minYears'])? $jobs->where('years_exp', '>', $params['minYears']): null ;
+        !empty($params['maxYears'])? $jobs->where('years_exp', '<', $params['maxYears']): null ;
+        !empty($params['seniority'])? $jobs->where('seniority', 'LIKE', '%'.$params['seniority'].'%'): null ;
+        
+        // dd($jobs);
+        return $jobs->Ordered()->paginate($params['perPage']) ;
     }
 
     // * requirements functions  *

@@ -8,23 +8,30 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seeker\StoreSeekerRequest;
 use App\Http\Resources\Seeker as SeekerResource;
+use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
 class RegisterController extends Controller
 {
+    private $userRebo;
+    public function __construct(UserRepositoryInterface $userRebository)
+    {
+        $this->userRebo = $userRebository;
+    }
+
     public function register(StoreSeekerRequest $request)
     {
-        $user = $request->only(['name', 'email', 'password']);
+        $user = $request->only(['name', 'email', 'password', 'phone']);
         $seeker = new Seeker;
-        $seeker->phone=$request['phone'];
+        $seeker->phone=$user['phone'];
         $seeker->save();
-        $user = \App\Helpers\UserAction::store($user);
+        $user = $this->userRebo->store($user);
         $seeker->user()->save($user);
         $user->assignRole('seeker');
 
         /* u have to remove hashing from this line to use mobile verification  */
         // $this->verifyPhone($seeker->phone);
 
-        
+
         return new SeekerResource($user);
     }
 
@@ -42,14 +49,14 @@ class RegisterController extends Controller
         // send user phone or get it from database and use it
         $request->only(['phone','verifyToken']);
         $phone = str_replace(' ', '', $request['phone']);
-    
+
         $twilio = $this->getTwilioClient();
         $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        
+
         try {
             /*  hash */
             throw new Exception("Error Processing Request", 1);
-        
+
             /*remove hash */
             /*$verification = $twilio->verify->v2->services($twilio_verify_sid)
             ->verificationChecks
