@@ -49,4 +49,14 @@ class UserController extends Controller
         }
         return response()->json(["data" => "user doesn't exist"]);
     }
+
+    public function loggedInUser()
+    {
+        return new UserResource(current_user());
+    }
+
+    public function logoutUser()
+    {
+        return current_user()->tokens()->delete();
+    }
 }

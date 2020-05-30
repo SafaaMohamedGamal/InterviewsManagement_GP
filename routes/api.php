@@ -24,13 +24,8 @@ use Illuminate\Validation\ValidationException;
 /////////////////////////////////////////////////
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/LoggedInUser', function () {
-        return new UserResource(Auth::user());
-    });
-    Route::get('/LogoutUser', function () {
-        $user = Auth::user();
-        return $user->tokens()->delete();
-    });
+    Route::get('/LoggedInUser', 'UserController@loggedInUser');
+    Route::get('/LogoutUser', 'UserController@logoutUser');
     Route::put('resetpassword/{user}', 'Auth\ResetPasswordController@update');
 
     Route::apiResource('/users', 'UserController');
@@ -40,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
     Route::apiResource('employees', 'EmployeeController');
 });
+Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
 
 Route::post('/login', 'Auth\LoginController@login');
@@ -104,9 +100,13 @@ Route::group([
 Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
 
 //#################interviews###########################
-Route::get('interviews', 'InterviewController@index')->middleware('auth:sanctum');
-Route::get('interview/{id}', 'InterviewController@show')->middleware('auth:sanctum');
-Route::post('interview', 'InterviewController@store')->middleware('auth:sanctum');
-Route::put('interview/{id}', 'InterviewController@update')->middleware('auth:sanctum');
-Route::delete('interview/{id}', 'InterviewController@destroy')->middleware('auth:sanctum');
+Route::group([
+    'middleware'=>'auth:sanctum'
+], function () {
+    Route::get('interviews', 'InterviewController@index');
+    Route::get('interview/{id}', 'InterviewController@show');
+    Route::post('interview', 'InterviewController@store');
+    Route::put('interview/{id}', 'InterviewController@update');
+    Route::delete('interview/{id}', 'InterviewController@destroy');
+});
 //#######################################################
