@@ -27,8 +27,9 @@ class EmployeeController extends Controller
     {
         $this->authorize('create');
         $user = $request->only(['name', 'email', 'password']);
+        $details = $request->only(['position', 'branch']);
         $userEmployee = \App\Helpers\UserAction::store($user);
-        $Employee = Employee::create();
+        $Employee = Employee::create($details);
         $Employee->user()->save($userEmployee);
         $userEmployee->assignRole('employee');
         return new EmployeeResource($userEmployee);
@@ -38,7 +39,6 @@ class EmployeeController extends Controller
     public function show(User $employee)
     {
         $this->authorize('view', $employee->userable_type === 'App\Employee'? $employee->userable : null);
-        return $employee;
         return new EmployeeResource($employee);
     }
 
