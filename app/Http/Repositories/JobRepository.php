@@ -17,7 +17,7 @@ class JobRepository implements JobRepositoryInterface
         !empty($params['seniority'])? $jobs->where('seniority', 'LIKE', '%'.$params['seniority'].'%'): null ;
         
         // dd($jobs);
-        return $jobs->Ordered()->paginate(5) ;
+        return $jobs->Ordered()->paginate($params['perPage']) ;
     }
 
     // * requirements functions  *
