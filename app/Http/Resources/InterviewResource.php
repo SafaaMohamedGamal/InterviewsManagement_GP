@@ -14,6 +14,20 @@ class InterviewResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        // return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'application_id' => $this->application_id,
+            'emp_id' => $this->emp_id,
+            'emp_name' => $this->employee->user->name,
+            'level_id' =>$this->level_id,
+            'level_name' => $this->level->name,
+            'date' => $this->date,
+            'seeker_review' => $this->seeker_review,
+            'company_review' => $this->company_review,
+            'zoom' => $this->zoom,
+
+            
+        ];
     }
 }

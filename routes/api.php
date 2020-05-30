@@ -109,4 +109,11 @@ Route::get('interview/{id}', 'InterviewController@show')->middleware('auth:sanct
 Route::post('interview', 'InterviewController@store')->middleware('auth:sanctum');
 Route::put('interview/{id}', 'InterviewController@update')->middleware('auth:sanctum');
 Route::delete('interview/{id}', 'InterviewController@destroy')->middleware('auth:sanctum');
+
+
+Route::get('levels', 'LevelController@index')->middleware('auth:sanctum');
+Route::get('level/{id}', 'LevelController@show')->middleware('auth:sanctum');
+Route::post('level', 'LevelController@store')->middleware('auth:sanctum');
+Route::put('level/{id}', 'LevelController@update')->middleware('auth:sanctum');
+Route::delete('level/{id}', 'LevelController@destroy')->middleware('auth:sanctum');
 //#######################################################
