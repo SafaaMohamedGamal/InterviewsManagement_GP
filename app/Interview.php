@@ -16,4 +16,19 @@ class Interview extends Model
         'zoom   ',
 
     ];
+
+    public function level()
+    {
+        return $this->belongsTo('App\Level');
+    }
+
+    public function application()
+    {
+        return $this->belongsTo('App\Application');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo('App\Employee','emp_id');
+    }
 }

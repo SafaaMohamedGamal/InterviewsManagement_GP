@@ -10,8 +10,14 @@ use App\Http\Requests\Seeker\StoreSeekerRequest;
 use App\Http\Resources\Seeker as SeekerResource;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
+// use Illuminate\Foundation\Auth\VerifiesEmails;
+// use Illuminate\Auth\Events\Verified;
+
 class RegisterController extends Controller
 {
+    // use VerifiesEmails;
+    public $successStatus = 200;
+
     private $userRebo;
     public function __construct(UserRepositoryInterface $userRebository)
     {
@@ -22,11 +28,7 @@ class RegisterController extends Controller
     {
         $user = $request->only(['name', 'email', 'password', 'phone']);
         $seeker = new Seeker;
-<<<<<<< HEAD
         $seeker->phone=$user['phone'];
-=======
-        $seeker->phone=$request['phone'];
->>>>>>> 7bb3f8abfe272bfa382c9ec6db435d4e2389678a
         $seeker->save();
         $user = $this->userRebo->store($user);
         $seeker->user()->save($user);
@@ -35,7 +37,10 @@ class RegisterController extends Controller
         /* u have to remove hashing from this line to use mobile verification  */
         // $this->verifyPhone($seeker->phone);
 
-        
+        $user->sendApiEmailVerificationNotification();
+        $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
+        return response()->json(['success'=>$success], $this-> successStatus);
+
         return new SeekerResource($user);
     }
 
@@ -53,37 +58,14 @@ class RegisterController extends Controller
         // send user phone or get it from database and use it
         $request->only(['phone','verifyToken']);
         $phone = str_replace(' ', '', $request['phone']);
-    
+
         $twilio = $this->getTwilioClient();
         $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-<<<<<<< HEAD
-        // try {
-        //     /*  hash */
-        //     throw new Exception("Error Processing Request", 1);
-        
-        //     /*remove hash */
-        //     // $verification = $twilio->verify->v2->services($twilio_verify_sid)
-        //     // ->verificationChecks
-        //     // ->create($request['verifyToken'], array('to' => $phone));
-        //     // if ($verification->valid) {
-        //     //     $user=current_user();
-        //     //     Seeker::where('id', $user->userable_id)->update(['isVerified'=>true]);
-        //     // return response()->json('phone verified');
-        //     // } else {
-        //     // $this->verifyPhone($phone);
-        //     //     return response()->json(['error' => 'code invalid waitting for another code'], 410);
-        //     // }
-        // } catch() {
-        //     /* remove hash */ 
-        //     // $this->verifyPhone($phone);
-        //     return response()->json(['error' => 'code invalid waitting for another code'], 410);
-        // }
-=======
-        
+
         try {
             /*  hash */
             throw new Exception("Error Processing Request", 1);
-        
+
             /*remove hash */
             /*$verification = $twilio->verify->v2->services($twilio_verify_sid)
             ->verificationChecks
@@ -101,7 +83,6 @@ class RegisterController extends Controller
             // $this->verifyPhone($phone);
             return response()->json(['error' => 'code invalid waitting for another code'], 410);
         }
->>>>>>> 7bb3f8abfe272bfa382c9ec6db435d4e2389678a
     }
 
     private function getTwilioClient()

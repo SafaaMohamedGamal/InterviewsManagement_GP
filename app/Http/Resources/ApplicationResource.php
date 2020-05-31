@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+// use App\Http\Resources\Seeker;
+use App\Http\Resources\SeekerResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApplicationResource extends JsonResource
@@ -16,7 +18,7 @@ class ApplicationResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'seeker'=>$this->seeker_id,
+            'seeker'=>new SeekerResource($this->seeker) ,
             'job'=>new JobResource($this->job),
             'status'=> new AppStatusResource($this->status)
         ];

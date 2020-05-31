@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
+    public $successStatus = 200;
     // to be modified
     public function login(LoginRequest $request){
         $user = User::where('email', $request->email)->first();
@@ -25,7 +26,10 @@ class LoginController extends Controller
         return response()->json([
             "data" => $user,
             'role' => $user->roles->pluck('name'),
-            "access_token" => $user->createToken($request->device_name)->plainTextToken
-        ]);
+            "access_token" => $user->createToken($request->device_name)->plainTextToken,
+            'email_verify'=> $user->email_verified_at? 'Login Successfully':'Please Verify Email'
+          ]);
+        // ], $user->email_verified_at? 200 : 401);
+
     }
 }

@@ -76,7 +76,8 @@ class SeekerController extends Controller
     public function uploadCV(Request $request, User $seeker)
     {
         $request->validate([
-            'cv' => 'required|file',
+            // 'cv' => 'required|file',
+            'cv' => 'required|mimetypes:application/pdf|max:10000',
         ]);
         $req = $request->only(['cv']);
         $path = '';
