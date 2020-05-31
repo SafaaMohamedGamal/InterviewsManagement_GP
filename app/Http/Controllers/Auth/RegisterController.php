@@ -10,8 +10,14 @@ use App\Http\Requests\Seeker\StoreSeekerRequest;
 use App\Http\Resources\Seeker as SeekerResource;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
+// use Illuminate\Foundation\Auth\VerifiesEmails;
+// use Illuminate\Auth\Events\Verified;
+
 class RegisterController extends Controller
 {
+    // use VerifiesEmails;
+    public $successStatus = 200;
+
     private $userRebo;
     public function __construct(UserRepositoryInterface $userRebository)
     {
@@ -31,6 +37,9 @@ class RegisterController extends Controller
         /* u have to remove hashing from this line to use mobile verification  */
         // $this->verifyPhone($seeker->phone);
 
+        $user->sendApiEmailVerificationNotification();
+        $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
+        return response()->json(['success'=>$success], $this-> successStatus);
 
         return new SeekerResource($user);
     }

@@ -41,6 +41,8 @@ Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 
+Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verificationapi.verify');
+Route::get('email/resend', 'Auth\VerificationController@resend')->name('verificationapi.resend');
 
 # Jobs #
 Route::group([
