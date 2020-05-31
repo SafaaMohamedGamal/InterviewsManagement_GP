@@ -12,6 +12,10 @@ class Job extends Model
     {
         return $this->hasMany('App\JobRequirement');
     }
+    public function applications()
+    {
+        return $this->hasMany('App\Application');
+    }
     public function scopeOrdered($query)
     {
         return $query->orderBy('updated_at', 'desc');

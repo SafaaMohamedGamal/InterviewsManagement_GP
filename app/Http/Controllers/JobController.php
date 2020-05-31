@@ -25,7 +25,7 @@ class JobController extends Controller
     }
     public function show(Job $job)
     {
-        return new JobResource($job);
+        return  new JobResource($job);
     }
 
     public function store(StoreJobRequest $request)
