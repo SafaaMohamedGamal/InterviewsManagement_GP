@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\VerifyApiEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable, HasRoles;
     protected $guard_name = 'api';

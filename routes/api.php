@@ -92,6 +92,7 @@ Route::group([
     Route::get('/', 'ApplicationController@index');
     Route::get('/{application}', 'ApplicationController@show');
     Route::post('/', 'ApplicationController@store');
+    // Route::post('/', 'ApplicationController@store')->middleware('APIverified');
     Route::Put('/{application}', 'ApplicationController@update');
     Route::delete('/{application}', 'ApplicationController@destroy');
 });
