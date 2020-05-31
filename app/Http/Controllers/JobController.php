@@ -39,7 +39,7 @@ class JobController extends Controller
 
     public function update(Request $request, Job $job)
     {
-        $newData = $request->only(['title', 'description','available','years_exp','seniority']);
+        $newData = $request->only(['title', 'description','available','years_exp','seniority','requirements']);
         $Updatedjob = $this->jobRebo->updateJob($newData, $job);
         return new JobResource($job);
         // return response()->json('job updated successful');
