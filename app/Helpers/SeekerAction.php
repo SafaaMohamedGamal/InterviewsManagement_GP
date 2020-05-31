@@ -9,12 +9,14 @@ class SeekerAction
   public static function update($req, $user)
   {
     $userSeeker = $user->userable;
-    foreach ($req['contacts'] as $contact) {
-      $new_contact = Contact::find($contact['id']);
-      $new_contact->contact_types_id = $contact['contact_types_id'];
-      $new_contact->data = $contact['data'];
-      $new_contact->seeker()->associate($userSeeker);
-      $new_contact->save();
+    if (isset($req['contacts'])) {
+      foreach ($req['contacts'] as $contact) {
+        $new_contact = Contact::find($contact['id']);
+        $new_contact->contact_types_id = $contact['contact_types_id'];
+        $new_contact->data = $contact['data'];
+        $new_contact->seeker()->associate($userSeeker);
+        $new_contact->save();
+      }
     }
     $status = $userSeeker->update(
       [

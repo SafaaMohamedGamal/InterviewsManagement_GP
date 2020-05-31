@@ -10,14 +10,16 @@ use App\Http\Requests\Application\StoreApplicationRequest;
 
 class ApplicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // dd(current_user()->hasRole('seeker'))
         if (current_user()->hasRole('seeker')) {
             $seekerId = current_user()->userable_id;
             $applications = Application::where('seeker_id', $seekerId)->get();
         } else {
-            $applications = Application::all();
+            // dd($request);
+            $params=$request->all();
+            $applications=!empty($params['jobId'])? Application::where('job_id', $params['jobId'])->get(): Application::all() ;
         }
         
         return ApplicationResource::collection($applications);

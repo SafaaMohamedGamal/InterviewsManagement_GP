@@ -16,22 +16,23 @@ class Seeker extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
-            'role' => $this->roles->pluck('name'),
-            'address' => $this->userable->address,
-            'city' => $this->userable->city,
-            'seniority' => $this->userable->seniority,
-            'expYears' => $this->userable->expYears,
-            'currentJob' => $this->userable->currentJob,
-            'currentSalary' => $this->userable->currentSalary,
-            'expectedSalary' => $this->userable->expectedSalary,
-            'cv' => $this->userable->cv,
-            'phone' => $this->userable->phone,
-            'isVerified' => $this->userable->isVerified,
-            'contacts' => ContactResource::collection($this->userable->contacts)
+            'id' => $this->user->id,
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'password' => $this->user->password,
+            'email_verified_at' => $this->user->email_verified_at,
+            'role' => $this->user->roles->pluck('name'),
+            'address' => $this->address,
+            'city' => $this->city,
+            'seniority' => $this->seniority,
+            'expYears' => $this->expYears,
+            'currentJob' => $this->currentJob,
+            'currentSalary' => $this->currentSalary,
+            'expectedSalary' => $this->expectedSalary,
+            'cv' => $this->cv,
+            'phone' => $this->phone,
+            'isVerified' => $this->isVerified,
+            'contacts' => ContactResource::collection($this->contacts)
         ];
     }
 }

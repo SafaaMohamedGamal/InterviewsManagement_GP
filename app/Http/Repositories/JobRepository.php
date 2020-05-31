@@ -52,13 +52,22 @@ class JobRepository implements JobRepositoryInterface
 
     public function updateJob($updatedData, $job)
     {
+        // dd($updatedData);
         $job->update([
-             'title'=> isset($updatedData['title']) ? $updatedData['title'] : $job->title ,
-             'description'=> isset($updatedData['description']) ? $updatedData['description'] : $job->description,
-             'available'=> isset($updatedData['available']) ? $updatedData['available'] : $job->available,
-             'years_exp'=> isset($updatedData['years_exp']) ? $updatedData['years_exp'] : $job->years_exp ,
-             'seniority'=> isset($updatedData['seniority']) ? $updatedData['seniority'] : $job->seniority,
+             'title'=> !empty($updatedData['title']) ? $updatedData['title'] : $job->title ,
+             'description'=> !empty($updatedData['description']) ? $updatedData['description'] : $job->description,
+             'available'=> !empty($updatedData['available']) ? $updatedData['available'] : $job->available,
+             'years_exp'=> !empty($updatedData['years_exp']) ? $updatedData['years_exp'] : $job->years_exp ,
+             'seniority'=> !empty($updatedData['seniority']) ? $updatedData['seniority'] : $job->seniority,
          ]);
+        $job->requirements()->delete();
+        if (isset($updatedData['requirements'])) {
+            foreach ($updatedData['requirements'] as $requirement) {
+                $job->requirements()->create([
+                    "name"=>$requirement
+                ]);
+            }
+        }
 
         return $job;
     }
