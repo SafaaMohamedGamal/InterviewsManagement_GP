@@ -19,4 +19,9 @@ class Application extends Model
     {
         return $this->belongsTo('App\AppStatus', 'appstatus_id');
     }
+
+    public function interviews()
+    {
+        return $this->hasMany('App\Interview');
+    }
 }

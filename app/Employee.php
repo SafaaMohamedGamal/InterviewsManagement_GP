@@ -15,4 +15,9 @@ class Employee extends Model
     {
       return $this->morphOne('App\User', 'userable');
     }
+
+     public function interviews()
+    {
+        return $this->hasMany('App\Interview');
+    }
 }
