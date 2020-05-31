@@ -24,22 +24,22 @@ class ContactTypeController extends Controller
     }
 
     
-    public function show(ContactType $contact_type)
+    public function show(ContactType $contacttype)
     {
-        return new ContactTypeResource($contact_type);
+        return new ContactTypeResource($contacttype);
     }
 
     
-    public function update(UpdateContactTypeRequest $request, ContactType $contact_type)
+    public function update(UpdateContactTypeRequest $request, ContactType $contacttype)
     {
-        $contact_type->update($request->only(['type']));
-        return new ContactTypeResource($contact_type);
+        $contacttype->update($request->only(['type']));
+        return new ContactTypeResource($contacttype);
     }
 
     
-    public function destroy($id)
+    public function destroy($contacttype)
     {
-        if (ContactType::destroy($id)) {
+        if (ContactType::destroy($contacttype)) {
             return response()->json([
                 "data" => "deleted successfuly",
             ]);
