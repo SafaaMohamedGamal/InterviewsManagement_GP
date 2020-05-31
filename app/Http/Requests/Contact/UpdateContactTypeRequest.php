@@ -26,7 +26,7 @@ class UpdateContactTypeRequest extends FormRequest
      */
     public function rules()
     {
-        $contact_type = ContactType::find(Request()->contact_type);
+        $contact_type = ContactType::find(Request()->contacttype);
         return [
             'type' => [
                 Rule::unique('contact_types')->ignore($contact_type->first()->type, 'type'),

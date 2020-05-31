@@ -22,26 +22,27 @@ class SeekerController extends Controller
     public function index()
     {
         $this->authorize('viewAny');
-        $userSeeker = User::all()
-            ->where('userable_type', 'App\Seeker');
+        $userSeeker = Seeker::all();
+            // ->where('userable_type', 'App\Seeker');
         return SeekerResource::collection($userSeeker);
     }
 
     public function store(StoreSeekerRequest $request)
     {
         $this->authorize('create');
-        $user = $request->only(['name', 'email', 'password']);
+        $user = $request->only(['name', 'email', 'password', 'phone']);
         $userSeeker = $this->userRebo->store($user);
-        $seeker = Seeker::create();
+        $seeker = Seeker::create($user);
         $seeker->user()->save($userSeeker);
+        $seeker->save();
         $userSeeker->assignRole('seeker');
-        return new SeekerResource($userSeeker);
+        return new SeekerResource($userSeeker->userable);
     }
 
     public function show(User $seeker)
     {
         $this->authorize('view', $seeker->userable_type === 'App\Seeker' ? $seeker->userable : null);
-        return new SeekerResource($seeker);
+        return new SeekerResource($seeker->userable);
     }
 
     public function update(UpdateSeekerRequest $request, User $seeker)
