@@ -30,9 +30,9 @@ class EmployeeController extends Controller
   public function store(StoreUserRequest $request)
   {
     $this->authorize('create');
-    $user = $request->only(['name', 'email', 'password']);
+    $user = $request->only(['name', 'email', 'password', 'position', 'branch']);
     $userEmployee = $this->userRebo->store($user);
-    $Employee = Employee::create();
+    $Employee = Employee::create($user);
     $Employee->user()->save($userEmployee);
     $userEmployee->assignRole('employee');
     return new EmployeeResource($Employee);
@@ -47,11 +47,14 @@ class EmployeeController extends Controller
 
   public function update(UpdateEmployeeRequest $request, User $employee)
   {
-    // $this->authorize('edit', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
+    $this->authorize('edit', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
     $employeeinputs = $request->only([
+      'name',
+      'email',
       'position',
       'branch'
     ]);
+    $userEmployee = $this->userRebo->update($employee->id, $employeeinputs);
     $status = \App\Helpers\EmployeeAction::update($employeeinputs, $employee);
     return new EmployeeResource($employee->userable);
   }

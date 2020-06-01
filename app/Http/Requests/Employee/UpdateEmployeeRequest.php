@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Employee;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use App\User;
 
 class UpdateEmployeeRequest extends FormRequest
 {
@@ -23,9 +26,18 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function rules()
     {
+        $user = User::find(Request()->employee->id);
         return [
-          'position' => ['nullable','alpha'],
-          'branch' => ['nullable','alpha']
+            'name' => [
+                Rule::unique('users')->ignore($user->name, 'name'),
+            ],
+            'email' => [
+                'email',
+                Rule::unique('users')->ignore($user->email, 'email'),
+            ],
+            'password' => 'confirmed',
+            'position' => ['nullable', 'alpha'],
+            'branch' => ['nullable', 'alpha'],
         ];
     }
 }
