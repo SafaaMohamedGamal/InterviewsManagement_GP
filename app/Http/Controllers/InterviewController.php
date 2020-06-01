@@ -88,16 +88,7 @@ class InterviewController extends Controller
         return "interview Not found"; // temporary error
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -108,7 +99,16 @@ class InterviewController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $interview = Interview::find($id);
+        $interview->application_id = $request->input('application_id');
+        $interview->emp_id = $request->input('emp_id');
+        $interview->level_id = $request->input('level_id');
+        $interview->date = $request->input('date');
+        $interview->seeker_review = $request->input('seeker_review');
+        $interview->company_review = $request->input('company_review');
+        $interview->zoom = $request->input('zoom');
+        $interview->save();
+        return new InterviewResource($interview);
     }
 
     /**
