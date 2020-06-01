@@ -19,6 +19,7 @@ class EmployeePolicy
     public function viewAny(User $user)
     {
         //only superadmin can access this
+    
     }
 
     /**
