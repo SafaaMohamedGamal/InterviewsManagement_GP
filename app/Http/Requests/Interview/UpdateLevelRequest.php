@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Contact;
+namespace App\Http\Requests\Interview;
 
-use App\ContactType;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateContactTypeRequest extends FormRequest
+class UpdateLevelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,20 +24,12 @@ class UpdateContactTypeRequest extends FormRequest
      */
     public function rules()
     {
-        $contact_type = ContactType::find(Request()->contacttype);
+        $level = request()->level;
         return [
-            'type' => [
+            'name' => [
                 'min:2',
-                Rule::unique('contact_types')->ignore($contact_type->first()->type, 'type'),
+                Rule::unique('levels')->ignore($level->name, 'name'),
             ],
-        ];
-    }
-
-
-    public function messages()
-    {
-        return [
-            'type.unique' => 'this type already exists',
         ];
     }
 }

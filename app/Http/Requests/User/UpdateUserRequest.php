@@ -37,6 +37,7 @@ class UpdateUserRequest extends FormRequest
               'email',
                 Rule::unique('users')->ignore($user->email, 'email'),
             ],
+            'password' => 'matched|min:7'
         ];
     }
 

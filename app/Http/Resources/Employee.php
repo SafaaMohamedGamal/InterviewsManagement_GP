@@ -14,13 +14,16 @@ class Employee extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($request);
         return [
+
             'id' => $this->user->id,
+            'emp_id' => $this->id,
             'name' => $this->user->name,
             'email' => $this->user->email,
             'role' => $this->user->roles->pluck('name'),
-    	      'position' => $this->position,
-    	      'branch' => $this->branch,
+              'position' => $this->position,
+              'branch' => $this->branch,
         ];
     }
 }

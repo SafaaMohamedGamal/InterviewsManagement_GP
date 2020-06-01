@@ -23,7 +23,6 @@ class EmployeeController extends Controller
   {
     $this->authorize('viewAny');
     $user = Employee::all();
-    // ->where('userable_type', 'App\Employee');
     return EmployeeResource::collection($user);
   }
 
@@ -31,8 +30,9 @@ class EmployeeController extends Controller
   {
     $this->authorize('create');
     $user = $request->only(['name', 'email', 'password']);
+    $employeeData = $request->only(['position', 'branch']);
     $userEmployee = $this->userRebo->store($user);
-    $Employee = Employee::create();
+    $Employee = Employee::create($employeeData);
     $Employee->user()->save($userEmployee);
     $userEmployee->assignRole('employee');
     return new EmployeeResource($Employee);
@@ -47,11 +47,14 @@ class EmployeeController extends Controller
 
   public function update(UpdateEmployeeRequest $request, User $employee)
   {
-    // $this->authorize('edit', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
+    $this->authorize('edit', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
     $employeeinputs = $request->only([
+      'name',
+      'email',
       'position',
       'branch'
     ]);
+    $userEmployee = $this->userRebo->update($employee->id, $employeeinputs);
     $status = \App\Helpers\EmployeeAction::update($employeeinputs, $employee);
     return new EmployeeResource($employee->userable);
   }
@@ -62,7 +65,10 @@ class EmployeeController extends Controller
     $this->authorize('delete', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
     $userEmployee = $employee->userable;
     $userEmployee->user()->delete();
-    $userEmployee->delete();
-    return ['data' => true];
+    $status = $userEmployee->delete();
+    if ($status) {
+      return response()->json(["data" => "deleted successfuly"]);
+    }
+    return response()->json(["data" => "Employee doesn't exist"]);
   }
 }

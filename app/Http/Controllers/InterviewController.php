@@ -30,7 +30,6 @@ class InterviewController extends Controller
         
 
         return InterviewResource::collection($interview);
-
     }
 
     /**
@@ -56,11 +55,20 @@ class InterviewController extends Controller
         $interview->emp_id = $request->input('emp_id');
         $interview->level_id = $request->input('level_id');
         $interview->date = $request->input('date');
-        $interview->seeker_review = $request->input('seeker_review');
-        $interview->company_review = $request->input('company_review');
+        $interview->seeker_review = " ";
+        $interview->company_review = " ";
         $interview->zoom = $request->input('zoom');
-
         $interview->save();
+
+
+        $event = new Event;
+        $event->name = 'A new event'.$interview->emp_id;
+        $event->title = 'A new event2';
+        $event->startDateTime = Carbon::now();
+        $event->endDateTime = Carbon::now()->addHour();
+        $event->save();
+
+
         return new InterviewResource($interview);
     }
 
@@ -73,22 +81,13 @@ class InterviewController extends Controller
     public function show($id)
     {
         $interview = Interview::find($id); //id comes from route
-        if( $interview ){
+        if ($interview) {
             return new InterviewResource($interview);
         }
         return "interview Not found"; // temporary error
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -99,7 +98,16 @@ class InterviewController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $interview = Interview::find($id);
+        $interview->application_id = !empty($request->input('application_id'))?$request->input('application_id'):$interview->application_id;
+        $interview->emp_id = !empty($request->input('emp_id'))?$request->input('emp_id'):$interview->emp_id;
+        $interview->level_id = !empty($request->input('level_id'))?$request->input('level_id'):$interview->level_id;
+        $interview->date =!empty($request->input('date'))?$request->input('date'):$interview->date;
+        $interview->seeker_review = !empty($request->input('seeker_review'))?$request->input('seeker_review'):$interview->seeker_review;
+        $interview->company_review =!empty($request->input('company_review'))?$request->input('company_review'):$interview->company_review;
+        $interview->zoom = !empty($request->input('zoom'))?$request->input('zoom'):$interview->zoom;
+        $interview->save();
+        return new InterviewResource($interview);
     }
 
     /**
@@ -111,7 +119,7 @@ class InterviewController extends Controller
     public function destroy($id)
     {
         $interview = Interview::findOrfail($id);
-        if($interview->delete()){
+        if ($interview->delete()) {
             return  new InterviewResource($interview);
         }
         return "Error while deleting";

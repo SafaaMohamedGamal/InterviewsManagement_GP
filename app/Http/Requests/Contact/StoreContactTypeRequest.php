@@ -24,7 +24,7 @@ class StoreContactTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'unique:App\ContactType'
+            'type' => 'required|unique:App\ContactType'
         ];
     }
 

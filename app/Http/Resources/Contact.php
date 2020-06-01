@@ -17,7 +17,8 @@ class Contact extends JsonResource
     {
         return [
             'id' => $this->id,
-            'seeker_id' => $this->seeker_id,
+            'seeker_id' => $this->seeker->user->id,
+            'seeker_name' => $this->seeker->user->name,
             'data' => $this->data,
             'contact_types_id' => $this->contactType->id,
             'contact_type' => $this->contactType->type,
