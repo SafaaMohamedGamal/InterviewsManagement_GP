@@ -7,7 +7,7 @@ use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seeker\StoreSeekerRequest;
-use App\Http\Resources\Seeker as SeekerResource;
+use App\Http\Resources\User as UserResource;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
 // use Illuminate\Foundation\Auth\VerifiesEmails;
@@ -38,9 +38,8 @@ class RegisterController extends Controller
         // $this->verifyPhone($seeker->phone);
 
         $user->sendApiEmailVerificationNotification();
-        $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
-        $resource = json_decode(json_encode(new SeekerResource($user)), true);
-        $resource['message'] = $success['message'];
+        $resource = json_decode(json_encode(new UserResource($user)), true);
+        $resource['verify_email'] = false;
         return $resource;
     }
 
