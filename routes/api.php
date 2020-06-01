@@ -29,11 +29,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('resetpassword/{user}', 'Auth\ResetPasswordController@update');
 
     Route::apiResource('/users', 'UserController');
-    Route::apiResource('/contacttype', 'Contact\ContactTypeController');
-    Route::apiResource('/contact', 'Contact\ContactController');
+    Route::apiResource('employees', 'EmployeeController');
     Route::apiResource('seekers', 'SeekerController');
     Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
-    Route::apiResource('employees', 'EmployeeController');
+    
+    Route::apiResource('/contacttype', 'Contact\ContactTypeController');
+    Route::apiResource('/contact', 'Contact\ContactController');
     Route::get('email/resend', 'Auth\VerificationController@resend')->name('verificationapi.resend');
     
     Route::apiResource('/levels', 'LevelController');
@@ -105,12 +106,6 @@ Route::group([
 Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
 
 //#################interviews###########################
-// Route::get('interviews', 'InterviewController@index')->middleware('auth:sanctum');
-// Route::get('interview/{id}', 'InterviewController@show')->middleware('auth:sanctum');
-// Route::post('interview', 'InterviewController@store')->middleware('auth:sanctum');
-// Route::put('interview/{id}', 'InterviewController@update')->middleware('auth:sanctum');
-// Route::delete('interview/{id}', 'InterviewController@destroy')->middleware('auth:sanctum');
-
 Route::group([
     'middleware'=>'auth:sanctum'
 ], function () {
@@ -120,10 +115,3 @@ Route::group([
     Route::put('interview/{id}', 'InterviewController@update');
     Route::delete('interview/{id}', 'InterviewController@destroy');
 });
-
-// Route::get('levels', 'LevelController@index')->middleware('auth:sanctum');
-// Route::get('level/{id}', 'LevelController@show')->middleware('auth:sanctum');
-// Route::post('level', 'LevelController@store')->middleware('auth:sanctum');
-// Route::put('level/{id}', 'LevelController@update')->middleware('auth:sanctum');
-// Route::delete('level/{id}', 'LevelController@destroy')->middleware('auth:sanctum');
-//#######################################################

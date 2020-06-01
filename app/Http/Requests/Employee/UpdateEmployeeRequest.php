@@ -35,7 +35,7 @@ class UpdateEmployeeRequest extends FormRequest
                 'email',
                 Rule::unique('users')->ignore($user->email, 'email'),
             ],
-            'password' => 'confirmed',
+            'password' => 'confirmed|min:7',
             'position' => ['nullable', 'alpha'],
             'branch' => ['nullable', 'alpha'],
         ];

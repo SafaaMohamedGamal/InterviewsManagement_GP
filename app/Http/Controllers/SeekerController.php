@@ -23,7 +23,6 @@ class SeekerController extends Controller
     {
         $this->authorize('viewAny');
         $userSeeker = Seeker::all();
-            // ->where('userable_type', 'App\Seeker');
         return SeekerResource::collection($userSeeker);
     }
 
@@ -76,7 +75,6 @@ class SeekerController extends Controller
     public function uploadCV(Request $request, User $seeker)
     {
         $request->validate([
-            // 'cv' => 'required|file',
             'cv' => 'required|mimetypes:application/pdf|max:10000',
         ]);
         $req = $request->only(['cv']);
@@ -95,8 +93,6 @@ class SeekerController extends Controller
         $status = $userSeeker->update([
             'cv' => isset($req["cv"]) ? $cvName : $userSeeker->cv,
         ]);
-
-        // return $status;
         return new SeekerResource($seeker);
     }
 
