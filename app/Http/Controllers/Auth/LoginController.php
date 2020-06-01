@@ -27,7 +27,7 @@ class LoginController extends Controller
             "data" => $user,
             'role' => $user->roles->pluck('name'),
             "access_token" => $user->createToken($request->device_name)->plainTextToken,
-            'email_verify'=> $user->email_verified_at? 'Login Successfully':'Please Verify Email'
+            'email_verify'=> $user->email_verified_at? true : false
           ]);
         // ], $user->email_verified_at? 200 : 401);
 

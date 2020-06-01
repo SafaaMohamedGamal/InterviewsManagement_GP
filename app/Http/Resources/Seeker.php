@@ -20,6 +20,7 @@ class Seeker extends JsonResource
             'name' => $this->user->name,
             'email' => $this->user->email,
             'password' => $this->user->password,
+            'email_verified_at' => $this->user->email_verified_at,
             'role' => $this->user->roles->pluck('name'),
             'address' => $this->address,
             'city' => $this->city,

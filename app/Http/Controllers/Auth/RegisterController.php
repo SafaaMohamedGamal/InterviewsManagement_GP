@@ -39,9 +39,9 @@ class RegisterController extends Controller
 
         $user->sendApiEmailVerificationNotification();
         $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
-        return response()->json(['success'=>$success], $this-> successStatus);
-
-        return new SeekerResource($user);
+        $resource = json_decode(json_encode(new SeekerResource($user)), true);
+        $resource['message'] = $success['message'];
+        return $resource;
     }
 
     private function verifyPhone($phone)
