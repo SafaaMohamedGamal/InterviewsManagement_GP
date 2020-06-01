@@ -18,7 +18,7 @@ class User extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
+            'verify_email'=> $this->email_verified_at? true : false,
             'role' => $this->roles->pluck('name'),
         ];
     }

@@ -59,8 +59,17 @@ class InterviewController extends Controller
         $interview->seeker_review = $request->input('seeker_review');
         $interview->company_review = $request->input('company_review');
         $interview->zoom = $request->input('zoom');
-
         $interview->save();
+
+
+        $event = new Event;
+        $event->name = 'A new event'.$interview->emp_id;
+        $event->title = 'A new event2';
+        $event->startDateTime = Carbon::now();
+        $event->endDateTime = Carbon::now()->addHour();
+        $event->save();
+
+
         return new InterviewResource($interview);
     }
 

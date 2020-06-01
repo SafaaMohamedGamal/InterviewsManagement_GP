@@ -21,7 +21,6 @@ class LevelController extends Controller
 
     }
 
-    
     public function store(StoreLevelRequest $request)
     {
         $level = Level::create($request->only(['name']));
@@ -50,5 +49,6 @@ class LevelController extends Controller
             return response()->json(["data" => "deleted successfuly"]);
         }
         return response()->json(["data" => "level doesn't exist"]);
+
     }
 }

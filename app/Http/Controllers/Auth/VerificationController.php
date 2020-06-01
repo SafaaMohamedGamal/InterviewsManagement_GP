@@ -43,11 +43,11 @@ class VerificationController extends Controller
     public function resend(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-        return response()->json('User already have verified email!', 422);
+        return response()->json(["verify_email"=>'User already have verified email!'], 422);
         // return redirect($this->redirectPath());
         }
         $request->user()->sendEmailVerificationNotification();
-        return response()->json('The notification has been resubmitted');
+        return response()->json(["verify_email"=>'The notification has been resubmitted']);
         // return back()->with('resent', true);
     }
 }
