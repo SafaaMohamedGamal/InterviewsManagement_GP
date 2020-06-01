@@ -23,7 +23,7 @@ class SeekerController extends Controller
     {
         $this->authorize('viewAny');
         $userSeeker = Seeker::all();
-            // ->where('userable_type', 'App\Seeker');
+        // ->where('userable_type', 'App\Seeker');
         return SeekerResource::collection($userSeeker);
     }
 
@@ -100,10 +100,10 @@ class SeekerController extends Controller
         return new SeekerResource($seeker);
     }
 
-    public function downloadCV(Request $request, User $seeker){
+    public function downloadCV(Request $request, User $seeker)
+    {
         $cvName = $request->cvName;
         $url = Storage::download('public/cvs/'.$cvName);
         return $url;
     }
-
 }
