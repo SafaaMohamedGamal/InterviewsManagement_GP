@@ -30,7 +30,6 @@ class InterviewController extends Controller
         
 
         return InterviewResource::collection($interview);
-
     }
 
     /**
@@ -51,17 +50,15 @@ class InterviewController extends Controller
      */
     public function store(Request $request)
     {
-        $interview = new Interview;
-        $interview->application_id = $request->input('application_id');
-        $interview->emp_id = $request->input('emp_id');
-        $interview->level_id = $request->input('level_id');
-        $interview->date = $request->input('date');
-        $interview->seeker_review = $request->input('seeker_review');
-        $interview->company_review = $request->input('company_review');
-        $interview->zoom = $request->input('zoom');
-        $interview->save();
-
-
+        $request = $request->only(['application_id','employee_id','level_id','date','zoom']);
+        $interview=Interview::create([
+            'application_id'=> $request['application_id'],
+            'emp_id' =>$request['employee_id'],
+            'level_id'=>$request['level_id'],
+            'zoom'=>$request['zoom'],
+            'date'=>$request['date'],
+        ]);
+      
         $event = new Event;
         $event->name = 'A new event'.$interview->emp_id;
         $event->title = 'A new event2';
@@ -82,7 +79,7 @@ class InterviewController extends Controller
     public function show($id)
     {
         $interview = Interview::find($id); //id comes from route
-        if( $interview ){
+        if ($interview) {
             return new InterviewResource($interview);
         }
         return "interview Not found"; // temporary error
@@ -120,7 +117,7 @@ class InterviewController extends Controller
     public function destroy($id)
     {
         $interview = Interview::findOrfail($id);
-        if($interview->delete()){
+        if ($interview->delete()) {
             return  new InterviewResource($interview);
         }
         return "Error while deleting";

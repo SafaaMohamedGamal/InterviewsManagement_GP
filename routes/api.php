@@ -35,17 +35,23 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::apiResource('/contacttype', 'Contact\ContactTypeController');
     Route::apiResource('/contact', 'Contact\ContactController');
+    
     Route::get('email/resend', 'Auth\VerificationController@resend')->name('verificationapi.resend');
     
     Route::apiResource('/levels', 'LevelController');
 
 });
+#   Authentication  #
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/register', 'Auth\RegisterController@register');
+
+#   Verification    #
 Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
+
+#   Cv Downloading  #
 Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
 
-Route::post('/login', 'Auth\LoginController@login');
-Route::post('/register', 'Auth\RegisterController@register');
 
 # Jobs #
 Route::group([
