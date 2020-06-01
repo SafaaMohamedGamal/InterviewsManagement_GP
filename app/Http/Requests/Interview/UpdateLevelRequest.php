@@ -27,6 +27,7 @@ class UpdateLevelRequest extends FormRequest
         $level = request()->level;
         return [
             'name' => [
+                'min:2',
                 Rule::unique('levels')->ignore($level->name, 'name'),
             ],
         ];

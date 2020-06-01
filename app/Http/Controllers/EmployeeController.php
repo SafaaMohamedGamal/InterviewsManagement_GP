@@ -65,7 +65,10 @@ class EmployeeController extends Controller
     $this->authorize('delete', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
     $userEmployee = $employee->userable;
     $userEmployee->user()->delete();
-    $userEmployee->delete();
-    return ['data' => true];
+    $status = $userEmployee->delete();
+    if ($status) {
+      return response()->json(["data" => "deleted successfuly"]);
+    }
+    return response()->json(["data" => "Employee doesn't exist"]);
   }
 }
