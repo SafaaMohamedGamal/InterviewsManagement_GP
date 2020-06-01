@@ -30,7 +30,6 @@ class InterviewController extends Controller
         
 
         return InterviewResource::collection($interview);
-
     }
 
     /**
@@ -82,7 +81,7 @@ class InterviewController extends Controller
     public function show($id)
     {
         $interview = Interview::find($id); //id comes from route
-        if( $interview ){
+        if ($interview) {
             return new InterviewResource($interview);
         }
         return "interview Not found"; // temporary error
@@ -120,7 +119,7 @@ class InterviewController extends Controller
     public function destroy($id)
     {
         $interview = Interview::findOrfail($id);
-        if($interview->delete()){
+        if ($interview->delete()) {
             return  new InterviewResource($interview);
         }
         return "Error while deleting";

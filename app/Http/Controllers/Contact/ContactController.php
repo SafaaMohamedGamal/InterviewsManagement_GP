@@ -30,13 +30,12 @@ class ContactController extends Controller
             foreach ($contact['contacts'] as $contact) {
                 $new_contact = new Contact();
                 $new_contact->contactType()->associate($contact['contact_types_id']);
-                $new_contact->data = $contact['data'];
                 $new_contact->seeker()->associate($user->userable->id);
+                $new_contact->data = $contact['data'];
                 $new_contact->save();
             }
             return new ContactResource($new_contact);
         }
-
         //  adding one contact
         $contact_type = ContactType::find($contact['contact_types_id']);
         $new_contact = new Contact([
