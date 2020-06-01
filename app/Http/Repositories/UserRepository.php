@@ -24,6 +24,7 @@ class UserRepository implements UserRepositoryInterface
         $user->update([
             "name" => isset($req["name"]) ? $req["name"] : $user['name'],
             "email" => isset($req["email"]) ? $req["email"] : $user['email'],
+            "password" => isset($req["password"]) ? $req["password"] : $user['password'],
         ]);
         return $user;
     }

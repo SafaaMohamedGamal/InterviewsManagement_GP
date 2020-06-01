@@ -60,8 +60,11 @@ class ContactController extends Controller
         $contactReq = $request->only(['data', 'seeker_id', 'contact_types_id']);
         $contact->update([
             'data' => isset($contactReq['data']) ? $contactReq['data'] : $contact['data'],
-            'seeker_id' => isset($contactReq['seeker_id']) ? $contactReq['seeker_id'] : $contact['seeker_id'],
         ]);
+        if (isset($contactReq['seeker_id'])) {
+            $user = User::find($contactReq['seeker_id']);
+            $contact->seeker()->associate($user->userable)->save();
+        }
         if (isset($contactReq['contact_types_id'])) {
             $contact->contactType()->associate(ContactType::find($contactReq['contact_types_id']))->save();
         }

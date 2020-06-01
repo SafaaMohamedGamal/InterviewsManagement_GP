@@ -51,25 +51,22 @@ class InterviewController extends Controller
     public function store(Request $request)
     {
         $request = $request->only(['application_id','employee_id','level_id','date','zoom']);
-        // $interview = new Interview;
-        // $interview->application_id = $request->input('application_id');
-        // $interview->emp_id = $request->input('emp_id');
-        // $interview->level_id = $request->input('level_id');
-        // $interview->date = $request->input('date');
-        // $interview->seeker_review = $request->input('seeker_review');
-        // $interview->company_review = $request->input('company_review');
-        // $interview->zoom = $request->input('zoom');
-
-        // $interview->save();
-        // dd($request['zoom']);
         $interview=Interview::create([
             'application_id'=> $request['application_id'],
             'emp_id' =>$request['employee_id'],
             'level_id'=>$request['level_id'],
             'zoom'=>$request['zoom'],
             'date'=>$request['date'],
-           
         ]);
+      
+        $event = new Event;
+        $event->name = 'A new event'.$interview->emp_id;
+        $event->title = 'A new event2';
+        $event->startDateTime = Carbon::now();
+        $event->endDateTime = Carbon::now()->addHour();
+        $event->save();
+
+
         return new InterviewResource($interview);
     }
 
@@ -88,16 +85,7 @@ class InterviewController extends Controller
         return "interview Not found"; // temporary error
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -108,7 +96,16 @@ class InterviewController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $interview = Interview::find($id);
+        $interview->application_id = $request->input('application_id');
+        $interview->emp_id = $request->input('emp_id');
+        $interview->level_id = $request->input('level_id');
+        $interview->date = $request->input('date');
+        $interview->seeker_review = $request->input('seeker_review');
+        $interview->company_review = $request->input('company_review');
+        $interview->zoom = $request->input('zoom');
+        $interview->save();
+        return new InterviewResource($interview);
     }
 
     /**
