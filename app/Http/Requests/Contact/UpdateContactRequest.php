@@ -29,7 +29,7 @@ class UpdateContactRequest extends FormRequest
         return [
             'data' => [
                 'required',
-                Rule::unique('contacts')->ignore($contact->id, 'id'),
+                Rule::unique('contacts')->ignore($contact->data, 'data'),
             ],
             'seeker_id' => 'exists:App\User,id',
             'contact_types_id' => 'exists:App\ContactType,id',
