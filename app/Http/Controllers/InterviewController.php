@@ -56,8 +56,8 @@ class InterviewController extends Controller
         $interview->emp_id = $request->input('emp_id');
         $interview->level_id = $request->input('level_id');
         $interview->date = $request->input('date');
-        $interview->seeker_review = $request->input('seeker_review');
-        $interview->company_review = $request->input('company_review');
+        $interview->seeker_review = " ";
+        $interview->company_review = " ";
         $interview->zoom = $request->input('zoom');
         $interview->save();
 
@@ -100,13 +100,13 @@ class InterviewController extends Controller
     public function update(Request $request, $id)
     {
         $interview = Interview::find($id);
-        $interview->application_id = $request->input('application_id');
-        $interview->emp_id = $request->input('emp_id');
-        $interview->level_id = $request->input('level_id');
-        $interview->date = $request->input('date');
-        $interview->seeker_review = $request->input('seeker_review');
-        $interview->company_review = $request->input('company_review');
-        $interview->zoom = $request->input('zoom');
+        $interview->application_id = !empty($request->input('application_id'))?$request->input('application_id'):$interview->application_id;
+        $interview->emp_id = !empty($request->input('emp_id'))?$request->input('emp_id'):$interview->emp_id;
+        $interview->level_id = !empty($request->input('level_id'))?$request->input('level_id'):$interview->level_id;
+        $interview->date =!empty($request->input('date'))?$request->input('date'):$interview->date;
+        $interview->seeker_review = !empty($request->input('seeker_review'))?$request->input('seeker_review'):$interview->seeker_review;
+        $interview->company_review =!empty($request->input('company_review'))?$request->input('company_review'):$interview->company_review;
+        $interview->zoom = !empty($request->input('zoom'))?$request->input('zoom'):$interview->zoom;
         $interview->save();
         return new InterviewResource($interview);
     }
