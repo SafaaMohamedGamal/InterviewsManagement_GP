@@ -16,6 +16,7 @@ class Employee extends JsonResource
     {
         return [
             'id' => $this->user->id,
+            'emp_id' => $this->id,
             'name' => $this->user->name,
             'email' => $this->user->email,
             'role' => $this->user->roles->pluck('name'),

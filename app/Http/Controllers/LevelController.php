@@ -28,11 +28,7 @@ class LevelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +37,9 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $level = new Level;
+        $level->name = $request->input('name');
+        $level->save();
     }
 
     /**
@@ -52,7 +50,11 @@ class LevelController extends Controller
      */
     public function show($id)
     {
-        //
+        $level = Level::find($id); //id comes from route
+        if( $level ){
+            return new LevelResource($level);
+        }
+        return "level Not found"; // temporary error
     }
 
     /**
@@ -86,6 +88,10 @@ class LevelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $level = Level::findOrfail($id);
+        if($level->delete()){
+            return  new LevelResource($level);
+        }
+        return "Error while deleting";
     }
 }
