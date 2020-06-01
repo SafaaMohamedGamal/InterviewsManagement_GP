@@ -34,6 +34,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('seekers', 'SeekerController');
     Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
     Route::apiResource('employees', 'EmployeeController');
+
+
+    Route::apiResource('/levels', 'LevelController');
 });
 Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
@@ -119,9 +122,9 @@ Route::group([
     Route::delete('interview/{id}', 'InterviewController@destroy');
 });
 
-Route::get('levels', 'LevelController@index')->middleware('auth:sanctum');
-Route::get('level/{id}', 'LevelController@show')->middleware('auth:sanctum');
-Route::post('level', 'LevelController@store')->middleware('auth:sanctum');
-Route::put('level/{id}', 'LevelController@update')->middleware('auth:sanctum');
-Route::delete('level/{id}', 'LevelController@destroy')->middleware('auth:sanctum');
+// Route::get('levels', 'LevelController@index')->middleware('auth:sanctum');
+// Route::get('level/{id}', 'LevelController@show')->middleware('auth:sanctum');
+// Route::post('level', 'LevelController@store')->middleware('auth:sanctum');
+// Route::put('level/{id}', 'LevelController@update')->middleware('auth:sanctum');
+// Route::delete('level/{id}', 'LevelController@destroy')->middleware('auth:sanctum');
 //#######################################################

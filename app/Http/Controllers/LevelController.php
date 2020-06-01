@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Resources\LevelResource;
 use App\Level;
 use App\Http\Requests;
+use Illuminate\Http\Request;
+use App\Http\Resources\LevelResource;
+use App\Http\Requests\Interview\StoreLevelRequest;
+use App\Http\Requests\Interview\UpdateLevelRequest;
 
 
 
 class LevelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $level = Level::all();
@@ -23,69 +21,34 @@ class LevelController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    
+    public function store(StoreLevelRequest $request)
     {
-        //
+        $level = Level::create($request->only(['name']));
+        return new LevelResource($level);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    public function show(Level $level)
     {
-        //
+        return new LevelResource($level);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    
+    public function update(UpdateLevelRequest $request, Level $level)
     {
-        //
+        $status = $level->update($request->only(['name']));
+        return new LevelResource($level);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
-        //
+        $status = Level::destroy($id);
+        if ($status) {
+            return response()->json(["data" => "deleted successfuly"]);
+        }
+        return response()->json(["data" => "level doesn't exist"]);
     }
 }
