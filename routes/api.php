@@ -39,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('email/resend', 'Auth\VerificationController@resend')->name('verificationapi.resend');
     
     Route::apiResource('/levels', 'LevelController');
-
 });
 #   Authentication  #
 Route::post('/login', 'Auth\LoginController@login');
@@ -52,64 +51,30 @@ Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('ver
 Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
 
+#  application process and jobs #
+Route::middleware('auth:sanctum')->group(function () {
+    // jobs controller
+    Route::apiResource('/jobs', 'JobController')->except(['index','show']);
+    
+    //jobs Requirements  admin only
+    Route::apiResource('/jobrequirements', 'JobRequirementController');
 
-# Jobs #
-Route::group([
-    'prefix' => 'jobs',
-    'middleware'=>'auth:sanctum'
-], function () {
-    Route::post('/', 'JobController@store');
-    Route::Put('/{job}', 'JobController@update');
-    Route::delete('/{job}', 'JobController@destroy');
+    // appStatuses
+    Route::apiResource('/appstatuses', 'AppStatusController');
+
+    // applications
+    Route::apiResource('/applications', 'ApplicationController')->except(['post']);
 });
+    #any user or visitors can see jobs#
     Route::get('jobs/', 'JobController@index');
     Route::get('jobs/{job}', 'JobController@show');
 
-
-
-# job requirement admin only need to be rename #
-Route::group([
-    'prefix' => 'jobrequirements',
-    'middleware'=>'auth:sanctum'
-], function () {
-    Route::get('/', 'JobRequirementController@index');
-    Route::get('/{jobRequirement}', 'JobRequirementController@show');
-    Route::post('/', 'JobRequirementController@store');
-    Route::Put('/{jobRequirement}', 'JobRequirementController@update');
-    Route::delete('/{jobRequirement}', 'JobRequirementController@destroy');
-});
-
-# app status admin only #
-Route::group([
-    'name' => 'appstatuses',
-    'prefix' => 'appstatuses',
-    'middleware'=>'auth:sanctum'
-], function () {
-    Route::get('/', 'AppStatusController@index');
-    Route::get('/{appStatus}', 'AppStatusController@show');
-    Route::post('/', 'AppStatusController@store');
-    Route::Put('/{appStatus}', 'AppStatusController@update');
-    Route::delete('/{appStatus}', 'AppStatusController@destroy');
-});
-
-# application #
-Route::group([
-    'name' => 'applications',
-    'prefix' => 'applications',
-    'middleware'=>'auth:sanctum'
-], function () {
-    Route::get('/', 'ApplicationController@index');
-    Route::get('/{application}', 'ApplicationController@show');
-    Route::post('/', 'ApplicationController@store');
+    # only verified users mail and should add phone apply for jobs#
     // Route::post('/', 'ApplicationController@store')->middleware('APIverified');
-    Route::Put('/{application}', 'ApplicationController@update');
-    Route::delete('/{application}', 'ApplicationController@destroy');
-});
+    Route::post('applications/', 'ApplicationController@store')->middleware('auth:sanctum');
 
-
-// hit this route only if verification tokken corrupted
-// Route::post('/verifyphone', 'Auth\RegisterController@verifyPhone');
-Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
+    # check phone verification #
+    Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
 
 //#################interviews###########################
 Route::group([
