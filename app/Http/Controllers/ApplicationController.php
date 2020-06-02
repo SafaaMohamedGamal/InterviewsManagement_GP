@@ -21,7 +21,8 @@ class ApplicationController extends Controller
         } else {
             $params=$request->all();
             $jobId =!empty($params['jobId'])?$params['jobId']:null;
-            $expYears = !empty($params['expYears'])?$params['expYears']:null;
+            $expYears = isset($params['expYears'])?
+            ((!empty($params['expYears']) || is_numeric($params['expYears']))?$params['expYears']."_num":null):null;
             $city = !empty($params['city'])?$params['city']:null;
             $exporder = !empty($params['exporder']) ? $params['exporder'] : null;
 
@@ -47,6 +48,7 @@ class ApplicationController extends Controller
                 return $query->where('appstatus_id', $status);
             })
             ->when($expYears, function ($query, $expYears) {
+                $expYears = explode('_', $expYears)[0];
                 $seekers = Seeker::where('expYears', $expYears)->get('id');
                 return $query->whereIn('seeker_id', $seekers);
             })
