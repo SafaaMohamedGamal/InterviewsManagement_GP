@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Seeker;
 use App\AppStatus;
 use App\Application;
-use App\Seeker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ApplicationResource;
 use App\Http\Requests\Application\StoreApplicationRequest;
 
@@ -18,13 +19,15 @@ class ApplicationController extends Controller
             $seekerId = current_user()->userable_id;
             $applications = Application::where('seeker_id', $seekerId)->get();
         } else {
-            // dd($request);
             $params=$request->all();
             $jobId =!empty($params['jobId'])?$params['jobId']:null;
             $expYears = !empty($params['expYears'])?$params['expYears']:null;
             $city = !empty($params['city'])?$params['city']:null;
             $exporder = !empty($params['exporder']) ? $params['exporder'] : null;
-            // $applications=!empty($params['jobId'])? Application::where('job_id', $params['jobId'])->get(): Application::all() ;
+
+            $position = !empty($params['position']) ? $params['position'] : null;
+            $seniority = !empty($params['seniority']) ? $params['seniority'] : null;
+            $status = !empty($params['status']) ? $params['status'] : null;
 
             $applications = Application::
                 when($jobId, function ($query, $jobId) {
@@ -42,9 +45,7 @@ class ApplicationController extends Controller
                   return $query->join('seekers', 'seekers.id', '=', 'applications.seeker_id')
                   ->orderBy('expYears', 'desc')
                   ->select('applications.*');
-              })
-                ->get();
-        }
+              })        }
 
         return ApplicationResource::collection($applications);
     }
@@ -61,9 +62,9 @@ class ApplicationController extends Controller
         $status = AppStatus::newStatus();
 
         $newApp = Application::create([
-            'seeker_id'=>$user->userable_id,
-                'job_id'=>$application['job_id'],
-                'appstatus_id'=>$status->id
+            'seeker_id' => $user->userable_id,
+            'job_id' => $application['job_id'],
+            'appstatus_id' => $status->id
         ]);
 
         return new ApplicationResource($newApp);
@@ -72,7 +73,7 @@ class ApplicationController extends Controller
     public function update(Application $application, Request $request)
     {
         $application->update([
-            'appstatus_id'=>$request->input('params')['status']
+            'appstatus_id' => $request->input('params')['status']
         ]);
         return response()->json('application update successful');
     }
@@ -82,4 +83,5 @@ class ApplicationController extends Controller
         $application->delete();
         return response()->json('application deleted successful');
     }
+
 }
