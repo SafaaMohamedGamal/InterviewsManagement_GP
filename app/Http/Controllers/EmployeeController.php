@@ -23,16 +23,16 @@ class EmployeeController extends Controller
   {
     $this->authorize('viewAny');
     $user = Employee::all();
-    // ->where('userable_type', 'App\Employee');
     return EmployeeResource::collection($user);
   }
 
   public function store(StoreUserRequest $request)
   {
     $this->authorize('create');
-    $user = $request->only(['name', 'email', 'password', 'position', 'branch']);
+    $user = $request->only(['name', 'email', 'password']);
+    $employeeData = $request->only(['position', 'branch']);
     $userEmployee = $this->userRebo->store($user);
-    $Employee = Employee::create($user);
+    $Employee = Employee::create($employeeData);
     $Employee->user()->save($userEmployee);
     $userEmployee->assignRole('employee');
     return new EmployeeResource($Employee);

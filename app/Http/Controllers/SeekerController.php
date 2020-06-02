@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Seeker;
+use App\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Seeker\StoreSeekerRequest;
@@ -23,19 +24,38 @@ class SeekerController extends Controller
     {
         $this->authorize('viewAny');
         $userSeeker = Seeker::all();
-        // ->where('userable_type', 'App\Seeker');
         return SeekerResource::collection($userSeeker);
     }
 
     public function store(StoreSeekerRequest $request)
     {
         $this->authorize('create');
-        $user = $request->only(['name', 'email', 'password', 'phone']);
+        $user = $request->only(['name', 'email', 'password']);
+        $seekerDetails = $request->only([
+            'address',
+            'city',
+            'seniority',
+            'expYears',
+            'currentJob',
+            'currentSalary',
+            'expectedSalary',
+            'phone',
+            'contacts'
+          ]);
         $userSeeker = $this->userRebo->store($user);
-        $seeker = Seeker::create($user);
+        $seeker = Seeker::create($seekerDetails);
         $seeker->user()->save($userSeeker);
         $seeker->save();
         $userSeeker->assignRole('seeker');
+        if (isset($seekerDetails["contacts"])) {
+          foreach ($seekerDetails['contacts'] as $contact) {
+            $new_contact = new Contact;
+            $new_contact->contact_types_id = $contact['contact_types_id'];
+            $new_contact->data = $contact['data'];
+            $new_contact->seeker()->associate($seeker);
+            $new_contact->save();
+          }
+        }
         return new SeekerResource($userSeeker->userable);
     }
 
@@ -61,7 +81,8 @@ class SeekerController extends Controller
         ]);
         // return $inputs;
         $status = \App\Helpers\SeekerAction::update($inputs, $seeker);
-        return new SeekerResource($seeker);
+
+        return new SeekerResource($seeker->userable);
     }
 
     public function destroy(User $seeker)
@@ -76,7 +97,6 @@ class SeekerController extends Controller
     public function uploadCV(Request $request, User $seeker)
     {
         $request->validate([
-            // 'cv' => 'required|file',
             'cv' => 'required|mimetypes:application/pdf|max:10000',
         ]);
         $req = $request->only(['cv']);
@@ -95,8 +115,6 @@ class SeekerController extends Controller
         $status = $userSeeker->update([
             'cv' => isset($req["cv"]) ? $cvName : $userSeeker->cv,
         ]);
-
-        // return $status;
         return new SeekerResource($seeker);
     }
 
