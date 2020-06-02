@@ -59,12 +59,12 @@ class InterviewController extends Controller
             'date'=>$request['date'],
         ]);
       
-        $event = new Event;
-        $event->name = 'A new event'.$interview->emp_id;
-        $event->title = 'A new event2';
-        $event->startDateTime = Carbon::now();
-        $event->endDateTime = Carbon::now()->addHour();
-        $event->save();
+        // $event = new Event;
+        // $event->name = 'A new event'.$interview->emp_id;
+        // $event->title = 'A new event2';
+        // $event->startDateTime = Carbon::now();
+        // $event->endDateTime = Carbon::now()->addHour();
+        // $event->save();
 
 
         return new InterviewResource($interview);
