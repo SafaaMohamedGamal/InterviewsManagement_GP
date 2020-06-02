@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AppStatus;
 use App\Application;
+use App\Seeker;
 use Illuminate\Http\Request;
 use App\Http\Resources\ApplicationResource;
 use App\Http\Requests\Application\StoreApplicationRequest;
@@ -19,9 +20,32 @@ class ApplicationController extends Controller
         } else {
             // dd($request);
             $params=$request->all();
-            $applications=!empty($params['jobId'])? Application::where('job_id', $params['jobId'])->get(): Application::all() ;
+            $jobId =!empty($params['jobId'])?$params['jobId']:null;
+            $expYears = !empty($params['expYears'])?$params['expYears']:null;
+            $city = !empty($params['city'])?$params['city']:null;
+            $exporder = !empty($params['exporder']) ? $params['exporder'] : null;
+            // $applications=!empty($params['jobId'])? Application::where('job_id', $params['jobId'])->get(): Application::all() ;
+
+            $applications = Application::
+                when($jobId, function ($query, $jobId) {
+                    return $query->where('job_id', $jobId);
+                })
+                ->when($expYears, function ($query, $expYears) {
+                    $seekers = Seeker::where('expYears', $expYears)->get('id');
+                    return $query->whereIn('seeker_id', $seekers);
+                })
+                ->when($city, function ($query, $city) {
+                    $seekers = Seeker::select('id')->where('city','like', "%{$expYears}%");
+                    return $query->whereIn('seeker_id', $seekers);
+                })
+                ->when($exporder, function ($query, $exporder) {
+                  return $query->join('seekers', 'seekers.id', '=', 'applications.seeker_id')
+                  ->orderBy('expYears', 'desc')
+                  ->select('applications.*');
+              })
+                ->get();
         }
-        
+
         return ApplicationResource::collection($applications);
     }
 
@@ -35,13 +59,13 @@ class ApplicationController extends Controller
         $application = $request->only(['job_id']);
         $user = current_user();
         $status = AppStatus::newStatus();
-        
+
         $newApp = Application::create([
             'seeker_id'=>$user->userable_id,
                 'job_id'=>$application['job_id'],
                 'appstatus_id'=>$status->id
         ]);
-        
+
         return new ApplicationResource($newApp);
     }
 

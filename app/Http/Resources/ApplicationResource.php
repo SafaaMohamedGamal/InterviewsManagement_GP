@@ -22,7 +22,6 @@ class ApplicationResource extends JsonResource
             'seeker'=>new SeekerResource($this->seeker) ,
             'job'=>new JobResource($this->job),
             'status'=> new AppStatusResource($this->status),
-            'interviews'=> InterviewResource::collection($this->interviews()->orderby('date')->get()),
         ];
     }
 }
