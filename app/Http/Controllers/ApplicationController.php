@@ -20,12 +20,18 @@ class ApplicationController extends Controller
             $seekerId = current_user()->userable_id;
             $applications = Application::where('seeker_id', $seekerId)->get();
         } else {
-            // dd($request);
-            $params = $request->all();
+            $params=$request->all();
+            $jobId =!empty($params['jobId'])?$params['jobId']:null;
+            $expYears = isset($params['expYears'])?
+            ((!empty($params['expYears']) || is_numeric($params['expYears']))?$params['expYears']."_num":null):null;
+            $city = !empty($params['city'])?$params['city']:null;
+            $exporder = !empty($params['exporder']) ? $params['exporder'] : null;
+
             $position = !empty($params['position']) ? $params['position'] : null;
             $seniority = !empty($params['seniority']) ? $params['seniority'] : null;
             $status = !empty($params['status']) ? $params['status'] : null;
-            $jobId = !empty($params['jobId']) ? $params['jobId'] : null;
+
+
             // $applications = !empty($params['jobId']) ? Application::where('job_id', $params['jobId'])->get() : Application::all();
             $applications = Application::
             when($jobId, function ($query, $jobId) {
@@ -42,8 +48,23 @@ class ApplicationController extends Controller
             ->when($status, function ($query, $status) {
                 return $query->where('appstatus_id', $status);
             })
+            ->when($expYears, function ($query, $expYears) {
+                $expYears = explode('_', $expYears)[0];
+                $seekers = Seeker::where('expYears', $expYears)->get('id');
+                return $query->whereIn('seeker_id', $seekers);
+            })
+            ->when($city, function ($query, $city) {
+                $seekers = Seeker::select('id')->where('city','like', "%{$city}%");
+                return $query->whereIn('seeker_id', $seekers);
+            })
+            ->when($exporder, function ($query, $exporder) {
+              return $query->join('seekers', 'seekers.id', '=', 'applications.seeker_id')
+              ->orderBy('expYears', $exporder)
+              ->select('applications.*');
+            })
             ->get();
-        }
+
+            }
 
         return ApplicationsResource::collection($applications);
     }
