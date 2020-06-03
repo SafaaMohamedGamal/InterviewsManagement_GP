@@ -8,6 +8,7 @@ use App\Interview;
 use App\Http\Requests;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
+use App\Http\Requests\StoreInterviewRequest;
 
 class InterviewController extends Controller
 {
@@ -20,6 +21,8 @@ class InterviewController extends Controller
     public function index()
     {
         $interview = Interview::all();
+
+        // dd($interview[2]->application->seeker->user->name);
         
         // $event = new Event;
         // $event->name = 'A new event';
@@ -48,7 +51,7 @@ class InterviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreInterviewRequest $request)
     {
         $interview = new Interview;
         $interview->application_id = $request->input('application_id');
@@ -62,10 +65,15 @@ class InterviewController extends Controller
 
 
         $event = new Event;
-        $event->name = 'A new event'.$interview->emp_id;
-        $event->title = 'A new event2';
-        $event->startDateTime = Carbon::now();
-        $event->endDateTime = Carbon::now()->addHour();
+        $event->name = "interview assigned to "
+            .$interview->employee->user->name
+            ." ID(".$interview->emp_id.")"
+            ."with seeker ".$interview->application->seeker->user->name
+            ." app ID".$interview->application_id;
+        // $event->startDateTime = Carbon::now();
+        $event->startDateTime = Carbon::parse($interview->date);
+
+        $event->endDateTime = Carbon::parse($interview->date)->addHour();
         $event->save();
 
 
