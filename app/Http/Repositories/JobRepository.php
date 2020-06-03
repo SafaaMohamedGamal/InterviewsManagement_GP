@@ -10,13 +10,14 @@ class JobRepository implements JobRepositoryInterface
     // * job function *
     public function getAllJobs($params)
     {
+        // dd($params);
         $jobs = Job::where('available', $params['available']);
-        !empty($params['keyWord'])? $jobs->where('title', 'LIKE', '%'.$params['keyWord'].'%')->orwhere('description', 'LIKE', '%'.$params['keyWord'].'%'):null ;
-        !empty($params['minYears'])? $jobs->where('years_exp', '>', $params['minYears']): null ;
-        !empty($params['maxYears'])? $jobs->where('years_exp', '<', $params['maxYears']): null ;
-        !empty($params['seniority'])? $jobs->where('seniority', 'LIKE', '%'.$params['seniority'].'%'): null ;
-        
-        // dd($jobs);
+        !empty($params['minYears'])? $jobs->where('years_exp', '>=', $params['minYears']): null ;
+        !empty($params['maxYears'])? $jobs->where('years_exp', '<=', $params['maxYears']): null ;
+        !empty($params['seniority'])? $jobs->where('seniority', 'LIKE', "%{$params['seniority']}%"): null ;
+        !empty($params['keyWord'])? $jobs->where(function ($query) use ($params) {
+            $query->where('title', 'LIKE', "%{$params['keyWord']}%")->orwhere('description', 'LIKE', "%{$params['keyWord']}%");
+        }):null;
         return $jobs->Ordered()->paginate($params['perPage']) ;
     }
 

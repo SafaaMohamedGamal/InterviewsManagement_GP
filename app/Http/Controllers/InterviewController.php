@@ -53,15 +53,16 @@ class InterviewController extends Controller
      */
     public function store(StoreInterviewRequest $request)
     {
-        $interview = new Interview;
-        $interview->application_id = $request->input('application_id');
-        $interview->emp_id = $request->input('emp_id');
-        $interview->level_id = $request->input('level_id');
-        $interview->date = $request->input('date');
-        $interview->seeker_review = " ";
-        $interview->company_review = " ";
-        $interview->zoom = $request->input('zoom');
-        $interview->save();
+         $request = $request->only(['application_id','employee_id','level_id','date','zoom']);
+        $interview=Interview::create([
+            'application_id'=> $request['application_id'],
+            'emp_id' =>$request['employee_id'],
+            'level_id'=>$request['level_id'],
+            'zoom'=>$request['zoom'],
+            'date'=>$request['date'],
+            'company_review'=>$request['company_review'],
+            'daseeker_reviewte'=>$request['seeker_review'],
+        ]);
 
 
         $event = new Event;

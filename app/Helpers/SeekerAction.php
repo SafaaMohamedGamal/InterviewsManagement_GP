@@ -11,7 +11,12 @@ class SeekerAction
     $userSeeker = $user->userable;
     if (isset($req['contacts'])) {
       foreach ($req['contacts'] as $contact) {
-        $new_contact = Contact::find($contact['id']);
+        if (isset($contact['id'])) {
+          $new_contact = Contact::find($contact['id']);
+        }
+        else {
+          $new_contact = new Contact;
+        }
         $new_contact->contact_types_id = $contact['contact_types_id'];
         $new_contact->data = $contact['data'];
         $new_contact->seeker()->associate($userSeeker);
