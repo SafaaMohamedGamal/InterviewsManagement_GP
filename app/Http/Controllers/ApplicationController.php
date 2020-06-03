@@ -8,6 +8,7 @@ use App\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ApplicationResource;
+use App\Http\Resources\ApplicationsResource;
 use App\Http\Requests\Application\StoreApplicationRequest;
 
 class ApplicationController extends Controller
@@ -44,7 +45,7 @@ class ApplicationController extends Controller
             ->get();
         }
 
-        return ApplicationResource::collection($applications);
+        return ApplicationsResource::collection($applications);
     }
 
     public function show(Application $application)
@@ -80,5 +81,4 @@ class ApplicationController extends Controller
         $application->delete();
         return response()->json('application deleted successful');
     }
-
 }
