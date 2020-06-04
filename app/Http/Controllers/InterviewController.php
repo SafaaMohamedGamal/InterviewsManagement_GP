@@ -21,7 +21,12 @@ class InterviewController extends Controller
     public function index()
     {
         $interview = Interview::all();
-
+        // $user = [
+        //     'name' => 'mahmoud',
+        //     'info' => 'Developer'
+        // ];
+        // \Mail::to('mail@codechief.org')->send(new \App\Mail\NewMail($user));
+        // dd("aa");
         // dd($interview[2]->application->seeker->user->name);
         
         // $event = new Event;
@@ -62,10 +67,13 @@ class InterviewController extends Controller
             'date'=>$request['date'],
             'seeker_review' => " ",
             'company_review' => " ",
-
-
         ]);
 
+         $user = [
+            'name' => $interview->application->seeker->user->name,
+            'info' => $interview->date
+        ];
+        \Mail::to('mail@codechief.org')->send(new \App\Mail\NewMail($user));
 
         $event = new Event;
         $event->name = "interview assigned to "
