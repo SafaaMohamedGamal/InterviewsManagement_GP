@@ -2,8 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Contact as ContactResource;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Contact as ContactResource;
 
 class Seeker extends JsonResource
 {
@@ -16,12 +17,14 @@ class Seeker extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->user->id,
-            'name' => $this->user->name,
-            'email' => $this->user->email,
-            'password' => $this->user->password,
-            'emailVerified' => $this->user->email_verified_at,
-            'role' => $this->user->roles->pluck('name'),
+            // 'id' => $this->user->id,
+            // 'name' => $this->user->name,
+            // 'email' => $this->user->email,
+            // 'password' => $this->user->password,
+            // 'emailVerified' => $this->user->email_verified_at,
+            // 'role' => $this->user->roles->pluck('name'),
+
+            'user'=> new UserResource($this->user),
             'address' => $this->address,
             'city' => $this->city,
             'seniority' => $this->seniority,
