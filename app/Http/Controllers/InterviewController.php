@@ -8,6 +8,7 @@ use App\Interview;
 use App\Http\Requests;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
+use App\Http\Requests\StoreInterviewRequest;
 
 class InterviewController extends Controller
 {
@@ -20,6 +21,13 @@ class InterviewController extends Controller
     public function index()
     {
         $interview = Interview::all();
+        // $user = [
+        //     'name' => 'mahmoud',
+        //     'info' => 'Developer'
+        // ];
+        // \Mail::to('mail@codechief.org')->send(new \App\Mail\NewMail($user));
+        // dd("aa");
+        // dd($interview[2]->application->seeker->user->name);
         
         // $event = new Event;
         // $event->name = 'A new event';
@@ -48,23 +56,36 @@ class InterviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreInterviewRequest $request)
     {
-        $request = $request->only(['application_id','employee_id','level_id','date','zoom']);
+        $request = $request->only(['application_id','emp_id','level_id','date','zoom']);
         $interview=Interview::create([
             'application_id'=> $request['application_id'],
-            'emp_id' =>$request['employee_id'],
+            'emp_id' =>$request['emp_id'],
             'level_id'=>$request['level_id'],
             'zoom'=>$request['zoom'],
             'date'=>$request['date'],
+            'seeker_review' => " ",
+            'company_review' => " ",
         ]);
-      
-        // $event = new Event;
-        // $event->name = 'A new event'.$interview->emp_id;
-        // $event->title = 'A new event2';
+
+         $user = [
+            'name' => $interview->application->seeker->user->name,
+            'info' => $interview->date
+        ];
+        \Mail::to('mail@codechief.org')->send(new \App\Mail\NewMail($user));
+
+        $event = new Event;
+        $event->name = "interview assigned to "
+            .$interview->employee->user->name
+            ." ID(".$interview->emp_id.")"
+            ."with seeker ".$interview->application->seeker->user->name
+            ." app ID".$interview->application_id;
         // $event->startDateTime = Carbon::now();
-        // $event->endDateTime = Carbon::now()->addHour();
-        // $event->save();
+        $event->startDateTime = Carbon::parse($interview->date);
+
+        $event->endDateTime = Carbon::parse($interview->date)->addHour();
+        $event->save();
 
 
         return new InterviewResource($interview);

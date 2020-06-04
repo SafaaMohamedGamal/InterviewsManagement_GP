@@ -20,6 +20,8 @@ class JobResource extends JsonResource
             'description'=>$this->description,
             'seniority'=>$this->seniority,
             'years_exp'=>$this->years_exp,
+            'available'=>$this->available,
+            'date'=>$this->updated_at,
             'requirements' => JobRequirementResource::collection($this->requirements),
 
         ];
