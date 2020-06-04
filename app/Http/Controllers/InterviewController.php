@@ -53,15 +53,17 @@ class InterviewController extends Controller
      */
     public function store(StoreInterviewRequest $request)
     {
-         $request = $request->only(['application_id','employee_id','level_id','date','zoom']);
+        $request = $request->only(['application_id','emp_id','level_id','date','zoom']);
         $interview=Interview::create([
             'application_id'=> $request['application_id'],
-            'emp_id' =>$request['employee_id'],
+            'emp_id' =>$request['emp_id'],
             'level_id'=>$request['level_id'],
             'zoom'=>$request['zoom'],
             'date'=>$request['date'],
-            'company_review'=>$request['company_review'],
-            'daseeker_reviewte'=>$request['seeker_review'],
+            'seeker_review' => " ",
+            'company_review' => " ",
+
+
         ]);
 
 
