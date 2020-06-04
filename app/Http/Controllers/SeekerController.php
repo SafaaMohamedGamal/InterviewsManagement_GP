@@ -8,7 +8,7 @@ use App\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Seeker\StoreSeekerRequest;
-use App\Http\Resources\Seeker as SeekerResource;
+use App\Http\Resources\SeekerResource;
 use App\Http\Requests\Seeker\UpdateSeekerRequest;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
