@@ -37,7 +37,7 @@ class JobController extends Controller
         // return response()->json('job posted successful');
     }
 
-    public function update(Request $request, Job $job)
+    public function update(StoreJobRequest $request, Job $job)
     {
         $newData = $request->only(['title', 'description','available','years_exp','seniority','requirements']);
         $Updatedjob = $this->jobRebo->updateJob($newData, $job);

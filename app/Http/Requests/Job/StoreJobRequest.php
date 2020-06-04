@@ -24,9 +24,9 @@ class StoreJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description'=>'required',
-            'seniority'=>'required',
+            'title' => 'required|string|min:5|max:25',
+            'description'=>'required|string|min:10',
+            'seniority'=>'required|string|min:4|max:20',
             'years_exp'=>'required|integer|min:0',
             'requirements'=>'required|array',
             'requirements.*'=>'filled|distinct'

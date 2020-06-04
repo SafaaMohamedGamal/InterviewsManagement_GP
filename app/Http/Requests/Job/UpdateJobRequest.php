@@ -24,7 +24,12 @@ class UpdateJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'years_exp'=>'integer|min:0'
+            'title' => 'string|min:5|max:25',
+            'description'=>'string|min:10',
+            'seniority'=>'string|min:4|max:20',
+            'years_exp'=>'integer|min:0',
+            'requirements'=>'required|array',
+            'requirements.*'=>'filled|distinct'
         ];
     }
 }
