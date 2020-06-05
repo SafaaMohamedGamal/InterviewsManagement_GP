@@ -30,7 +30,6 @@ class UpdateUserRequest extends FormRequest
         $user = User::find(Request()->user);
         return [
             'name' => [
-                'alpha',
                 Rule::unique('users')->ignore($user->name, 'name'),
             ],
             'email' => [
@@ -49,7 +48,6 @@ class UpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.alpha' => "name must be alpha",
             'name.unique' => "name must be unique",
             'email.unique' => "email must be unique",
         ];
