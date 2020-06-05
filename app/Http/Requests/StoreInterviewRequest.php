@@ -27,7 +27,7 @@ class StoreInterviewRequest extends FormRequest
             'application_id' => 'required|exists:App\Application,id',
             'emp_id' => 'required|numeric|exists:App\Employee,id',
             'level_id' => 'required|numeric|exists:App\Level,id',
-            'date' => 'required|date_format:Y-m-d H:i:s',
+            'date' => 'required',
             'seeker_review' => 'nullable|alpha_num',
             'company_review' => 'nullable|alpha_num',
             'zoom' => 'required|url',            
