@@ -19,6 +19,7 @@ class ApplicationsResource extends JsonResource
             'seeker'=>new SeekerResource($this->seeker) ,
             'job'=>new JobResource($this->job),
             'status'=> new AppStatusResource($this->status),
+            'date'=>$this->updated_at,
         ];
     }
 }

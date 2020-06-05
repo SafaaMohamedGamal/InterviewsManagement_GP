@@ -32,12 +32,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('employees', 'EmployeeController');
     Route::apiResource('seekers', 'SeekerController');
     Route::post('/seekers/uploadcv/{seeker}', 'SeekerController@uploadCV');
-    
+
     Route::apiResource('/contacttype', 'Contact\ContactTypeController');
     Route::apiResource('/contact', 'Contact\ContactController');
-    
+
     Route::get('email/resend', 'Auth\VerificationController@resend')->name('verificationapi.resend');
-    
+
     Route::apiResource('/levels', 'LevelController');
 });
 #   Authentication  #
@@ -55,7 +55,7 @@ Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV
 Route::middleware('auth:sanctum')->group(function () {
     // jobs controller
     Route::apiResource('/jobs', 'JobController')->except(['index','show']);
-    
+
     //jobs Requirements  admin only
     Route::apiResource('/jobrequirements', 'JobRequirementController');
 
@@ -70,8 +70,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('jobs/{job}', 'JobController@show');
 
     # only verified users mail and should add phone apply for jobs#
-    // Route::post('/', 'ApplicationController@store')->middleware('APIverified');
-    Route::post('applications/', 'ApplicationController@store')->middleware('auth:sanctum');
+    // Route::post('/', 'ApplicationController@store')->middleware(['auth:sanctum','APIverified','verifiedPhone']);
+    Route::post('applications/', 'ApplicationController@store')->middleware(['auth:sanctum']);
 
     # check phone verification #
     Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');

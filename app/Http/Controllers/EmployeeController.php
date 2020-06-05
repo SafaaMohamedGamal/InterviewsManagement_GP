@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Employee as EmployeeResource;
+use App\Http\Resources\EmployeeResource;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\Employee\UpdateEmployeeRequest;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
@@ -51,6 +51,7 @@ class EmployeeController extends Controller
     $employeeinputs = $request->only([
       'name',
       'email',
+      'password',
       'position',
       'branch'
     ]);

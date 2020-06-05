@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
-
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeResource extends JsonResource
@@ -16,9 +16,9 @@ class EmployeeResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'position'=>$this->position,
-            'branch'=>$this->branch,
-            'user'=> new User($this->user)
+            'user' => new UserResource($this->user),
+            'position' => $this->position,
+            'branch' => $this->branch,
         ];
     }
 }

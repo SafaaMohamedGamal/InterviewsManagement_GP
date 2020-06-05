@@ -2,8 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\User;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Contact as ContactResource;
 
 class SeekerResource extends JsonResource
 {
@@ -17,6 +18,7 @@ class SeekerResource extends JsonResource
     {
         return [
             'id'=> $this->id,
+            'user'=> new UserResource($this->user),
             'address' => $this->address,
             'city' => $this->city,
             'seniority' => $this->seniority,
@@ -27,7 +29,7 @@ class SeekerResource extends JsonResource
             'cv' => $this->cv,
             'phone' => $this->phone,
             'isVerified' => $this->isVerified,
-            'user'=> new User($this->user)
+            'contacts' => ContactResource::collection($this->contacts)
         ];
     }
 }

@@ -18,6 +18,7 @@ class JobRepository implements JobRepositoryInterface
         !empty($params['keyWord'])? $jobs->where(function ($query) use ($params) {
             $query->where('title', 'LIKE', "%{$params['keyWord']}%")->orwhere('description', 'LIKE', "%{$params['keyWord']}%");
         }):null;
+        !empty($params['orderBy'])? $jobs->orderBy($params['orderBy'], $params['orderStyle']): null ;
         return $jobs->Ordered()->paginate($params['perPage']) ;
     }
 
