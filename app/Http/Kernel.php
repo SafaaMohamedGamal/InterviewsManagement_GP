@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\VerifyPhone;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 class Kernel extends HttpKernel
 {
@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'APIverified' => \App\Http\Middleware\EnsureEmailIsVerifiedApi::class,
+        'verifiedPhone'=>\App\Http\Middleware\VerifyPhone::class
     ];
 }

@@ -70,8 +70,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('jobs/{job}', 'JobController@show');
 
     # only verified users mail and should add phone apply for jobs#
-    // Route::post('/', 'ApplicationController@store')->middleware('APIverified');
-    Route::post('applications/', 'ApplicationController@store')->middleware('auth:sanctum');
+    // Route::post('/', 'ApplicationController@store')->middleware(['auth:sanctum','APIverified','verifiedPhone']);
+    Route::post('applications/', 'ApplicationController@store')->middleware(['auth:sanctum']);
 
     # check phone verification #
     Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
