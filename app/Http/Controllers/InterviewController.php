@@ -18,9 +18,25 @@ class InterviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $interview = Interview::all();
+        $params = $request->all();
+        if (current_user()->hasRole('super-admin')) {
+            if (!empty($params['orderBy'])) {
+                // $interview=$params['orderBy']=="emp_name"? $interview->orderBy('emp_id', $params['orderStyle'])->paginate(5) :$interview->orderBy($params['orderBy'], $params['orderStyle'])->paginate(5) ;
+                $interview=$params['orderBy']=="emp_name"?
+                    Interview::with(['employee.user'=>function ($q) use ($params) {
+                        $q->orderBy('name', $params['orderStyle']);
+                    }])->paginate($params['perPage']):
+                        Interview::orderBy($params['orderBy'], $params['orderStyle'])->paginate($params['perPage']);
+            } else {
+                $interview= Interview::paginate($params['perPage']) ;
+            }
+        } else {
+            $interview = Interview::all();
+        }
+         
+        
         // $user = [
         //     'name' => 'mahmoud',
         //     'info' => 'Developer'
@@ -69,7 +85,7 @@ class InterviewController extends Controller
             'company_review' => " ",
         ]);
 
-         $user = [
+        $user = [
             'name' => $interview->application->seeker->user->name,
             'info' => $interview->date
         ];
