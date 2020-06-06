@@ -23,7 +23,7 @@ class SeekerController extends Controller
     public function index()
     {
         $this->authorize('viewAny');
-        $userSeeker = Seeker::all();
+        $userSeeker = Seeker::simplePaginate(request()->perPage);
         return SeekerResource::collection($userSeeker);
     }
 
