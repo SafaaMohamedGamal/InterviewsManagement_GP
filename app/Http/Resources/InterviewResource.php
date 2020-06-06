@@ -25,8 +25,8 @@ class InterviewResource extends JsonResource
             'seeker_review' => $this->seeker_review,
             'company_review' => $this->company_review,
             'zoom' => $this->zoom,
-
-            
+            'seeker'=>$this->application->seeker->user->name,
+            'job'=>$this->application->job->title
         ];
     }
 }
