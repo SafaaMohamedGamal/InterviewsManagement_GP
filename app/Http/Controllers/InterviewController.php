@@ -9,7 +9,7 @@ use App\Http\Requests;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 use App\Http\Requests\StoreInterviewRequest;
-
+use Auth;
 class InterviewController extends Controller
 {
 
@@ -20,6 +20,16 @@ class InterviewController extends Controller
      */
     public function index(Request $request)
     {
+        // $id=0;
+        $user = Auth::user();
+        if($user->hasRole('super-admin')){
+            $interview = Interview::all();
+        }
+
+        if($user->hasRole('employee')){
+            $interview =  Interview::where('emp_id', $user->userable->id)->get();
+        }
+
         $params = $request->all();
         if (current_user()->hasRole('super-admin')) {
             if (!empty($params['orderBy'])) {
@@ -32,9 +42,14 @@ class InterviewController extends Controller
             } else {
                 $interview= Interview::paginate($params['perPage']) ;
             }
-        } else {
-            $interview = Interview::all();
-        }
+        } 
+        // else {
+        //     $interview = Interview::all();
+        // }
+
+        // if($user->hasRole('employee')){
+        //     $interview =  Interview::where('emp_id', $user->userable->id)->get();
+        // }
          
         
         // $user = [
