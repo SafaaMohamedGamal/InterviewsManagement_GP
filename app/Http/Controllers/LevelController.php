@@ -16,8 +16,7 @@ class LevelController extends Controller
     
     public function index()
     {
-        $level = Level::all();
-        return LevelResource::collection($level);
+        return LevelResource::collection(Level::simplePaginate(request()->perPage));
 
     }
 
