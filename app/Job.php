@@ -20,4 +20,16 @@ class Job extends Model
     {
         return $query->orderBy('updated_at', 'desc');
     }
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($job) {
+            // called BEFORE delete()
+            $job->requirements()->delete();
+            foreach ($job->applications as $app) {
+                $app->interviews()->delete();
+            }
+            $job->applications()->delete();
+        });
+    }
 }

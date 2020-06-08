@@ -19,10 +19,11 @@ class EmployeeController extends Controller
     $this->userRebo = $userRebository;
   }
 
-  public function index()
+  public function index(Request $request)
   {
+    $perPage = $request['perPage']?$request['perPage']:15;
     $this->authorize('viewAny');
-    $user = Employee::all();
+    $user = Employee::simplePaginate($perPage);
     return EmployeeResource::collection($user);
   }
 
