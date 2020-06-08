@@ -24,4 +24,13 @@ class Application extends Model
     {
         return $this->hasMany('App\Interview');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($application) {
+            // called BEFORE delete()
+            $application->interviews()->delete();
+        });
+    }
 }
