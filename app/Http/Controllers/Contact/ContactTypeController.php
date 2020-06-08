@@ -14,7 +14,7 @@ class ContactTypeController extends Controller
     
     public function index()
     {
-        return ContactTypeResource::collection(ContactType::all());
+        return ContactTypeResource::collection(ContactType::simplePaginate(request()->perPage));
     }
 
     
