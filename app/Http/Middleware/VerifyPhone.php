@@ -17,7 +17,7 @@ class VerifyPhone
     {
         $seeker = $request->user()->userable;
         if (! $seeker->isVerified) {
-            return  response()->json(['error' => 'Your Phone Number is not verified.'], 403);
+            return  response()->json(['error' => 'Your Phone Number is not verified.'], 400);
         }
         return $next($request);
     }
