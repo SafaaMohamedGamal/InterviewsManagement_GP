@@ -30,19 +30,19 @@ class InterviewController extends Controller
             $interview =  Interview::where('emp_id', $user->userable->id)->get();
         }
 
-        $params = $request->all();
-        if (current_user()->hasRole('super-admin')) {
-            if (!empty($params['orderBy'])) {
-                // $interview=$params['orderBy']=="emp_name"? $interview->orderBy('emp_id', $params['orderStyle'])->paginate(5) :$interview->orderBy($params['orderBy'], $params['orderStyle'])->paginate(5) ;
-                $interview=$params['orderBy']=="emp_name"?
-                    Interview::with(['employee.user'=>function ($q) use ($params) {
-                        $q->orderBy('name', $params['orderStyle']);
-                    }])->paginate($params['perPage']):
-                        Interview::orderBy($params['orderBy'], $params['orderStyle'])->paginate($params['perPage']);
-            } else {
-                $interview= Interview::paginate($params['perPage']) ;
-            }
-        } 
+        // $params = $request->all();
+        // if (current_user()->hasRole('super-admin')) {
+        //     if (!empty($params['orderBy'])) {
+        //         // $interview=$params['orderBy']=="emp_name"? $interview->orderBy('emp_id', $params['orderStyle'])->paginate(5) :$interview->orderBy($params['orderBy'], $params['orderStyle'])->paginate(5) ;
+        //         $interview=$params['orderBy']=="emp_name"?
+        //             Interview::with(['employee.user'=>function ($q) use ($params) {
+        //                 $q->orderBy('name', $params['orderStyle']);
+        //             }])->paginate($params['perPage']):
+        //                 Interview::orderBy($params['orderBy'], $params['orderStyle'])->paginate($params['perPage']);
+        //     } else {
+        //         $interview= Interview::paginate($params['perPage']) ;
+        //     }
+        // } 
         // else {
         //     $interview = Interview::all();
         // }
