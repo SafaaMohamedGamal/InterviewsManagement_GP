@@ -26,11 +26,11 @@ class StoreStatusRequest extends FormRequest
         return [
             'name'=>[
                 'required',
-                'unique:app_statuses,name,'.$this->appstatus->id
+                'unique:app_statuses,name,'.($this->appstatus?$this->appstatus->id:'')
             ],
             'description'=>[
                 'required',
-                'unique:app_statuses,description,'.$this->appstatus->id
+                'unique:app_statuses,description,'.($this->appstatus?$this->appstatus->id:'')
             ],
 
         ];

@@ -54,17 +54,16 @@ class ApplicationController extends Controller
                 return $query->whereIn('seeker_id', $seekers);
             })
             ->when($city, function ($query, $city) {
-                $seekers = Seeker::select('id')->where('city','like', "%{$city}%");
+                $seekers = Seeker::select('id')->where('city', 'like', "%{$city}%");
                 return $query->whereIn('seeker_id', $seekers);
             })
             ->when($exporder, function ($query, $exporder) {
-              return $query->join('seekers', 'seekers.id', '=', 'applications.seeker_id')
+                return $query->join('seekers', 'seekers.id', '=', 'applications.seeker_id')
               ->orderBy('expYears', $exporder)
               ->select('applications.*');
             })
             ->get();
-
-            }
+        }
 
         return ApplicationsResource::collection($applications);
     }

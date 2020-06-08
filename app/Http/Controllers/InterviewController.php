@@ -97,8 +97,6 @@ class InterviewController extends Controller
             'level_id'=>$request['level_id'],
             'zoom'=>$request['zoom'],
             'date'=>$request['date'],
-            'seeker_review' => " ",
-            'company_review' => " ",
         ]);
 
         $user = [
