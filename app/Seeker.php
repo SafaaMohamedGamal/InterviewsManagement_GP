@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Seeker extends Model
 {
@@ -33,5 +34,24 @@ class Seeker extends Model
     public function applications()
     {
         return $this->hasMany('App\Application');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($seeker) {
+
+          foreach ($seeker->applications as $app) {
+              $app->interviews()->delete();
+          }
+          $seeker->applications()->delete();
+
+          $seeker->contacts()->delete();
+
+          if ($seeker['cv']) {
+              Storage::delete('public/cvs/' . $seeker->cv);
+          }
+
+          $seeker->user()->delete();
+        });
     }
 }

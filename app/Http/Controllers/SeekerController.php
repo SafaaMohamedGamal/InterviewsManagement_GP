@@ -90,7 +90,6 @@ class SeekerController extends Controller
     {
         $this->authorize('delete', $seeker->userable_type === 'App\Seeker' ? $seeker->userable : null);
         $userSeeker = $seeker->userable;
-        $userSeeker->user()->delete();
         $userSeeker->delete();
         return ['data' => true];
     }
