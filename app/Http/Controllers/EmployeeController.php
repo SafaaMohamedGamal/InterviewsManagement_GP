@@ -65,9 +65,7 @@ class EmployeeController extends Controller
   public function destroy(User $employee)
   {
     $this->authorize('delete', $employee->userable_type === 'App\Employee' ? $employee->userable : null);
-    $userEmployee = $employee->userable;
-    $userEmployee->user()->delete();
-    $status = $userEmployee->delete();
+    $status = $employee->userable->delete();
     if ($status) {
       return response()->json(["data" => "deleted successfuly"]);
     }
