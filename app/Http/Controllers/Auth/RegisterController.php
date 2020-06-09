@@ -36,7 +36,7 @@ class RegisterController extends Controller
         $user->assignRole('seeker');
 
         /* u have to remove hashing from this line to use mobile verification  */
-        $this->verifyPhone($seeker->phone);
+        \App\Helpers\SeekerAction::verifyPhone($seeker->phone);
 
         $user->sendApiEmailVerificationNotification();
         $resource = json_decode(json_encode(new UserResource($user)), true);
@@ -44,14 +44,6 @@ class RegisterController extends Controller
         return $resource;
     }
 
-    private function verifyPhone($phone)
-    {
-        $twilio = $this->getTwilioClient();
-        $twilio_verify_sid=config('twilio.TWILIO_VERIFY_SID');
-        $twilio->verify->v2->services($twilio_verify_sid)
-            ->verifications
-            ->create($phone, "sms");
-    }
 
     public function checkPhoneVerification(Request $request)
     {
@@ -59,7 +51,7 @@ class RegisterController extends Controller
         $request->only(['phone','verifyToken']);
         $phone = str_replace(' ', '', $request['phone']);
 
-        $twilio = $this->getTwilioClient();
+        $twilio = \App\Helpers\SeekerAction::getTwilioClient();
         $twilio_verify_sid=config('twilio.TWILIO_VERIFY_SID');
 
         try {
@@ -72,20 +64,14 @@ class RegisterController extends Controller
                 Seeker::where('id', $user->userable_id)->update(['isVerified'=>true]);
                 return response()->json('phone verified');
             } else {
-                $this->verifyPhone($phone);
+                \App\Helpers\SeekerAction::verifyPhone($phone);
+
                 return response()->json(['error' => 'code invalid waitting for another code'], 410);
             }
         } catch (\Throwable $th) {
             /* remove hash */
-            $this->verifyPhone($phone);
+            \App\Helpers\SeekerAction::verifyPhone($phone);
             return response()->json(['error' => 'code invalid waitting for another code'], 410);
         }
-    }
-
-    private function getTwilioClient()
-    {
-        $token = config('twilio.TWILIO_AUTH_TOKEN');
-        $twilio_sid = config('twilio.TWILIO_SID');
-        return new Client($twilio_sid, $token);
     }
 }
