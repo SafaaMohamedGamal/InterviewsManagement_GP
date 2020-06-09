@@ -11,6 +11,7 @@ use App\Http\Requests\Seeker\StoreSeekerRequest;
 use App\Http\Resources\SeekerResource;
 use App\Http\Requests\Seeker\UpdateSeekerRequest;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Requests\Seeker\uploadCvRequest;
 
 class SeekerController extends Controller
 {
@@ -41,20 +42,20 @@ class SeekerController extends Controller
             'expectedSalary',
             'phone',
             'contacts'
-          ]);
+        ]);
         $userSeeker = $this->userRebo->store($user);
         $seeker = Seeker::create($seekerDetails);
         $seeker->user()->save($userSeeker);
         $seeker->save();
         $userSeeker->assignRole('seeker');
         if (isset($seekerDetails["contacts"])) {
-          foreach ($seekerDetails['contacts'] as $contact) {
-            $new_contact = new Contact;
-            $new_contact->contact_types_id = $contact['contact_types_id'];
-            $new_contact->data = $contact['data'];
-            $new_contact->seeker()->associate($seeker);
-            $new_contact->save();
-          }
+            foreach ($seekerDetails['contacts'] as $contact) {
+                $new_contact = new Contact;
+                $new_contact->contact_types_id = $contact['contact_types_id'];
+                $new_contact->data = $contact['data'];
+                $new_contact->seeker()->associate($seeker);
+                $new_contact->save();
+            }
         }
         return new SeekerResource($userSeeker->userable);
     }
@@ -94,11 +95,8 @@ class SeekerController extends Controller
         return ['data' => true];
     }
 
-    public function uploadCV(Request $request, User $seeker)
+    public function uploadCV(uploadCvRequest $request, User $seeker)
     {
-        $request->validate([
-            'cv' => 'required|mimetypes:application/pdf|max:10000',
-        ]);
         $req = $request->only(['cv']);
         $path = '';
         $userSeeker = $seeker->userable;
@@ -109,19 +107,19 @@ class SeekerController extends Controller
                 $cvName
             );
             if ($userSeeker['cv']) {
-                Storage::delete($userSeeker->cv);
+                Storage::delete('public/cvs/' . $userSeeker->cv);
             }
         }
         $status = $userSeeker->update([
             'cv' => isset($req["cv"]) ? $cvName : $userSeeker->cv,
         ]);
-        return new SeekerResource($seeker);
+        return new SeekerResource($userSeeker);
     }
 
     public function downloadCV(Request $request, User $seeker)
     {
         $cvName = $request->cvName;
-        $url = Storage::download('public/cvs/'.$cvName);
+        $url = Storage::download('public/cvs/' . $cvName);
         return $url;
     }
 }
