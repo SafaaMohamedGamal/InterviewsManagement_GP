@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 use App\Http\Requests\StoreInterviewRequest;
+use App\Http\Requests\UpdateInterviewRequest;
 use Auth;
 
 class InterviewController extends Controller
@@ -43,7 +44,7 @@ class InterviewController extends Controller
         //     } else {
         //         $interview= Interview::paginate($params['perPage']) ;
         //     }
-        // }
+        // } 
         // else {
         //     $interview = Interview::all();
         // }
@@ -145,7 +146,7 @@ class InterviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateInterviewRequest $request, $id)
     {
         $interview = Interview::find($id);
         $interview->application_id = !empty($request->input('application_id'))?$request->input('application_id'):$interview->application_id;
