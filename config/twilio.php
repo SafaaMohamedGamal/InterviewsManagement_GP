@@ -1,0 +1,6 @@
+<?php
+    return[
+        'TWILIO_SID'=>'AC8893c14f6391710c3f96459e39901fc6',
+        'TWILIO_AUTH_TOKEN'=>'bef359e84b1f4245061cd48d66b24fb7',
+        'TWILIO_VERIFY_SID'=>'VA3904794817eb350e7d5fcaa2c98303db',
+    ];

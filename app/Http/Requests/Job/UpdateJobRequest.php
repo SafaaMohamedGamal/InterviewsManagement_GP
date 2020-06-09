@@ -24,9 +24,9 @@ class UpdateJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string|min:5|max:25',
+            'title' => 'string|min:5|max:40',
             'description'=>'string|min:10',
-            'seniority'=>'string|min:4|max:20',
+            'seniority'=>'string|min:4|max:25',
             'years_exp'=>'integer|min:0',
             'requirements'=>'required|array',
             'requirements.*'=>'filled|distinct'
