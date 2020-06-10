@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Repositories\EmployeeRepository;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Repositories\SeekerRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,10 @@ class RepositoryServiceProvider extends ServiceProvider
             ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
             ->give('App\Http\Repositories\EmployeeRepository');
 
+        $this->app->when('App\Http\Controllers\SeekerController')
+        ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
+        ->give('App\Http\Repositories\SeekerRepository');
+
         $this->app->when([EmployeeRepository::class, SeekerRepository::class])
             ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
             ->give('App\Http\Repositories\UserRepository');
@@ -35,9 +40,6 @@ class RepositoryServiceProvider extends ServiceProvider
             ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
             ->give('App\Http\Repositories\UserRepository');
 
-        $this->app->when('App\Http\Controllers\SeekerController')
-          ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
-          ->give('App\Http\Repositories\SeekerRepository');
     }
 
     /**
