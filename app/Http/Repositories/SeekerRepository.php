@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class SeekerRepository implements UserRepositoryInterface
 {
+   public function __construct(UserRepositoryInterface $userRebo)
+   {
+      $this->userRebo = $userRebo;
+   }
     public function getAll()
     {}
 
-    public function get($user)
+    public function get()
     {}
 
     public function update($request, $seeker)
@@ -81,8 +85,7 @@ class SeekerRepository implements UserRepositoryInterface
             'phone',
             'contacts'
         ]);
-        $userRebo = new UserRepository;
-        $userSeeker = $userRebo->store($user);
+        $userSeeker = $this->userRebo->store($user);
         $seeker = Seeker::create($seekerDetails);
         $seeker->user()->save($userSeeker);
         $seeker->save();

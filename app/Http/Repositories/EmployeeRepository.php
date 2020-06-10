@@ -16,15 +16,11 @@ class EmployeeRepository implements UserRepositoryInterface
         $this->userRebo = $userRebository;
     }
 
-    public function getAll($request)
-    {
-        
-    }
+    public function getAll()
+    {}
 
-    public function get($employeeReq)
-    {
-        
-    }
+    public function get()
+    {}
 
     public function update($user, $req)
     {
