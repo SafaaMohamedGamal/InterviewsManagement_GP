@@ -17,10 +17,16 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Repositories\Interfaces\JobRepositoryInterface',
             'App\Http\Repositories\JobRepository'
         );
-        $this->app->bind(
-            'App\Http\Repositories\Interfaces\UserRepositoryInterface',
-            'App\Http\Repositories\UserRepository'
-        );
+        // $this->app->bind(
+        //     'App\Http\Repositories\Interfaces\UserRepositoryInterface',
+        //     'App\Http\Repositories\UserRepository'
+        // );
+        $this->app->when('App\Http\Controllers\UserController')
+          ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
+          ->give('App\Http\Repositories\UserRepository');
+        $this->app->when('App\Http\Controllers\SeekerController')
+          ->needs('App\Http\Repositories\Interfaces\UserRepositoryInterface')
+          ->give('App\Http\Repositories\SeekerRepository');
     }
 
     /**
