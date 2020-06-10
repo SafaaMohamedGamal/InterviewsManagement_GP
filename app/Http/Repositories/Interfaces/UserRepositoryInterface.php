@@ -8,7 +8,7 @@ interface UserRepositoryInterface
 {
     public function getAll();
 
-    public function get();
+    public function get($user);
 
     public function update($id, $req);
 
