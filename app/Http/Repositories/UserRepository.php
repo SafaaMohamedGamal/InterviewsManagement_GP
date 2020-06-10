@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function getAll()
+    public function getAll($perPage=15)
     {
         return User::all();
     }
