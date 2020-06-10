@@ -13,15 +13,15 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-  private $userRebo;
-  public function __construct(UserRepositoryInterface $userRebository)
+  private $employeeRebo;
+  public function __construct(UserRepositoryInterface $employeeRebository)
   {
-    $this->userRebo = $userRebository;
+    $this->employeeRebo = $employeeRebository;
   }
 
   public function index(Request $request)
   {
-    $perPage = $request['perPage']?$request['perPage']:15;
+    $perPage = $request['perPage'] ? $request['perPage'] : 15;
     $this->authorize('viewAny');
     $user = Employee::simplePaginate($perPage);
     return EmployeeResource::collection($user);
@@ -30,13 +30,9 @@ class EmployeeController extends Controller
   public function store(StoreUserRequest $request)
   {
     $this->authorize('create');
-    $user = $request->only(['name', 'email', 'password']);
-    $employeeData = $request->only(['position', 'branch']);
-    $userEmployee = $this->userRebo->store($user);
-    $Employee = Employee::create($employeeData);
-    $Employee->user()->save($userEmployee);
-    $userEmployee->assignRole('employee');
-    return new EmployeeResource($Employee);
+    $employeeReq = $request->only(['name', 'email', 'password', 'position', 'branch']);
+    $employee = $this->employeeRebo->store($employeeReq);
+    return new EmployeeResource($employee);
   }
 
 
@@ -56,9 +52,8 @@ class EmployeeController extends Controller
       'position',
       'branch'
     ]);
-    $userEmployee = $this->userRebo->update($employee->id, $employeeinputs);
-    $status = \App\Helpers\EmployeeAction::update($employeeinputs, $employee);
-    return new EmployeeResource($employee->userable);
+    $employeeData = $this->employeeRebo->update($employee, $employeeinputs);
+    return new EmployeeResource($employeeData);
   }
 
 

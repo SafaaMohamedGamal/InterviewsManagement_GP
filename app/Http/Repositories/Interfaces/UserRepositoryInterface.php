@@ -6,7 +6,7 @@ namespace App\Http\Repositories\Interfaces;
 
 interface UserRepositoryInterface
 {
-    public function getAll();
+    public function getAll($perPage);
 
     public function get($user);
 
