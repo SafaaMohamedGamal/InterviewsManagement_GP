@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Employee;
+use App\Interview;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class EmployeePolicy
+class InterviewPolicy
 {
     use HandlesAuthorization;
 
@@ -18,20 +18,20 @@ class EmployeePolicy
      */
     public function viewAny(User $user)
     {
-        //only superadmin can access this
-
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Employee  $employee
+     * @param  \App\Interview  $interview
      * @return mixed
      */
-    public function view(User $current_User, Employee $employee)
+    public function view(User $user, Interview $interview)
     {
-        return $current_User->is($employee->user);  //seeker can view employee of his interview
+        return $user->id === $interview->employee->user->id;
+        
     }
 
     /**
@@ -42,41 +42,42 @@ class EmployeePolicy
      */
     public function create(User $user)
     {
-        //only superadmin can access this
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Employee  $employee
+     * @param  \App\Interview  $interview
      * @return mixed
      */
-    public function edit(User $current_User, Employee $Employee)
+    public function update(User $user, Interview $interview)
     {
-        return $current_User->is($Employee->user);
+        return $user->id === $interview->employee->user->id;
+        
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Employee  $employee
+     * @param  \App\Interview  $interview
      * @return mixed
      */
-    public function delete(User $user, Employee $employee)
+    public function delete(User $user, Interview $interview)
     {
-        return false; //only superadmin can access this
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Employee  $employee
+     * @param  \App\Interview  $interview
      * @return mixed
      */
-    public function restore(User $user, Employee $employee)
+    public function restore(User $user, Interview $interview)
     {
         //
     }
@@ -85,10 +86,10 @@ class EmployeePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Employee  $employee
+     * @param  \App\Interview  $interview
      * @return mixed
      */
-    public function forceDelete(User $user, Employee $employee)
+    public function forceDelete(User $user, Interview $interview)
     {
         //
     }

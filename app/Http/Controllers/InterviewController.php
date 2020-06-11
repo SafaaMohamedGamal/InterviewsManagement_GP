@@ -98,13 +98,15 @@ class InterviewController extends Controller
             'level_id'=>$request['level_id'],
             'zoom'=>$request['zoom'],
             'date'=>$request['date'],
+
+
         ]);
 
         $user = [
             'name' => $interview->application->seeker->user->name,
             'info' => $interview->date
         ];
-        \Mail::to('mail@codechief.org')->send(new \App\Mail\NewMail($user));
+        \Mail::to($interview->application->seeker->user->email)->send(new \App\Mail\NewMail($user));
 
         $event = new Event;
         $event->name = "interview assigned to "
@@ -132,7 +134,7 @@ class InterviewController extends Controller
     {
         $interview = Interview::find($id); //id comes from route
         if ($interview) {
-            return new InterviewResource($interview);
+        return new InterviewResource($interview);
         }
         return "interview Not found"; // temporary error
     }
@@ -149,6 +151,7 @@ class InterviewController extends Controller
     public function update(UpdateInterviewRequest $request, $id)
     {
         $interview = Interview::find($id);
+        $this->authorize('update',$interview);
         $interview->application_id = !empty($request->input('application_id'))?$request->input('application_id'):$interview->application_id;
         $interview->emp_id = !empty($request->input('emp_id'))?$request->input('emp_id'):$interview->emp_id;
         $interview->level_id = !empty($request->input('level_id'))?$request->input('level_id'):$interview->level_id;
