@@ -19,7 +19,7 @@ class EmployeePolicy
     public function viewAny(User $user)
     {
         //only superadmin can access this
-    
+
     }
 
     /**
@@ -31,7 +31,7 @@ class EmployeePolicy
      */
     public function view(User $current_User, Employee $employee)
     {
-        return true;  //seeker can view employee of his interview
+        return $current_User->is($employee->user);  //seeker can view employee of his interview
     }
 
     /**
