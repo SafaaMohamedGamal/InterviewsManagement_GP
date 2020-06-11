@@ -50,6 +50,12 @@ Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('ver
 #   Cv Downloading  #
 Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
 
+# upload profile photo #
+Route::post('/uploadprofielephoto', 'UserController@uploadPhoto')->middleware('auth:sanctum');
+
+# render profile photo #
+Route::get('/renderprofileimage/{photo}', 'UserController@renderPhoto');
+
 
 #  application process and jobs #
 Route::middleware('auth:sanctum')->group(function () {
@@ -75,6 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     # check phone verification #
     Route::post('/checkphone', 'Auth\RegisterController@checkPhoneVerification')->middleware('auth:sanctum');
+
+    
 
 //#################interviews###########################
 Route::group([

@@ -34,4 +34,9 @@ class UserRepository implements UserRepositoryInterface
         $user["password"] = Hash::make($user["password"]);
         return User::create($user);
     }
+
+    public function uploadPhoto($photo)
+    {
+        
+    }
 }

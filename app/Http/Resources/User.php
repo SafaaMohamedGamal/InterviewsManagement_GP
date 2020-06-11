@@ -19,6 +19,7 @@ class User extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'verify_email'=> $this->email_verified_at? true : false,
+            'image'=> $this->image ? action('UserController@renderPhoto', ['photo' => $this->image]) : null,
             'role' => $this->roles->pluck('name'),
         ];
     }
