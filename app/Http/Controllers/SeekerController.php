@@ -61,7 +61,7 @@ class SeekerController extends Controller
         return new SeekerResource($userSeeker);
     }
 
-    public function downloadCV(Request $request, User $seeker)
+    public function downloadCV(Request $request)
     {
         $cvName = $request->cvName;
         $url = Storage::download('public/cvs/' . $cvName);

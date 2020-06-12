@@ -27,6 +27,7 @@ class SeekerResource extends JsonResource
             'currentSalary' => $this->currentSalary,
             'expectedSalary' => $this->expectedSalary,
             'cv' => $this->cv,
+            'cv_download'=> $this->cv ? action('SeekerController@downloadCV', ['cvName' => $this->cv]) : null,
             'phone' => $this->phone,
             'isVerified' => $this->isVerified,
             'contacts' => ContactResource::collection($this->contacts)

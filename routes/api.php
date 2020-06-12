@@ -48,7 +48,7 @@ Route::post('/register', 'Auth\RegisterController@register');
 Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
 
 #   Cv Downloading  #
-Route::get('/seekers/downloadcv/{seeker}/{cvName}', 'SeekerController@downloadCV');
+Route::get('/seekers/downloadcv/{cvName}', 'SeekerController@downloadCV');
 
 # upload profile photo #
 Route::post('/uploadprofielephoto', 'UserController@uploadPhoto')->middleware('auth:sanctum');

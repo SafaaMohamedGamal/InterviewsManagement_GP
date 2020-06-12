@@ -19,6 +19,7 @@ class InterviewResource extends JsonResource
             'application_id' => $this->application_id,
             'emp_id' => $this->emp_id,
             'emp_name' => $this->employee->user->name,
+            'emp_image'=> $this->employee->user->image ? action('UserController@renderPhoto', ['photo' => $this->employee->user->image]) : null,
             'level_id' =>$this->level_id,
             'level_name' => $this->level->name,
             'date' => $this->date,
