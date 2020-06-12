@@ -35,7 +35,7 @@ class StoreSeekerRequest extends FormRequest
             'currentSalary' => ['nullable', 'numeric'],
             'expectedSalary' => ['nullable', 'numeric'],
             'cv' => ['nullable', 'file', 'mimes:pdf'],
-            'phone' => 'required|regex:/^\+[0-9]{1,4}[0-9]{11}$/i'
+            // 'phone' => 'required|regex:/^\+[0-9]{1,4}[0-9]{11}$/i'
           ];
     }
 
@@ -47,8 +47,8 @@ class StoreSeekerRequest extends FormRequest
             'email.unique' => "email must be unique",
             'email.required' => "email is required",
             'password.confirmed' => "password doesn't match password confirmation",
-            'phone.required' => "phone is required",
-            'phone.regex' => "phone syntax is incorrect ex:[+0201233445509]",
+            // 'phone.required' => "phone is required",
+            // 'phone.regex' => "phone syntax is incorrect ex:[+0201233445509]",
         ];
     }
 }
