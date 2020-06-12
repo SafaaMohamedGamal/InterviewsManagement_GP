@@ -46,20 +46,4 @@ class SeekerAction
         
         return $status;
     }
-
-    public static function verifyPhone($phone)
-    {
-        $twilio = self::getTwilioClient();
-        $twilio_verify_sid=config('twilio.TWILIO_VERIFY_SID');
-        $twilio->verify->v2->services($twilio_verify_sid)
-            ->verifications
-            ->create($phone, "sms");
-    }
-
-    public static function getTwilioClient()
-    {
-        $token = config('twilio.TWILIO_AUTH_TOKEN');
-        $twilio_sid = config('twilio.TWILIO_SID');
-        return new Client($twilio_sid, $token);
-    }
 }

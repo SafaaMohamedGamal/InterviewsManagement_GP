@@ -2,24 +2,29 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\User;
 use App\Seeker;
+use App\Traits\PhoneTrait;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Repositories\UserRepository;
+use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 
 class SeekerRepository implements UserRepositoryInterface
 {
-   public function __construct(UserRepositoryInterface $userRebo)
-   {
-      $this->userRebo = $userRebo;
-   }
+    use PhoneTrait;
+
+    public function __construct(UserRepositoryInterface $userRebo)
+    {
+        $this->userRebo = $userRebo;
+    }
     public function getAll()
-    {}
+    {
+    }
 
     public function get($user)
-    {}
+    {
+    }
 
     public function update($request, $seeker)
     {
@@ -35,28 +40,28 @@ class SeekerRepository implements UserRepositoryInterface
             'contacts'
         ]);
         $userSeeker = $seeker->userable;
-            if (isset($inputs['contacts'])) {
-                foreach ($inputs['contacts'] as $contact) {
-                    if (isset($contact['id'])) {
-                        $new_contact = Contact::find($contact['id']);
-                    } else {
-                        $new_contact = new Contact;
-                    }
-                    $new_contact->contact_types_id = $contact['contact_types_id'];
-                    $new_contact->data = $contact['data'];
-                    $new_contact->seeker()->associate($userSeeker);
-                    $new_contact->save();
+        if (isset($inputs['contacts'])) {
+            foreach ($inputs['contacts'] as $contact) {
+                if (isset($contact['id'])) {
+                    $new_contact = Contact::find($contact['id']);
+                } else {
+                    $new_contact = new Contact;
                 }
+                $new_contact->contact_types_id = $contact['contact_types_id'];
+                $new_contact->data = $contact['data'];
+                $new_contact->seeker()->associate($userSeeker);
+                $new_contact->save();
             }
+        }
 
-            $verified = true ;
-            if (isset($inputs["phone"]) && $inputs["phone"] != $userSeeker->phone) {
-                self::verifyPhone($inputs["phone"]);
-                $verified=false ;
-            }
+        $verified = true ;
+        if (isset($inputs["phone"]) && $inputs["phone"] != $userSeeker->phone) {
+            $this->verifyPhone($inputs["phone"]);
+            $verified=false ;
+        }
 
-            $status = $userSeeker->update(
-                [
+        $status = $userSeeker->update(
+            [
                   'address' => isset($inputs["address"]) ? $inputs["address"] : $userSeeker->address,
                   'city' => isset($inputs["city"]) ? $inputs["city"] : $userSeeker->city,
                   'seniority' => isset($inputs["seniority"]) ? $inputs["seniority"] : $userSeeker->seniority,
@@ -67,8 +72,8 @@ class SeekerRepository implements UserRepositoryInterface
                   'phone' => isset($inputs["phone"]) ? $inputs["phone"] : $userSeeker->phone,
                   'isVerified' => $verified
                 ]
-            );
-            return $userSeeker;
+        );
+        return $userSeeker;
     }
 
     public function store($request)
