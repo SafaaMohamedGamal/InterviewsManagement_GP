@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Resources\InterviewResource;
+use Auth;
 use App\Interview;
-use App\Http\Requests;
-use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
+use App\Http\Requests;
+use App\Events\ReviewEvent;
+use Illuminate\Http\Request;
+use Spatie\GoogleCalendar\Event;
+use App\Notifications\EmployeeReview;
+use App\Http\Resources\InterviewResource;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
-use Auth;
 
 class InterviewController extends Controller
 {
@@ -160,6 +162,11 @@ class InterviewController extends Controller
         $interview->company_review =!empty($request->input('company_review'))?$request->input('company_review'):$interview->company_review;
         $interview->zoom = !empty($request->input('zoom'))?$request->input('zoom'):$interview->zoom;
         $interview->save();
+
+        if(!empty($request->input('seeker_review'))){
+            $interview->application->seeker->user->notify(new EmployeeReview($interview));
+            broadcast(new ReviewEvent($interview->employee->user->name." added review to your Interview"));
+        }
         return new InterviewResource($interview);
     }
 

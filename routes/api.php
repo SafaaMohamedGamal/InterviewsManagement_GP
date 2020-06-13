@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('email/resend', 'Auth\VerificationController@resend')->name('verificationapi.resend');
 
     Route::apiResource('/levels', 'LevelController');
+
+    Route::get('/notifications', 'SeekerController@notifications');
 });
 #   Authentication  #
 Route::post('/login', 'Auth\LoginController@login');

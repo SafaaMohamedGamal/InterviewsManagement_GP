@@ -67,4 +67,10 @@ class SeekerController extends Controller
         $url = Storage::download('public/cvs/' . $cvName);
         return $url;
     }
+
+    public function notifications()
+    {
+        $user = auth()->user();
+        return $user->unreadNotifications()->limit(5)->get()->toArray();
+    }
 }
