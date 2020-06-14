@@ -46,7 +46,7 @@ class InterviewController extends Controller
         //     } else {
         //         $interview= Interview::paginate($params['perPage']) ;
         //     }
-        // } 
+        // }
         // else {
         //     $interview = Interview::all();
         // }
@@ -54,8 +54,8 @@ class InterviewController extends Controller
         // if($user->hasRole('employee')){
         //     $interview =  Interview::where('emp_id', $user->userable->id)->get();
         // }
-         
-        
+
+
         // $user = [
         //     'name' => 'mahmoud',
         //     'info' => 'Developer'
@@ -63,14 +63,14 @@ class InterviewController extends Controller
         // \Mail::to('mail@codechief.org')->send(new \App\Mail\NewMail($user));
         // dd("aa");
         // dd($interview[2]->application->seeker->user->name);
-        
+
         // $event = new Event;
         // $event->name = 'A new event';
         // $event->title = 'A new event2';
         // $event->startDateTime = Carbon::now();
         // $event->endDateTime = Carbon::now()->addHour();
         // $event->save();
-        
+
 
         return InterviewResource::collection($interview);
     }
@@ -141,7 +141,7 @@ class InterviewController extends Controller
         return "interview Not found"; // temporary error
     }
 
-   
+
 
     /**
      * Update the specified resource in storage.
@@ -165,7 +165,7 @@ class InterviewController extends Controller
 
         if(!empty($request->input('seeker_review'))){
             $interview->application->seeker->user->notify(new EmployeeReview($interview));
-            broadcast(new ReviewEvent($interview->employee->user->name." added review to your Interview"));
+            broadcast(new ReviewEvent($interview->employee->user->name." added review to your Interview", $interview));
         }
         return new InterviewResource($interview);
     }
