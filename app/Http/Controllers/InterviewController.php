@@ -175,7 +175,6 @@ class InterviewController extends Controller
               $q->where('name', 'super-admin');
             })->first();
             $superadminId = $superadmin->id;
-            $superadmin->notify(new EmployeeReview($interview));
             broadcast(new SuperadminReviewEvent($employeeName." added review to Interview with id = {$interview->id} ", $superadminId));
         }
         return new InterviewResource($interview);
