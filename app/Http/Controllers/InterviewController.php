@@ -7,12 +7,14 @@ use App\Interview;
 use Carbon\Carbon;
 use App\Http\Requests;
 use App\Events\ReviewEvent;
+use App\Events\SuperadminReviewEvent;
 use Illuminate\Http\Request;
 use Spatie\GoogleCalendar\Event;
 use App\Notifications\EmployeeReview;
 use App\Http\Resources\InterviewResource;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
+use Spatie\Permission\Models\Role;
 
 class InterviewController extends Controller
 {
@@ -163,9 +165,18 @@ class InterviewController extends Controller
         $interview->zoom = !empty($request->input('zoom'))?$request->input('zoom'):$interview->zoom;
         $interview->save();
 
+        $employeeName = $interview->employee->user->name;
         if(!empty($request->input('seeker_review'))){
             $interview->application->seeker->user->notify(new EmployeeReview($interview));
-            broadcast(new ReviewEvent($interview->employee->user->name." added review to your Interview", $interview));
+            broadcast(new ReviewEvent($employeeName." added review to your Interview", $interview));
+        }
+        if(!empty($request->input('seeker_review'))){
+            $superadmin = \App\User::whereHas('roles', function($q){
+              $q->where('name', 'super-admin');
+            })->first();
+            $superadminId = $superadmin->id;
+            $superadmin->notify(new EmployeeReview($interview));
+            broadcast(new SuperadminReviewEvent($employeeName." added review to Interview with id = {$interview->id} ", $superadminId));
         }
         return new InterviewResource($interview);
     }
