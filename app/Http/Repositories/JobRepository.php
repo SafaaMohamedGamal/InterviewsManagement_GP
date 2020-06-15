@@ -38,7 +38,7 @@ class JobRepository implements JobRepositoryInterface
         $new_job = Job::create([
              'title'=> $job['title'],
              'description'=> $job['description'],
-             'available'=> isset($job['available']) ? 1 : 0,
+             'available'=> $job['available'] ? 1 : 0,
              'years_exp'=> $job['years_exp'],
              'seniority'=> $job['seniority']
          ]);
@@ -58,7 +58,7 @@ class JobRepository implements JobRepositoryInterface
         $job->update([
              'title'=> !empty($updatedData['title']) ? $updatedData['title'] : $job->title ,
              'description'=> !empty($updatedData['description']) ? $updatedData['description'] : $job->description,
-             'available'=> !empty($updatedData['available']) ? $updatedData['available'] : $job->available,
+             'available'=> $updatedData['available'] ? 1 : 0,
              'years_exp'=> !empty($updatedData['years_exp']) ? $updatedData['years_exp'] : $job->years_exp ,
              'seniority'=> !empty($updatedData['seniority']) ? $updatedData['seniority'] : $job->seniority,
          ]);
