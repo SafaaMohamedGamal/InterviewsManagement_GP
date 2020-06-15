@@ -35,7 +35,7 @@ class StoreSeekerRequest extends FormRequest
             'currentSalary' => ['nullable', 'numeric'],
             'expectedSalary' => ['nullable', 'numeric'],
             'cv' => ['nullable', 'file', 'mimes:pdf'],
-            // 'phone' => 'required|regex:/^\+[0-9]{1,4}[0-9]{11}$/i'
+            'phone' => 'required|regex:/^\+[1-9]{1,4}[0-9]{11}$/i'
           ];
     }
 

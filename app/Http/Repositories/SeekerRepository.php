@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\User;
 use App\Seeker;
+use App\Contact;
 use App\Traits\PhoneTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
