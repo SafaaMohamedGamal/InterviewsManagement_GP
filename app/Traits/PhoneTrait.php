@@ -12,7 +12,7 @@ trait PhoneTrait
     public function verifyPhone($phone)
     {
         $twilio = $this->getTwilioClient();
-        $twilio_verify_sid=config('twilio.TWILIO_VERIFY_SID');
+        $twilio_verify_sid=getenv('TWILIO_VERIFY_SID');
         $twilio->verify->v2->services($twilio_verify_sid)
             ->verifications
             ->create($phone, "sms");
@@ -20,15 +20,15 @@ trait PhoneTrait
 
     public function getTwilioClient()
     {
-        $token = config('twilio.TWILIO_AUTH_TOKEN');
-        $twilio_sid = config('twilio.TWILIO_SID');
+        $token = getenv('TWILIO_AUTH_TOKEN');
+        $twilio_sid = getenv("TWILIO_SID");
         return new Client($twilio_sid, $token);
     }
-    
+
     public function isVerifiedPhone($phone, $code)
     {
         $twilio =$this->getTwilioClient();
-        $twilio_verify_sid=config('twilio.TWILIO_VERIFY_SID');
+        $twilio_verify_sid=getenv('TWILIO_VERIFY_SID');
 
         try {
             /*remove hash */

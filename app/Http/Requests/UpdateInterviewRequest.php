@@ -28,9 +28,9 @@ class UpdateInterviewRequest extends FormRequest
             'emp_id' => 'nullable|numeric|exists:App\Employee,id',
             'level_id' => 'nullable|numeric|exists:App\Level,id',
             'date' => "nullable|date",
-            'seeker_review' => 'nullable|alpha_num',
-            'company_review' => 'nullable|alpha_num',
-            'zoom' => 'nullable|url',            
+            'seeker_review' => 'nullable',
+            'company_review' => 'nullable',
+            'zoom' => 'nullable|url',
         ];
     }
 
