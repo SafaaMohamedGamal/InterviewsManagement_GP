@@ -10,7 +10,7 @@ $factory->define(Job::class, function (Faker $faker) {
        'title'=>$faker->jobTitle,
        'description'=>$faker->sentence(6),
        'years_exp'=>$faker->numberBetween(0, 15),
-       'seniority'=>$faker->randomElement(['junior','senior','team leader','project manager']),
+       'seniority'=>$faker->randomElement(['Junior','Senior','Team leader','Project manager']),
        'available'=>1,
     ];
 });

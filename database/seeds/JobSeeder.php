@@ -14,7 +14,7 @@ class JobSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Job::class, 10)->create()->each(function ($job) {
+        factory(App\Job::class, 30)->create()->each(function ($job) {
             $job->requirements()->save(factory(App\JobRequirement::class)->make());
         });
     }

@@ -23,7 +23,7 @@ class StatusSeeder extends Seeder
 
         AppStatus::create([
             'name'=>'Processing',
-            'description'=>'be ready for interviews may by phone, Zoom Or face to face'
+            'description'=>'Be ready for interviews soon'
         ]);
 
         AppStatus::create([
@@ -36,7 +36,7 @@ class StatusSeeder extends Seeder
         ]);
         AppStatus::create([
             'name'=>'Rejected',
-            'description'=>'thank you but sorry good luck '
+            'description'=>'Thank you but sorry good luck another time '
         ]);
         AppStatus::create([
             'name'=>'Waiting List',

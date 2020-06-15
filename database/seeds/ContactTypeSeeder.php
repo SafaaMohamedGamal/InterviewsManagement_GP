@@ -1,5 +1,6 @@
 <?php
 
+use App\ContactType;
 use Illuminate\Database\Seeder;
 
 class ContactTypeSeeder extends Seeder
@@ -11,8 +12,7 @@ class ContactTypeSeeder extends Seeder
      */
     public function run()
     {
-        if(!App\ContactType::whereIn('type',array('phone', 'email', 'linkedIn'))->get())
-        App\ContactType::insert([
+        ContactType::insert([
             ['type' => 'phone'],
             ['type' => 'email'],
             ['type' => 'linkedIn'],

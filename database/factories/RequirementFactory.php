@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(JobRequirement::class, function (Faker $faker) {
     return [
-        'name'=>$faker->sentence(4),
+        'name'=>$faker->sentence(5),
     ];
 });
