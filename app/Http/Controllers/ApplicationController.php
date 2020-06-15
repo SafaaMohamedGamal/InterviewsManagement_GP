@@ -50,7 +50,7 @@ class ApplicationController extends Controller
             })
             ->when($expYears, function ($query, $expYears) {
                 $expYears = explode('_', $expYears)[0];
-                $seekers = Seeker::where('expYears', $expYears)->get('id');
+                $seekers = Seeker::where('expYears','>=', $expYears)->get('id');
                 return $query->whereIn('seeker_id', $seekers);
             })
             ->when($city, function ($query, $city) {
@@ -62,6 +62,7 @@ class ApplicationController extends Controller
               ->orderBy('expYears', $exporder)
               ->select('applications.*');
             })
+            ->orderBy('updated_at','desc')
             ->get();
         }
 

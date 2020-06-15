@@ -32,5 +32,6 @@ class Application extends Model
             // called BEFORE delete()
             $application->interviews()->delete();
         });
+       
     }
 }

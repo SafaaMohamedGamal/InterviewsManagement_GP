@@ -24,7 +24,7 @@ class StoreSeekerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha|unique:App\User,name',
+            'name' => 'required|unique:App\User,name',
             'email' => 'required|email|unique:App\User,email',
             'password' => 'required|confirmed',
             'address' => ['nullable', 'string'],
@@ -47,8 +47,8 @@ class StoreSeekerRequest extends FormRequest
             'email.unique' => "email must be unique",
             'email.required' => "email is required",
             'password.confirmed' => "password doesn't match password confirmation",
-            // 'phone.required' => "phone is required",
-            // 'phone.regex' => "phone syntax is incorrect ex:[+0201233445509]",
+            'phone.required' => "phone is required",
+            'phone.regex' => "phone syntax is incorrect ex:[+201233445509]",
         ];
     }
 }
