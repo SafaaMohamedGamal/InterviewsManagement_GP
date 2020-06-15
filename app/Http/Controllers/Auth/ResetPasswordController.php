@@ -19,7 +19,7 @@ class ResetPasswordController extends Controller
             ]);
         }
         
-        $user_passwords = $request->only(['current_password', 'new_password', 'new_password_confirmation']);
+        $user_passwords = $request->only(['current_password', 'password', 'password_confirmation']);
         if (! $user || ! Hash::check($user_passwords['current_password'], $user['password'])) {
             throw ValidationException::withMessages([
                 'current_password' => ['current password is incorrect'],
@@ -27,7 +27,7 @@ class ResetPasswordController extends Controller
         }
 
         $user->update([
-            'password'=>Hash::make($user_passwords['new_password']),
+            'password'=>Hash::make($user_passwords['password']),
         ]);
 
         return response()->json([
