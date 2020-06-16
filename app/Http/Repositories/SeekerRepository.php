@@ -120,7 +120,7 @@ class SeekerRepository implements UserRepositoryInterface
                 'public/cvs',
                 $cvName
             );
-            if ($userSeeker['cv']) {
+            if ($userSeeker['cv'] && file_exists('public/cvs/' . $userSeeker->cv)) {
                 Storage::delete('public/cvs/' . $userSeeker->cv);
             }
         }

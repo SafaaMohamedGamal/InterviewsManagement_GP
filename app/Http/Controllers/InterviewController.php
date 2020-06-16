@@ -29,11 +29,13 @@ class InterviewController extends Controller
         // $id=0;
         $user = Auth::user();
         if ($user->hasRole('super-admin')) {
-            $interview = Interview::all();
+            $interview = Interview::orderBy('updated_at', 'desc')->get();
         }
 
         if ($user->hasRole('employee')) {
-            $interview =  Interview::where('emp_id', $user->userable->id)->get();
+            $interview =  Interview::where('emp_id', $user->userable->id)
+            ->orderBy('updated_at', 'desc')
+            ->get();
         }
 
         // $params = $request->all();
